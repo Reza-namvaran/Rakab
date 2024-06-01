@@ -3,14 +3,22 @@
 
 #include <iostream>
 
-class Player {
+class Player{
     private:
         std::string name;
         unsigned int age;
-        /// TODO: add the vector of cards (deck of cards)
-    
+        /// TODO: Cards
+        /// TODO: Sign
     public:
-        /// TODO: complete this class
+        Player(const std::string& p_name, const unsigned int& age);
+
+        void setPlayerName(const std::string& p_name);
+
+        void setPlayerAge(const unsigned int& p_age);
+
+        std::string getPlayerName() const;
+
+        unsigned int getPlayerAge() const;
 };
 
-#endif // !PLAYER_H
+#endif
