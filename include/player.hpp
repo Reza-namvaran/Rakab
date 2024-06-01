@@ -3,11 +3,13 @@
 
 #include <iostream>
 
+#include "Card.hpp"
+
 class Player{
     private:
         std::string name;
         unsigned int age;
-        /// TODO: Cards
+        std::vector<Card> cards;        
         /// TODO: Sign
     public:
         Player(const std::string& p_name, const unsigned int& age);
