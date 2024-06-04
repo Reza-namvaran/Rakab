@@ -10,6 +10,7 @@ class Player{
     private:
         std::string name;
         unsigned int age;
+        unsigned int total_score;
         std::vector<Card> cards;        
         /// TODO: Sign
     public:
@@ -23,13 +24,17 @@ class Player{
 
         void setPlayerAge(const unsigned int& p_age);
 
+        void setPlayerScore(const unsigned int& p_score);
+
         std::string getPlayerName() const;
 
         unsigned int getPlayerAge() const;
 
+        unsigned int getPlayerScore() const;
+
         std::vector<Card> getPlayerCards() const;
 
-        Card selectCard(const Card& p_card);
+        Card* selectCard(const Card& p_card);
 };
 
 #endif
