@@ -7,13 +7,18 @@ class Card{
   private:
     std::string name;
     std::string description;
+    unsigned int score;
 
   public:
-    void use() const;
+    Card();
+    
+    virtual void use() const;
 
     std::string getCardName() const;
 
     std::string getCardDescription() const;
+
+    unsigned int getScore() const;
 };
 
 #endif
