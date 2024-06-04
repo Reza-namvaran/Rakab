@@ -10,15 +10,15 @@ class Card{
     unsigned int score;
 
   public:
-    Card();
-    
-    virtual void use() const;
+    virtual void use() = 0;
 
     std::string getCardName() const;
 
     std::string getCardDescription() const;
 
     unsigned int getScore() const;
+
+    void setScore(const unsigned int& p_score);
 };
 
 #endif
