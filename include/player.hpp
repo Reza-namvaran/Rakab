@@ -26,6 +26,10 @@ class Player{
         std::string getPlayerName() const;
 
         unsigned int getPlayerAge() const;
+
+        std::vector<Card> getPlayerCards() const;
+
+        Card selectCard(const Card& p_card);
 };
 
 #endif

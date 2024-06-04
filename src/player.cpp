@@ -23,3 +23,16 @@ std::string Player::getPlayerName() const{
 unsigned int Player::getPlayerAge() const{
   return this->age;
 }
+
+std::vector<Card> Player::getPlayerCards() const { return this->cards; }
+
+Card Player::selectCard(const Card& p_card){
+  for(const auto& card : this->cards)
+  {
+    if(card.getCardName() == p_card.getCardName())
+    {
+      return card;
+    }
+  }
+  /// IMPORTANT: Add exception handling
+}
