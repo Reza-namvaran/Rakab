@@ -3,10 +3,12 @@
 
 #include <iostream>
 
+#include "Sign.hpp"
+
 class Land{
   private:
     std::string name;
-    /// TODO: add Sign
+    Sign owner;
 
   public:
     Land(const std::string& p_name);

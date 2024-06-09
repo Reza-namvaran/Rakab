@@ -5,14 +5,16 @@
 #include <vector>
 
 #include "Card.hpp"
+#include "Sign.hpp"
 
 class Player{
     private:
         std::string name;
         unsigned int age;
-        unsigned int total_score;
-        std::vector<Card> cards;        
-        /// TODO: Sign
+        // unsigned int total_score;
+        std::vector<Card*> cards;        
+        Sign sign;
+        
     public:
         Player(const std::string& p_name, const unsigned int& age);
                 
@@ -24,15 +26,13 @@ class Player{
 
         void setPlayerAge(const unsigned int& p_age);
 
-        void setPlayerScore(const unsigned int& p_score);
-
         std::string getPlayerName() const;
 
         unsigned int getPlayerAge() const;
 
         unsigned int getPlayerScore() const;
 
-        std::vector<Card> getPlayerCards() const;
+        std::vector<Card*> getPlayerCards() const;
 
         Card* selectCard(const Card& p_card);
 };

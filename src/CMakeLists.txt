@@ -1,6 +1,8 @@
 set(PROJECT_SOURCES
-    main.cpp
     player.cpp
+    card.cpp
+    land.cpp
+    sign.cpp
 )
 
 add_executable(Rakab
