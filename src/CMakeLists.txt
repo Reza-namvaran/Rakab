@@ -3,6 +3,7 @@ set(PROJECT_SOURCES
     card.cpp
     land.cpp
     sign.cpp
+    IO_Interface.cpp
 )
 
 add_executable(Rakab
