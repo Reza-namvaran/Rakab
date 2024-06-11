@@ -1,0 +1,34 @@
+#include "System.hpp"
+
+System::System() {
+  srand(static_cast<unsigned int>(time(nullptr)));
+  this->initialize();
+  this->runMatch();
+}
+
+System::~System() {}
+
+void System::initialize() {
+  int player_count = 0;
+
+  this->terminal_handler.print("Please enter the number of players: ");
+  this->terminal_handler.input(player_count);
+
+  for(int idx = 0; idx < player_count; ++idx)
+  {
+    std::string name;
+    unsigned int age;
+
+    this->terminal_handler.print("Please enter player" + std::to_string(idx + 1) + " 's name: ");
+    this->terminal_handler.input(name);
+    this->terminal_handler.input(age);
+
+    Player new_player(name, age);
+
+    this->players.emplace_back(new_player);
+  }
+}
+
+void System::runMatch() const {
+  /// TODO: Implement this method 
+}

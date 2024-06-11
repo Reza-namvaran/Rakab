@@ -2,15 +2,16 @@
 #define SYSTEM_H
 
 #include <vector>
+#include <ctime>
 
 #include "IO_Interface.hpp"
 #include "Player.hpp"
+#include "Match.hpp"
 
 class System{
   private:
     IO_Interface terminal_handler;
-    unsigned int player_count;
-    std::vector <Player> players;
+    std::vector<Player> players;
   
   public:
     System();
