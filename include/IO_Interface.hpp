@@ -9,6 +9,7 @@ class IO_Interface{
 
     ~IO_Interface();
 
+    /// NOTE: using template functions to avoid code repetition 
     template <typename T>
     void print(const T& p_data){
       std::cout << p_data << "\n";

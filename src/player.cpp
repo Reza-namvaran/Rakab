@@ -12,10 +12,6 @@ std::string Player::getPlayerName() const { return this->name; }
 
 unsigned int Player::getPlayerAge() const { return this->age; }
 
-// unsigned int Player::getPlayerScore() const { return this->total_score; }
-
-// std::vector<Card*> Player::getPlayerCards() const { return this->cards; }
-
 void Player::addCard(const std::unordered_set<Card*>& p_hand) {
   this->hand = p_hand;
   /// NOTE: this is because we don't add single cards 

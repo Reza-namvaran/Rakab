@@ -1,6 +1,7 @@
 #include "System.hpp"
 
 System::System() {
+  /// NOTE: Seed the random number generator with the current time
   srand(static_cast<unsigned int>(time(nullptr)));
   this->initialize();
   this->runMatch();
@@ -14,6 +15,7 @@ void System::initialize() {
   this->terminal_handler.print("Please enter the number of players: ");
   this->terminal_handler.input(player_count);
 
+  // Creating Players based on inputs
   for(int idx = 0; idx < player_count; ++idx)
   {
     std::string name;
