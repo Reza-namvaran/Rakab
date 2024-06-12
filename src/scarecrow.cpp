@@ -4,7 +4,7 @@ Scarecrow::Scarecrow(const std::string p_name) : Special(p_name) {}
 
 void Scarecrow::use(std::unordered_set<Card *> &hand_cards, std::unordered_set<Card *> &player_cards, IO_Interface &terminal_handler)
 {
-  if (hand_cards.size() != 0)
+  if (!hand_cards.empty())
   {
     terminal_handler.print("Choose one of these cards to back into your hand : \n");
     int counter = 0;

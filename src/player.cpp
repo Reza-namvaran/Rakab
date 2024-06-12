@@ -21,10 +21,23 @@ unsigned int Player::getPlayerAge() const { return this->age; }
 
 unsigned int Player::getPlayerScore() const { return this->total_score; }
 
-void Player::addCard(const std::unordered_set<Card *> &p_hand)
+void Player::addCard(const std::unordered_set<Card *> &cards, bool toHand = true)
 {
-  this->hand = p_hand;
+  if (toHand)
+  {
+    this->hand = cards;
+  }
+  else
+  {
+    this->played = cards;
+  }
+
   /// NOTE: this is because we don't add single cards
+}
+
+void Player::clearPlayedCard()
+{
+  this->played.clear();
 }
 
 /* Card* Player::selectCard(const std::string& p_card){

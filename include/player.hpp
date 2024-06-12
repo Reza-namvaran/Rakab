@@ -14,6 +14,7 @@ private:
     unsigned int age;
     unsigned int total_score;
     std::unordered_set<Card *> hand;
+    std::unordered_set<Card *> played;
     Sign sign;
 
 public:
@@ -37,7 +38,9 @@ public:
 
     /// TODO: Do something for hand getter
 
-    void addCard(const std::unordered_set<Card *> &p_hand);
+    void addCard(const std::unordered_set<Card *> &cards, bool toHand = true);
+
+    void clearPlayedCard();
 
     Card *selectCard(const std::string &p_card);
 };
