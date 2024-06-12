@@ -2,7 +2,7 @@
 
 Scarecrow::Scarecrow(const std::string p_name) : Special(p_name) {}
 
-void Scarecrow::use(std::unordered_set<Card *> &hand_cards, std::unordered_set<Card *> &player_cards, IO_Interface &terminal_handler)
+void Scarecrow::use(std::unordered_set<Card *> &hand_cards, std::unordered_set<Card *> &player_cards, Player &player, IO_Interface &terminal_handler)
 {
   if (!hand_cards.empty())
   {

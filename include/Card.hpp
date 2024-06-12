@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <unordered_set>
+#include "Player.hpp"
+#include "IO_Interface.hpp"
 
 class Card
 {
@@ -15,7 +17,7 @@ public:
 
   virtual ~Card() = default;
 
-  virtual void use() = 0;
+  virtual void use(std::unordered_set<Card *> &hand_cards, std::unordered_set<Card *> &player_cards, Player &player, IO_Interface &terminal_handler) = 0;
 
   virtual std::string getCardType() const = 0;
 
