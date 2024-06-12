@@ -7,36 +7,39 @@
 #include "Card.hpp"
 #include "Sign.hpp"
 
-class Player{
-    private:
-        std::string name;
-        unsigned int age;
-        // unsigned int total_score;
-        std::unordered_set<Card*> hand;        
-        Sign sign;
-        
-    public:
-        Player(const std::string& p_name, const unsigned int& age);
-  
-        /// IMPORTANT: Decide on using full name or first & last name
-        
-        /// NOTE: Added setters, so players can change their personal info if needed. 
+class Player
+{
+private:
+    std::string name;
+    unsigned int age;
+    unsigned int total_score;
+    std::unordered_set<Card *> hand;
+    Sign sign;
 
-        void setPlayerName(const std::string& p_name);
+public:
+    Player(const std::string &p_name, const unsigned int &age);
 
-        void setPlayerAge(const unsigned int& p_age);
+    /// IMPORTANT: Decide on using full name or first & last name
 
-        std::string getPlayerName() const;
+    /// NOTE: Added setters, so players can change their personal info if needed.
 
-        unsigned int getPlayerAge() const;
+    void setPlayerName(const std::string &p_name);
 
-        // unsigned int getPlayerScore() const;
+    void setPlayerAge(const unsigned int &p_age);
 
-        /// TODO: Do something for hand getter
+    void setPlayerScore(const unsigned int score);
 
-        void addCard(const std::unordered_set<Card*>& p_hand);
+    std::string getPlayerName() const;
 
-        Card* selectCard(const std::string& p_card);
+    unsigned int getPlayerAge() const;
+
+    unsigned int getPlayerScore() const;
+
+    /// TODO: Do something for hand getter
+
+    void addCard(const std::unordered_set<Card *> &p_hand);
+
+    Card *selectCard(const std::string &p_card);
 };
 
 #endif

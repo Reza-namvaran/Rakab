@@ -8,7 +8,7 @@ class Special : public Card
 public:
     Special(const std::string p_name);
 
-    virtual void use(std::unordered_set<Card *> &cards, IO_Interface &terminal_handler) = 0;
+    virtual void use() = 0;
 
     std::string getCardType() const override;
 };

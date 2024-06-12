@@ -7,9 +7,18 @@ Soldier::Soldier(const std::string p_name, const unsigned int score) : Card(p_na
   /// FIXME: Set a better description
 }
 
-void Soldier::use(std::unordered_set<Card *> players_cards)
+void Soldier::use(std::unordered_set<Card *> player_cards, Player &player)
 {
-  /// TODO: Decide on how to implement this method
+  int score = 0;
+  for (Card *card : player_cards)
+  {
+    if (card->getCardType() == "Soldier")
+    {
+      Soldier *soldier = dynamic_cast<Soldier *>(card);
+      score += soldier->getCardScore();
+    }
+  }
+  player.setPlayerScore(score);
 }
 
 std::string Soldier::getCardType() const { return "Soldier"; }
