@@ -2,13 +2,13 @@
 
 Scarecrow::Scarecrow(const std::string p_name) : Special(p_name) {}
 
-void Scarecrow::use(std::unordered_set<Card *> &player_cards, IO_Interface &terminal_handler)
+void Scarecrow::use(std::unordered_set<Card *> &hand_cards, std::unordered_set<Card *> &player_cards, IO_Interface &terminal_handler)
 {
-  if (player_cards.size() != 0)
+  if (hand_cards.size() != 0)
   {
     terminal_handler.print("Choose one of these cards to back into your hand : \n");
     int counter = 0;
-    for (const Card *card : player_cards)
+    for (const Card *card : hand_cards)
     {
       if (card->getCardType() == "Soldier")
       {
@@ -25,14 +25,15 @@ void Scarecrow::use(std::unordered_set<Card *> &player_cards, IO_Interface &term
       std::string cardName;
       terminal_handler.input(cardName);
       int counter2 = 0;
-      for (Card *card : player_cards)
+      for (Card *card : hand_cards)
       {
         if (card->getCardType() == "Soldier" && card->getCardName() == cardName)
         {
           counter2++;
           if (counter2 == counter)
           {
-            player_cards.erase(card);
+            player_cards.insert(card);
+            hand_cards.erase(card);
             flag = 0;
             break;
           }
