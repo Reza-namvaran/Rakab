@@ -17,6 +17,8 @@ public:
 
   virtual void use(std::unordered_set<Card *> cards) = 0;
 
+  virtual std::string getCardType() const = 0;
+
   std::string getCardName() const;
 
   void Card::setCardDescription(std::string description);

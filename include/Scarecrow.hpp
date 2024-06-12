@@ -1,9 +1,9 @@
 #ifndef SCARECROW_H
 #define SCARECROW_H
 
-#include "Card.hpp"
+#include "Special.hpp"
 
-class Scarecrow : public Card{
+class Scarecrow : public Special{
   public:
     Scarecrow(const std::string p_name);
 

@@ -12,6 +12,8 @@ void Soldier::use(std::unordered_set<Card *> players_cards)
   /// TODO: Decide on how to implement this method
 }
 
+std::string Soldier::getCardType() const { return "Soldier"; }
+
 void Soldier::setCardScore(const unsigned int &p_score)
 {
   if (p_score >= 1)

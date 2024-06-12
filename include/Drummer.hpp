@@ -1,10 +1,9 @@
 #ifndef DRUMMER_H
 #define DRUMMER_H
 
-#include "Card.hpp"
-#include "Soldier.hpp"
+#include "Special.hpp"
 
-class Drummer : public Card {
+class Drummer : public Special {
   public:
     Drummer(const std::string p_name);
 

@@ -13,6 +13,8 @@ public:
 
    virtual void use(std::unordered_set<Card *> cards);
 
+   std::string getCardType() const override;
+
    void setCardScore(const unsigned int &p_score);
 
    unsigned int getCardScore() const;
