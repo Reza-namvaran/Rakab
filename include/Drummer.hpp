@@ -6,7 +6,7 @@
 
 class Drummer : public Card {
   public:
-    Drummer(const std::string p_name, const std::string p_description);
+    Drummer(const std::string p_name);
 
     virtual void use(std::unordered_set<Card*> cards) override;
 };

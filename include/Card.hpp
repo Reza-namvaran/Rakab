@@ -4,21 +4,24 @@
 #include <iostream>
 #include <unordered_set>
 
-class Card{
-  protected:
-    std::string name;
-    std::string description;
+class Card
+{
+protected:
+  std::string name;
+  std::string description;
 
-  public:
-    Card(const std::string p_name, const std::string p_description);
+public:
+  Card(const std::string p_name);
 
-    virtual ~Card() = default;
-    
-    virtual void use(std::unordered_set<Card*> cards) = 0;
+  virtual ~Card() = default;
 
-    std::string getCardName() const;
+  virtual void use(std::unordered_set<Card *> cards) = 0;
 
-    std::string getCardDescription() const;
+  std::string getCardName() const;
+
+  void Card::setCardDescription(std::string description);
+
+  std::string getCardDescription() const;
 };
 
 #endif

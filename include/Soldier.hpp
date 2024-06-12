@@ -3,19 +3,19 @@
 
 #include "Card.hpp"
 
-class Soldier : public Card{
-   private:
-      unsigned int score;
-      
-      
-   public:
-      Soldier(const std::string p_name, const std::string p_desctiption);
+class Soldier : public Card
+{
+private:
+   unsigned int score;
 
-      virtual void use(std::unordered_set<Card*> cards);
+public:
+   Soldier(const std::string p_name, const unsigned int score);
 
-      void setCardScore(const unsigned int& p_score);
+   virtual void use(std::unordered_set<Card *> cards);
 
-      unsigned int getCardScore() const;
+   void setCardScore(const unsigned int &p_score);
+
+   unsigned int getCardScore() const;
 };
 
 #endif // SOLDIER_H
