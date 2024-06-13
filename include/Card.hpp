@@ -23,7 +23,7 @@ public:
 
   std::string getCardName() const;
 
-  void Card::setCardDescription(std::string description);
+  void setCardDescription(std::string description);
 
   std::string getCardDescription() const;
 };
