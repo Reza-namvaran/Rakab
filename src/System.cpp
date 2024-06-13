@@ -3,7 +3,7 @@
 System::System() {
   /// NOTE: Seed the random number generator with the current time
   srand(static_cast<unsigned int>(time(nullptr)));
-  this->initialize();
+  this->createNewMatch();
 }
 
 System::~System() {}
@@ -32,6 +32,11 @@ std::vector<Player> System::initialize() {
   }
 
   return players;
+}
+
+void System::createNewMatch() {
+  Match new_match(this->initialize());
+  matches.emplace_back(new_match);
 }
 
 // void System::selectMatch(int match_id){
