@@ -1,4 +1,6 @@
 #include "Player.hpp"
+#include "Card.hpp"
+#include "PlayerSign.hpp"
 
 Player::Player(const std::string &p_name, const unsigned int &age) : name(p_name), age(age) {}
 

@@ -6,10 +6,12 @@
 
 #include "Player.hpp"
 
+class Player;
+
 class Sign{
   private:
     std::string color;
-    Player owner;
+    Player* owner;
 
   public:
     Sign();
