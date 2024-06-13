@@ -28,4 +28,9 @@ int Match::findRoundStarter(bool first_round){
 
 void Match::run() {
     this->findRoundStarter(true);
+    do
+    {
+        
+    } while (!is_match_over);
+    
 }

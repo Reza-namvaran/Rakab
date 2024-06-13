@@ -11,6 +11,7 @@ class Match{
   private:
     IO_Interface terminal_handler;
     std::vector<Player> players;
+    bool is_match_over = false;
 
   public:
     Match(std::vector<Player> p_players);
