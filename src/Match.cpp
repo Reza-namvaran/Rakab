@@ -1,5 +1,5 @@
 #include "Match.hpp"
-#include "Winter.hpp"
+#include "CardDeck.cpp"
 
 Match::Match(std::vector<Player> p_players) : players(p_players) {}
 
@@ -22,13 +22,14 @@ int Match::findRoundStarter(bool first_round){
         this->terminal_handler.print(players[first_player].getPlayerName() + " shall start the game");
         return first_player;
     }
+
+    return -1;
 }
 
 void Match::run() {
+    CardDeck test;
     int first_player = this->findRoundStarter(true);
-    do
-    {
-        
-    } while (!is_match_over);
+    for(const auto& card : test.getDeck())
+        std::cout << card->getCardType() << " " << card->getCardName() << "\n";
     
 }

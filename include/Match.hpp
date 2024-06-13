@@ -3,6 +3,7 @@
 
 #include "Player.hpp"
 #include "Card.hpp"
+#include "CardDeck.hpp"
 #include "IO_Interface.hpp"
 #include "Land.hpp"
 #include "Sign.hpp"
