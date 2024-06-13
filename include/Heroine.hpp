@@ -6,7 +6,7 @@
 class Heroine : public Special
 {
 public:
-  Heroine(const std::string p_name);
+  Heroine(const std::string& p_name);
 
   virtual void use(Player &player, IO_Interface &terminal_handler) override;
 };

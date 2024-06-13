@@ -6,7 +6,7 @@
 class Special : public Card
 {
 public:
-    Special(const std::string p_name);
+    Special(const std::string& p_name);
 
     virtual void use(Player &player, IO_Interface &terminal_handler) override = 0;
 
