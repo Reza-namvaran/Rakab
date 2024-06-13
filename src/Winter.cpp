@@ -1,6 +1,6 @@
 #include "Winter.hpp"
 
-Winter::Winter(const std::string& p_name) : Special(p_name) {}
+Winter::Winter(const std::string &p_name) : Special(p_name) {}
 
 void Winter::use(Player &player, IO_Interface &terminal_handler)
 {
@@ -8,13 +8,14 @@ void Winter::use(Player &player, IO_Interface &terminal_handler)
   if (!playedCards.empty())
   {
     terminal_handler.print("Winter has been played\n");
+    int score = 0;
     for (Card *card : playedCards)
     {
       if (card->getCardType() == "Soldier")
       {
-        Soldier *soldier = dynamic_cast<Soldier *>(card);
-        soldier->setCardScore(1);
+        score++;
       }
     }
+    player.setPlayerScore(score);
   }
 }
