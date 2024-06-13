@@ -31,6 +31,17 @@ void System::initialize() {
   }
 }
 
+void System::selectMatch(int match_id){
+  if(match_id == 0) /// NOTE: 0 is the new match
+  {
+    Match new_match(this->players);
+  }
+  else
+  {
+    this->terminal_handler.print("Invalid!");
+  } 
+}
+
 void System::runMatch() const {
   /// TODO: Implement this method 
 }

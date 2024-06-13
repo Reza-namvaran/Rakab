@@ -20,6 +20,8 @@ class System{
 
     void initialize();
 
+    void selectMatch(int match_id);
+    
     void runMatch() const;     
 };
 
