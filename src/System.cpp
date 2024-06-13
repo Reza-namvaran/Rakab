@@ -23,8 +23,9 @@ std::vector<Player> System::initialize() {
     std::string name;
     unsigned int age;
 
-    this->terminal_handler.print("Please enter player" + std::to_string(idx + 1) + " 's name: ");
+    this->terminal_handler.print("Please enter player" + std::to_string(idx + 1) + "'s name: ");
     this->terminal_handler.input(name);
+    this->terminal_handler.print("Please enter player" + std::to_string(idx + 1) + "'s age: ");
     this->terminal_handler.input(age);
 
     Player new_player(name, age);
@@ -45,5 +46,5 @@ void System::createNewMatch() {
 // }
 
 void System::runMatch(int match_id){
-  this->matches[match_id - 1]->run();
+  this->matches[match_id - 1].run();
 }
