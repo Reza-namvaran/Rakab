@@ -4,7 +4,7 @@ Spring::Spring(const std::string &p_name) : Special("Spring") {}
 
 void Spring::use(Player &player, IO_Interface &terminal_handler) {}
 
-void use(std::unordered_set<Player *> &players, IO_Interface &terminal_handler)
+void Spring::use(std::unordered_set<Player *> &players, IO_Interface &terminal_handler)
 {
     terminal_handler.print("Spring has been played! \n");
     int max = 0;

@@ -1,4 +1,5 @@
 #include "Match.hpp"
+#include "Winter.hpp"
 
 Match::Match(std::vector<Player> p_players) : players(p_players) {}
 
@@ -19,15 +20,12 @@ int Match::findRoundStarter(bool first_round){
         }
 
         this->terminal_handler.print(players[first_player].getPlayerName() + " shall start the game");
-    }
-    else
-    {
-        /// TODO: Implement this section
+        return first_player;
     }
 }
 
 void Match::run() {
-    this->findRoundStarter(true);
+    int first_player = this->findRoundStarter(true);
     do
     {
         
