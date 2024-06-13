@@ -4,6 +4,14 @@ set(PROJECT_SOURCES
     land.cpp
     sign.cpp
     IO_Interface.cpp
+    PlayerSign.cpp
+    Soldier.cpp
+    Special.cpp
+    System.cpp
+    Match.cpp
+    scarecrow.cpp
+    Drummer.cpp
+    WarSign.cpp
 )
 
 add_executable(Rakab
