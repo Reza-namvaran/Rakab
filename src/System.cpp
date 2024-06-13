@@ -4,16 +4,17 @@ System::System() {
   /// NOTE: Seed the random number generator with the current time
   srand(static_cast<unsigned int>(time(nullptr)));
   this->initialize();
-  this->runMatch();
 }
 
 System::~System() {}
 
-void System::initialize() {
+std::vector<Player> System::initialize() {
   int player_count = 0;
 
   this->terminal_handler.print("Please enter the number of players: ");
   this->terminal_handler.input(player_count);
+
+  std::vector<Player> players;
 
   // Creating Players based on inputs
   for(int idx = 0; idx < player_count; ++idx)
@@ -27,21 +28,16 @@ void System::initialize() {
 
     Player new_player(name, age);
 
-    this->players.emplace_back(new_player);
+    players.emplace_back(new_player);
   }
+
+  return players;
 }
 
-void System::selectMatch(int match_id){
-  if(match_id == 0) /// NOTE: 0 is the new match
-  {
-    Match new_match(this->players);
-  }
-  else
-  {
-    this->terminal_handler.print("Invalid!");
-  } 
-}
+// void System::selectMatch(int match_id){
+  /// TODO: Implement this method
+// }
 
-void System::runMatch() const {
-  /// TODO: Implement this method 
+void System::runMatch(int match_id){
+  
 }

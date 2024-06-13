@@ -11,18 +11,20 @@
 class System{
   private:
     IO_Interface terminal_handler;
-    std::vector<Player> players;
+    std::vector<Match*> matches;
   
   public:
     System();
 
     ~System();
 
-    void initialize();
+    void createNewMatch();
+
+    std::vector<Player> initialize();
 
     void selectMatch(int match_id);
     
-    void runMatch() const;     
+    void runMatch(int match_id);     
 };
 
 #endif // SYSTEM_H
