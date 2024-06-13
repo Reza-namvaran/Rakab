@@ -2,20 +2,25 @@
 
 Winter::Winter(const std::string &p_name) : Special(p_name) {}
 
-void Winter::use(Player &player, IO_Interface &terminal_handler)
+void Winter::use(Player &player, IO_Interface &terminal_handler) {}
+
+void use(std::unordered_set<Player *> &players, IO_Interface &terminal_handler)
 {
-  std::unordered_set<Card *> playedCards = player.getCard(false);
-  if (!playedCards.empty())
+  terminal_handler.print("Winter has been played\n");
+  for (Player *player : players)
   {
-    terminal_handler.print("Winter has been played\n");
-    int score = 0;
-    for (Card *card : playedCards)
+    std::unordered_set<Card *> playedCards = player->getCard(false);
+    if (!playedCards.empty())
     {
-      if (card->getCardType() == "Soldier")
+      int score = 0;
+      for (Card *card : playedCards)
       {
-        score++;
+        if (card->getCardType() == "Soldier")
+        {
+          score++;
+        }
       }
+      player->setPlayerScore(score);
     }
-    player.setPlayerScore(score);
   }
 }
