@@ -7,6 +7,7 @@
 #include "IO_Interface.hpp"
 
 class Player;
+
 class Card
 {
 protected:
