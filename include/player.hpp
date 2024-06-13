@@ -36,6 +36,8 @@ public:
 
     unsigned int getPlayerScore() const;
 
+    std::unordered_set<Card *> getCard(bool hand = true) const;
+
     /// TODO: Do something for hand getter
 
     void addCard(const std::unordered_set<Card *> &cards, bool toHand = true);

@@ -11,7 +11,7 @@ private:
 public:
    Soldier(const std::string p_name, const unsigned int score);
 
-   virtual void use(std::unordered_set<Card *> &hand_cards, std::unordered_set<Card *> &player_cards, Player &player, IO_Interface &terminal_handler) override;
+   virtual void use(Player &player, IO_Interface &terminal_handler) override;
 
    std::string getCardType() const override;
 

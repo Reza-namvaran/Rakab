@@ -7,10 +7,10 @@ Soldier::Soldier(const std::string p_name, const unsigned int score) : Card(p_na
   /// FIXME: Set a better description
 }
 
-void Soldier::use(std::unordered_set<Card *> &hand_cards, std::unordered_set<Card *> &player_cards, Player &player, IO_Interface &terminal_handler)
+void Soldier::use(Player &player, IO_Interface &terminal_handler)
 {
   int score = 0;
-  for (Card *card : player_cards)
+  for (Card *card : player.getCard(false))
   {
     if (card->getCardType() == "Soldier")
     {
