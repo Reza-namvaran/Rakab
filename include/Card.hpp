@@ -6,6 +6,7 @@
 #include "Player.hpp"
 #include "IO_Interface.hpp"
 
+class Player;
 class Card
 {
 protected:
