@@ -12,6 +12,7 @@ set(PROJECT_SOURCES
     scarecrow.cpp
     Drummer.cpp
     WarSign.cpp
+    main.cpp
 )
 
 add_executable(Rakab
