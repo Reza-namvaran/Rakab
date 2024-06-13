@@ -1,5 +1,7 @@
 #include "Player.hpp"
 
+Player::Player(const std::string &p_name, const unsigned int &age) : name(p_name), age(age) {}
+
 void Player::setPlayerName(const std::string &p_name)
 {
   this->name = p_name;

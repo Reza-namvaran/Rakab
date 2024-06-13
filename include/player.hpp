@@ -3,9 +3,10 @@
 
 #include <iostream>
 #include <unordered_set>
-
 #include "Card.hpp"
-#include "Sign.hpp"
+#include "PlayerSign.hpp"
+
+class Card;
 
 class Player
 {
@@ -15,7 +16,7 @@ private:
     unsigned int total_score;
     std::unordered_set<Card *> hand;
     std::unordered_set<Card *> played;
-    Sign sign;
+    PlayerSign sign;
 
 public:
     Player(const std::string &p_name, const unsigned int &age);

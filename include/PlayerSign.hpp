@@ -11,6 +11,7 @@ private:
   std::vector<Land> lands;
 
 public:
+  PlayerSign();
   PlayerSign(const std::string &p_color);
 
   void setLand(const Land &land);
