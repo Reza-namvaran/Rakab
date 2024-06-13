@@ -13,6 +13,9 @@ set(PROJECT_SOURCES
     Drummer.cpp
     WarSign.cpp
     main.cpp
+    Winter.cpp
+    Spring.cpp
+    Heroine.cpp
 )
 
 add_executable(Rakab
