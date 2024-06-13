@@ -1,6 +1,6 @@
 #include "Winter.hpp"
 
-Winter::Winter(const std::string &p_name) : Special(p_name) {}
+Winter::Winter(const std::string &p_name) : Special("Winter") {}
 
 void Winter::use(Player &player, IO_Interface &terminal_handler) {}
 

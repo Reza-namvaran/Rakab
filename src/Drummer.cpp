@@ -1,6 +1,6 @@
 #include "Drummer.hpp"
 
-Drummer::Drummer(const std::string p_name) : Special(p_name) {}
+Drummer::Drummer(const std::string p_name) : Special("Drummer") {}
 
 void Drummer::use(Player &player, IO_Interface &terminal_handler)
 {

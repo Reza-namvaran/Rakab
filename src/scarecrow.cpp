@@ -1,6 +1,6 @@
 #include "Scarecrow.hpp"
 
-Scarecrow::Scarecrow(const std::string p_name) : Special(p_name) {}
+Scarecrow::Scarecrow(const std::string p_name) : Special("Scarecrow") {}
 
 void Scarecrow::use(Player &player, IO_Interface &terminal_handler)
 {
