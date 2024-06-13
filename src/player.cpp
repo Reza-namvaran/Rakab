@@ -21,7 +21,7 @@ unsigned int Player::getPlayerAge() const { return this->age; }
 
 unsigned int Player::getPlayerScore() const { return this->total_score; }
 
-std::unordered_set<Card *> Player::getCard(bool hand = true) const
+std::unordered_set<Card *> Player::getCard(bool hand) const
 {
   if (hand)
     return this->hand;
@@ -29,7 +29,7 @@ std::unordered_set<Card *> Player::getCard(bool hand = true) const
     return this->played;
 }
 
-void Player::addCard(const std::unordered_set<Card *> &cards, bool toHand = true)
+void Player::addCard(const std::unordered_set<Card *> &cards, bool toHand)
 {
   if (toHand)
   {
