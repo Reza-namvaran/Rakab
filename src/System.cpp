@@ -4,6 +4,7 @@ System::System() {
   /// NOTE: Seed the random number generator with the current time
   srand(static_cast<unsigned int>(time(nullptr)));
   this->createNewMatch();
+  runMatch(1);
 }
 
 System::~System() {}
@@ -44,5 +45,5 @@ void System::createNewMatch() {
 // }
 
 void System::runMatch(int match_id){
-  
+  this->matches[match_id - 1]->run();
 }
