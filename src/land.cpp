@@ -1,6 +1,9 @@
 #include "Land.hpp"
 
-Land::Land(const std::string& p_name){
+Land::Land() {}
+
+Land::Land(const std::string &p_name)
+{
   this->name = p_name;
 }
 

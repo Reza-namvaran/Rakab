@@ -11,6 +11,7 @@ class Land{
     Sign owner;
 
   public:
+    Land();
     Land(const std::string& p_name);
     
     std::string getLandName() const;
