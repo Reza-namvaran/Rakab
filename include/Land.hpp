@@ -16,7 +16,9 @@ class Land{
     
     std::string getLandName() const;
 
-   /// TODO: setLandOwner() method
+    void setLandOwner(Sign* p_owner);
+
+    Sign* getLandOwner() const;
 };
 
 #endif
