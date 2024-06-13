@@ -2,6 +2,7 @@
 #define DRUMMER_H
 
 #include "Special.hpp"
+#include "Soldier.hpp"
 
 class Drummer : public Special
 {
