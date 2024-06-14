@@ -13,6 +13,7 @@ class Match{
     IO_Interface terminal_handler;
     std::vector<Player> players;
     bool is_match_over = false;
+    CardDeck* deck =  new CardDeck;
 
   public:
     Match(std::vector<Player> p_players);

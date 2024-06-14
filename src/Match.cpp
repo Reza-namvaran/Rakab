@@ -3,7 +3,9 @@
 
 Match::Match(std::vector<Player> p_players) : players(p_players) {}
 
-Match::~Match() {}
+Match::~Match() {
+    delete deck;
+}
 
 int Match::findRoundStarter(bool first_round){
     if(first_round)
@@ -29,7 +31,11 @@ int Match::findRoundStarter(bool first_round){
 void Match::run() {
     CardDeck test;
     int first_player = this->findRoundStarter(true);
-    for(const auto& card : test.getDeck())
+    std::cout << "Before Shuffle: \n" << std::endl;
+    for(const auto& card : this->deck->getDeck())
         std::cout << card->getCardType() << " " << card->getCardName() << "\n";
-    
+    this->deck->shuffleCards();
+    std::cout << "After Shuffle: \n" << std::endl;
+    for(const auto& card : this->deck->getDeck())
+        std::cout << card->getCardType() << " " << card->getCardName() << "\n";
 }
