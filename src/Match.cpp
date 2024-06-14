@@ -46,7 +46,7 @@ void Match::rechargeDeck()
 
 void Match::run()
 {
-    while (this->is_match_over)
+    while (!this->is_match_over)
     {
         this->rechargeDeck();
     }

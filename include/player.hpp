@@ -3,16 +3,18 @@
 
 #include <iostream>
 #include <vector>
-#include <memory> 
+#include <memory>
 
 class Card;
 class PlayerSign;
 
-class Player {
+class Player
+{
 private:
     std::string name;
     unsigned int age;
     unsigned int total_score;
+    bool passed = false;
     std::vector<std::shared_ptr<Card>> hand;
     std::vector<std::shared_ptr<Card>> played;
     std::shared_ptr<PlayerSign> sign;
@@ -23,11 +25,13 @@ public:
     void setPlayerName(const std::string &p_name);
     void setPlayerAge(const unsigned int &p_age);
     void setPlayerScore(const unsigned int score);
+    void setPlayerPassed(const bool passed);
 
     std::string getPlayerName() const;
     unsigned int getPlayerAge() const;
     unsigned int getPlayerScore() const;
     unsigned int getPlayerLandsCount() const;
+    bool getPlayerPassed()const;
 
     std::vector<std::shared_ptr<Card>> getCard(bool hand = true) const;
 
