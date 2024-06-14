@@ -17,6 +17,13 @@ Match::Match(std::vector<std::shared_ptr<Player>> p_players) : players(p_players
 
 Match::~Match() {}
 
+void Match::setSeason(std::shared_ptr<Special> season)
+{
+    this->season = season;
+}
+
+std::shared_ptr<Special> Match::getSeason() const { return this->season; }
+
 void Match::dealCard()
 {
     for (auto &player : players)
@@ -111,9 +118,42 @@ void Match::war()
         if (players[i]->getPlayerPassed())
             continue;
         this->playerChoice(players[i]);
+        this->calculateScore();
         if (i == playersSize - 1 && this->passCounter() != playersSize)
         {
             i = 0;
+        }
+    }
+}
+
+void Match::calculateScore()
+{
+    for (std::shared_ptr<Player> player : players)
+    {
+        for (std::shared_ptr<Card> card : player->getCard())
+        {
+            if (card->getCardType() == "Soldier")
+            {
+                card->use(player, terminal_handler);
+            }
+        }
+        if (this->getSeason()->getCardName() == "Winter")
+        {
+            std::shared_ptr<Winter> winter = std::dynamic_pointer_cast<Winter>(season);
+            winter->use(players, terminal_handler);
+        }
+        for (std::shared_ptr<Card> card : player->getCard())
+        {
+            if (card->getCardName() == "Drummer")
+            {
+                card->use(player, terminal_handler);
+                break;
+            }
+        }
+        if (this->getSeason()->getCardName() == "Spring")
+        {
+            std::shared_ptr<Spring> spring = std::dynamic_pointer_cast<Spring>(season);
+            spring->use(players, terminal_handler);
         }
     }
 }

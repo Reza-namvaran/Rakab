@@ -17,11 +17,16 @@ private:
     bool is_match_over = false;
     std::shared_ptr<CardDeck> deck;
     std::shared_ptr<WarSign> warSign;
+    std::shared_ptr<Special> season = nullptr;
 
 public:
     Match(std::vector<std::shared_ptr<Player>> p_players);
 
     ~Match();
+
+    void setSeason(std::shared_ptr<Special> season);
+
+    std::shared_ptr<Special> getSeason() const;
 
     void dealCard();
 
@@ -36,6 +41,8 @@ public:
     void run();
 
     void war();
+
+    void calculateScore();
 };
 
 #endif // MATCH_H
