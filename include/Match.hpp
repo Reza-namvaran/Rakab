@@ -7,6 +7,7 @@
 #include "IO_Interface.hpp"
 #include "Land.hpp"
 #include "WarSign.hpp"
+#include "PlayerSign.hpp"
 #include <memory>
 
 class Match

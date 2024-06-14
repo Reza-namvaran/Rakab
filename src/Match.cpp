@@ -261,11 +261,25 @@ void Match::winner(std::shared_ptr<Player> winner)
     {
         this->is_match_over = true;
     }
+    int counter;
     for (std::vector<std::shared_ptr<Land>> list : this->adjacentList)
     {
-        if (list[0]->getLandOwner()->getPlayerName() == list[1]->getLandOwner()->getPlayerName() && list[1]->getLandOwner()->getPlayerName() == list[2]->getLandOwner()->getPlayerName())
+        counter = 0;
+        for (std::shared_ptr<Land> winnerLand : winner->getSign()->getLands())
         {
-            this->is_match_over = true;
+            for (std::shared_ptr<Land> land : list)
+            {
+                if (winnerLand->getLandName() == land->getLandName())
+                {
+                    counter++;
+                }
+            }
         }
+        if (counter == 3)
+            break;
+    }
+    if (counter == 3)
+    {
+        this->is_match_over = true;
     }
 }
