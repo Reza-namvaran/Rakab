@@ -113,7 +113,7 @@ void Match::war()
 {
     int i = this->findStarterPlayer();
     int playersSize = players.size();
-    for (int i; i < playersSize; i++)
+    for (i; i < playersSize; i++)
     {
         if (players[i]->getPlayerPassed())
             continue;
@@ -131,19 +131,19 @@ void Match::calculateScore()
 {
     for (std::shared_ptr<Player> player : players)
     {
-        for (std::shared_ptr<Card> card : player->getCard())
+        for (std::shared_ptr<Card> card : player->getCard(false))
         {
             if (card->getCardType() == "Soldier")
             {
                 card->use(player, terminal_handler);
             }
         }
-        if (this->getSeason()->getCardName() == "Winter")
+        if (this->getSeason() != nullptr && this->getSeason()->getCardName() == "Winter")
         {
             std::shared_ptr<Winter> winter = std::dynamic_pointer_cast<Winter>(season);
             winter->use(players, terminal_handler);
         }
-        for (std::shared_ptr<Card> card : player->getCard())
+        for (std::shared_ptr<Card> card : player->getCard(false))
         {
             if (card->getCardName() == "Drummer")
             {
@@ -151,7 +151,7 @@ void Match::calculateScore()
                 break;
             }
         }
-        if (this->getSeason()->getCardName() == "Spring")
+        if (this->getSeason() != nullptr && this->getSeason()->getCardName() == "Spring")
         {
             std::shared_ptr<Spring> spring = std::dynamic_pointer_cast<Spring>(season);
             spring->use(players, terminal_handler);
