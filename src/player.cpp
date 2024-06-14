@@ -86,3 +86,16 @@ std::shared_ptr<Card> Player::selectCard(const std::string &p_card)
     // TODO: Implement this method
     return nullptr;
 }
+
+void Player::playCard(std::string cardName)
+{
+    for (int i = 0; i < this->hand.size(); i++)
+    {
+        if (this->hand[i]->getCardName() == cardName)
+        {
+            this->played.emplace_back(this->hand[i]);
+            this->hand.erase(this->hand.begin() + i);
+            break;
+        }
+    }
+}

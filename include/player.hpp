@@ -31,13 +31,17 @@ public:
     unsigned int getPlayerAge() const;
     unsigned int getPlayerScore() const;
     unsigned int getPlayerLandsCount() const;
-    bool getPlayerPassed()const;
+    bool getPlayerPassed() const;
 
     std::vector<std::shared_ptr<Card>> getCard(bool hand = true) const;
 
     void addCard(const std::vector<std::shared_ptr<Card>> &cards, bool toHand = true);
+
     void clearPlayedCard();
+
     std::shared_ptr<Card> selectCard(const std::string &p_card);
+
+    void playCard(std::string cardName);
 };
 
 #endif // PLAYER_H

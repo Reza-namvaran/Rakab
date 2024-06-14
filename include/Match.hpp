@@ -29,7 +29,9 @@ public:
 
     unsigned int passCounter() const;
 
-    unsigned int findStarterPlayer()const;
+    unsigned int findStarterPlayer() const;
+
+    void playerChoice(std::shared_ptr<Player> player);
 
     void run();
 

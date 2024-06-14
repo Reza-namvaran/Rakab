@@ -70,6 +70,19 @@ unsigned int Match::findStarterPlayer() const
     return i;
 }
 
+void Match::playerChoice(std::shared_ptr<Player> player)
+{
+    terminal_handler.print("Select a card to play : \n");
+    for (std::shared_ptr<Card> card : player->getCard())
+    {
+        terminal_handler.print(card->getCardName() + " ");
+    }
+    terminal_handler.print("\n");
+    std::string cardName;
+    terminal_handler.input(cardName);
+    player->playCard(cardName);
+}
+
 void Match::run()
 {
     while (!this->is_match_over)
@@ -87,6 +100,7 @@ void Match::war()
     {
         if (players[i]->getPlayerPassed())
             continue;
+        this->playerChoice(players[i]);
         if (i == playersSize - 1 && this->passCounter() != playersSize)
         {
             i = 0;
