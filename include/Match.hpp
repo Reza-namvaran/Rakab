@@ -9,7 +9,8 @@
 #include "WarSign.hpp"
 #include <memory>
 
-class Match {
+class Match
+{
 private:
     IO_Interface terminal_handler;
     std::vector<std::shared_ptr<Player>> players;
@@ -18,15 +19,21 @@ private:
     std::shared_ptr<WarSign> warSign;
 
 public:
-   Match(std::vector<std::shared_ptr<Player>> p_players);
+    Match(std::vector<std::shared_ptr<Player>> p_players);
 
-   ~Match();
+    ~Match();
 
-   void dealCard();
+    void dealCard();
 
-   void rechargeDeck();
+    void rechargeDeck();
 
-   void run();
+    unsigned int passCounter() const;
+
+    unsigned int findStarterPlayer()const;
+
+    void run();
+
+    void war();
 };
 
 #endif // MATCH_H

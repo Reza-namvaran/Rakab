@@ -44,10 +44,52 @@ void Match::rechargeDeck()
     }
 }
 
+unsigned int Match::passCounter() const
+{
+    int counter = 0;
+    for (std::shared_ptr<Player> player : players)
+    {
+        if (player->getPlayerPassed())
+        {
+            counter++;
+        }
+    }
+    return counter;
+}
+
+unsigned int Match::findStarterPlayer() const
+{
+    int i = 0;
+    for (int i; i < players.size(); i++)
+    {
+        if (players[i]->getPlayerName() == warSign->getOwner()->getPlayerName())
+        {
+            break;
+        }
+    }
+    return i;
+}
+
 void Match::run()
 {
     while (!this->is_match_over)
     {
         this->rechargeDeck();
+        this->war();
+    }
+}
+
+void Match::war()
+{
+    int i = this->findStarterPlayer();
+    int playersSize = players.size();
+    for (int i; i < playersSize; i++)
+    {
+        if (players[i]->getPlayerPassed())
+            continue;
+        if (i == playersSize - 1 && this->passCounter() != playersSize)
+        {
+            i = 0;
+        }
     }
 }
