@@ -4,7 +4,7 @@ Scarecrow::Scarecrow(const std::string p_name) : Special("Scarecrow") {}
 
 void Scarecrow::use(Player &player, IO_Interface &terminal_handler)
 {
-  std::unordered_set<Card *> playedCards = player.getCard(false);
+  std::vector<Card *> playedCards = player.getCard(false);
   if (!playedCards.empty())
   {
     terminal_handler.print("Choose one of these cards to back into your hand : \n");
@@ -33,10 +33,10 @@ void Scarecrow::use(Player &player, IO_Interface &terminal_handler)
           counter2++;
           if (counter2 == counter)
           {
-            std::unordered_set<Card *> handCards = player.getCard(false);
-            handCards.insert(card);
+            std::vector<Card *> handCards = player.getCard(false);
+            handCards.emplace_back(card);
             player.addCard(handCards);
-            playedCards.erase(card);
+            playedCards.erase(std::find(playedCards.begin(), playedCards.end(), card));
             flag = 0;
             break;
           }

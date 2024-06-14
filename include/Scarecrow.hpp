@@ -1,6 +1,8 @@
 #ifndef SCARECROW_H
 #define SCARECROW_H
 
+#include <algorithm>
+
 #include "Special.hpp"
 
 class Scarecrow : public Special

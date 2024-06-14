@@ -29,7 +29,6 @@ int Match::findRoundStarter(bool first_round){
 }
 
 void Match::run() {
-    CardDeck test;
     int first_player = this->findRoundStarter(true);
     std::cout << "Before Shuffle: \n" << std::endl;
     for(const auto& card : this->deck->getDeck())

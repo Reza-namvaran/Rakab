@@ -11,7 +11,7 @@ public:
 
     virtual void use(Player &player, IO_Interface &terminal_handler) override;
 
-    void use(std::unordered_set<Player *> &players, IO_Interface &terminal_handler);
+    void use(std::vector<Player *> &players, IO_Interface &terminal_handler);
 };
 
 #endif // SPRING_H

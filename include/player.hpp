@@ -2,7 +2,6 @@
 #define PLAYER_H
 
 #include <iostream>
-#include <unordered_set>
 
 class Card;
 class PlayerSign;
@@ -13,8 +12,8 @@ private:
     std::string name;
     unsigned int age;
     unsigned int total_score;
-    std::unordered_set<Card *> hand;
-    std::unordered_set<Card *> played;
+    std::vector<Card *> hand;
+    std::vector<Card *> played;
     PlayerSign* sign;
 
 public:
@@ -36,11 +35,11 @@ public:
 
     unsigned int getPlayerScore() const;
 
-    std::unordered_set<Card *> getCard(bool hand = true) const;
+    std::vector<Card *> getCard(bool hand = true) const;
 
     /// TODO: Do something for hand getter
 
-    void addCard(const std::unordered_set<Card *> &cards, bool toHand = true);
+    void addCard(const std::vector<Card *> &cards, bool toHand = true);
 
     void clearPlayedCard();
 
