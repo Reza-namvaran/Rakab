@@ -2,8 +2,8 @@
 
 WarSign::WarSign() : Sign("black") {}
 
-void WarSign::setLand(const Land &land)
+void WarSign::setLand(std::shared_ptr<Land> land)
 {
     this->land = land;
 }
-Land WarSign::getLand() const { return this->land; }
+std::shared_ptr<Land> WarSign::getLand() const { return this->land; }

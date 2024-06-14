@@ -124,6 +124,7 @@ void Match::war()
             i = 0;
         }
     }
+    this->stateWinner();
 }
 
 void Match::calculateScore()
@@ -155,5 +156,37 @@ void Match::calculateScore()
             std::shared_ptr<Spring> spring = std::dynamic_pointer_cast<Spring>(season);
             spring->use(players, terminal_handler);
         }
+    }
+}
+
+void Match::stateWinner()
+{
+    this->calculateScore();
+    std::shared_ptr<Player> winner;
+    winner->setPlayerScore(0);
+    for (std::shared_ptr<Player> player : players)
+    {
+        if (player->getPlayerScore() > winner->getPlayerScore())
+        {
+            winner->setPlayerScore(player->getPlayerScore());
+        }
+    }
+    int maxCounter = 0;
+    for (std::shared_ptr<Player> player : players)
+    {
+        if (player->getPlayerScore() == winner->getPlayerScore())
+        {
+            maxCounter++;
+        }
+    }
+    if (maxCounter < 2)
+    {
+        winner->addLand(this->warSign->getLand());
+        this->warSign->setOwner(winner);
+    }
+    else
+    {
+        terminal_handler.print("Nobody wins!\n");
+        this->war();
     }
 }

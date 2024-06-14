@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <memory>
+#include "Land.hpp"
 
 class Card;
 class PlayerSign;
@@ -36,6 +37,8 @@ public:
     std::vector<std::shared_ptr<Card>> getCard(bool hand = true) const;
 
     void addCard(const std::vector<std::shared_ptr<Card>> &cards, bool toHand = true);
+
+    void addLand(std::shared_ptr<Land> land);
 
     void clearPlayedCard();
 

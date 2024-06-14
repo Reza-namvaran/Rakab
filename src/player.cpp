@@ -76,6 +76,11 @@ void Player::addCard(const std::vector<std::shared_ptr<Card>> &cards, bool toHan
     }
 }
 
+void Player::addLand(std::shared_ptr<Land> land)
+{
+    this->sign->setLand(land);
+}
+
 void Player::clearPlayedCard()
 {
     this->played.clear();

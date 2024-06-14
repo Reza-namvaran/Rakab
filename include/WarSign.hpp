@@ -8,13 +8,14 @@
 class WarSign : public Sign
 {
 private:
-    Land land;
+    std::shared_ptr<Land> land;
 
 public:
     WarSign();
 
-    void setLand(const Land &land);
-    Land getLand() const;
+    void setLand(std::shared_ptr<Land> land);
+    
+    std::shared_ptr<Land> getLand() const;
 };
 
 #endif

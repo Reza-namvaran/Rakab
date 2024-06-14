@@ -8,14 +8,14 @@
 class PlayerSign : public Sign
 {
 private:
-  std::vector<Land> lands;
+  std::vector<std::shared_ptr<Land>> lands;
 
 public:
   PlayerSign();
   PlayerSign(const std::string &p_color);
 
-  void setLand(const Land &land);
-  std::vector<Land> getLands() const;
+  void setLand(std::shared_ptr<Land> land);
+    std::vector<std::shared_ptr<Land>> getLands() const;
 };
 
 #endif

@@ -43,6 +43,8 @@ public:
     void war();
 
     void calculateScore();
+
+    void stateWinner();
 };
 
 #endif // MATCH_H
