@@ -1,17 +1,21 @@
 #include "CardDeck.hpp"
 
-CardDeck::CardDeck() {
+CardDeck::CardDeck()
+{
     this->generateDeck();
 }
 
-CardDeck::~CardDeck() {
+CardDeck::~CardDeck()
+{
     // Clean up memory
-    for (Card* card : deck) {
+    for (Card *card : deck)
+    {
         delete card;
     }
 }
 
-void CardDeck::generateDeck() {
+void CardDeck::generateDeck()
+{
     card_type_count = {
         {"One", 8},
         {"Two", 8},
@@ -27,9 +31,11 @@ void CardDeck::generateDeck() {
         {"Scarecrow", 16},
     };
 
-    for (const auto& pair : card_type_count) {
+    for (const auto &pair : card_type_count)
+    {
 
-        for (int i = 0; i < pair.second; ++i) {
+        for (int i = 0; i < pair.second; ++i)
+        {
 
             if (pair.first == "Heroine")
                 deck.emplace_back(new Heroine("Heroine"));
@@ -45,31 +51,42 @@ void CardDeck::generateDeck() {
 
             else if (pair.first == "Scarecrow")
                 deck.emplace_back(new Scarecrow("Scarecrow"));
-            
+
             else
                 deck.emplace_back(new Soldier(pair.first, pair.second));
-
         }
-
     }
 }
 
-std::vector<Card*> CardDeck::getDeck() const {
+std::vector<Card *> CardDeck::getDeck() const
+{
     return this->deck;
 }
 
-void CardDeck::shuffleCards() {
+void CardDeck::shuffleCards()
+{
     std::random_shuffle(this->deck.begin(), this->deck.end());
 }
 
-void CardDeck::setCardDeck(std::vector<Card*> p_deck) {
+void CardDeck::setCardDeck(std::vector<Card *> p_deck)
+{
     // Clear existing deck
-    for (Card* card : deck) {
+    for (Card *card : deck)
+    {
         delete card;
     }
-    this->deck = p_deck;  // Assuming ownership is transferred
+    this->deck = p_deck; // Assuming ownership is transferred
 }
 
-void CardDeck::dealCard(Player* p_player) {
-    
+void CardDeck::dealCard(Player *p_player)
+{
+    int count = 10 + p_player->getPlayerLandsCount();
+    std::vector<Card *> cards;
+    for (int i = 0; i < count; i++)
+    {
+        int random = rand() / this->deck.size();
+        cards.push_back(this->deck[random]);
+        this->deck.erase(this->deck.begin() + random);
+    }
+    p_player->addCard(cards);
 }

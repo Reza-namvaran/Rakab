@@ -1,0 +1,8 @@
+{
+  "files.associations": {
+    "*.embeddedhtml": "html",
+    "memory": "cpp",
+    "istream": "cpp",
+    "functional": "cpp"
+  }
+}

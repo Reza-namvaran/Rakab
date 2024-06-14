@@ -35,6 +35,8 @@ public:
     unsigned int getPlayerAge() const;
 
     unsigned int getPlayerScore() const;
+    
+    unsigned int getPlayerLandsCount() const;
 
     std::vector<Card *> getCard(bool hand = true) const;
 

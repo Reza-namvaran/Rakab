@@ -25,6 +25,11 @@ unsigned int Player::getPlayerAge() const { return this->age; }
 
 unsigned int Player::getPlayerScore() const { return this->total_score; }
 
+unsigned int Player::getPlayerLandsCount() const
+{
+  return this->sign->getLands().size();
+}
+
 std::vector<Card *> Player::getCard(bool hand) const
 {
   if (hand)
