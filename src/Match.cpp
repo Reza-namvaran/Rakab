@@ -40,17 +40,6 @@ void Match::rechargeDeck()
 }
 
 void Match::run() {
-    std::cout << "Before Shuffle: \n" << std::endl;
-    for (const auto &card : deck->getDeck()) {
-        std::cout << card->getCardType() << " " << card->getCardName() << "\n";
-    }
-
-    deck->shuffleCards();
-
-    std::cout << "After Shuffle: \n" << std::endl;
-    for (const auto &card : deck->getDeck()) {
-        std::cout << card->getCardType() << " " << card->getCardName() << "\n";
-    }
 
     rechargeDeck();
    

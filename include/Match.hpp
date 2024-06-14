@@ -18,16 +18,15 @@ private:
     std::shared_ptr<WarSign> warSign;
 
 public:
-    Match(std::vector<std::shared_ptr<Player>> p_players);
-    ~Match();
+   Match(std::vector<std::shared_ptr<Player>> p_players);
 
-  ~Match();
+   ~Match();
 
-  void dealCard();
+   void dealCard();
 
-  void rechargeDeck();
+   void rechargeDeck();
 
-  void run();
+   void run();
 };
 
 #endif // MATCH_H
