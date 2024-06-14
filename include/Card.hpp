@@ -21,7 +21,7 @@ public:
 
   virtual ~Card() = default;
 
-  virtual void use(Player &player, IO_Interface &terminal_handler) = 0;
+  virtual void use(std::shared_ptr<Player> player, IO_Interface &terminal_handler) = 0;
 
   virtual std::string getCardType() const = 0;
 

@@ -80,6 +80,16 @@ void Match::playerChoice(std::shared_ptr<Player> player)
     terminal_handler.print("\n");
     std::string cardName;
     terminal_handler.input(cardName);
+    if (cardName == "Scarecrow")
+    {
+        for (std::shared_ptr<Card> card : player->getCard())
+        {
+            if (card->getCardName() == cardName)
+            {
+                card->use(player, terminal_handler);
+            }
+        }
+    }
     player->playCard(cardName);
 }
 

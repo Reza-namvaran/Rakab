@@ -6,9 +6,9 @@ Soldier::Soldier(const std::string p_name, const unsigned int score) : Card(p_na
     /// FIXME: Set a better description
 }
 
-void Soldier::use(Player &player, IO_Interface &terminal_handler) {
+void Soldier::use(std::shared_ptr<Player> player, IO_Interface &terminal_handler) {
     int score = 0;
-    for (const auto &card : player.getCard(false)) {
+    for (const auto &card : player->getCard(false)) {
         if (card->getCardType() == "Soldier") {
             std::shared_ptr<Soldier> soldier = std::dynamic_pointer_cast<Soldier>(card);
             if (soldier) {
@@ -16,7 +16,7 @@ void Soldier::use(Player &player, IO_Interface &terminal_handler) {
             }
         }
     }
-    player.setPlayerScore(score);
+    player->setPlayerScore(score);
 }
 
 std::string Soldier::getCardType() const {

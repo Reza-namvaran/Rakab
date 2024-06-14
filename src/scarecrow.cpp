@@ -3,8 +3,8 @@
 
 Scarecrow::Scarecrow(const std::string p_name) : Special("Scarecrow") {}
 
-void Scarecrow::use(Player &player, IO_Interface &terminal_handler) {
-    std::vector<std::shared_ptr<Card>> playedCards = player.getCard(false);
+void Scarecrow::use(std::shared_ptr<Player> player, IO_Interface &terminal_handler) {
+    std::vector<std::shared_ptr<Card>> playedCards = player->getCard(false);
     if (!playedCards.empty()) {
         terminal_handler.print("Choose one of these cards to back into your hand: \n");
         int counter = 0;
@@ -26,9 +26,9 @@ void Scarecrow::use(Player &player, IO_Interface &terminal_handler) {
                 if (card->getCardType() == "Soldier" && card->getCardName() == cardName) {
                     ++counter2;
                     if (counter2 == counter) {
-                        std::vector<std::shared_ptr<Card>> handCards = player.getCard(true);
+                        std::vector<std::shared_ptr<Card>> handCards = player->getCard(true);
                         handCards.emplace_back(card);
-                        player.addCard(handCards, true);
+                        player->addCard(handCards, true);
                         playedCards.erase(std::remove(playedCards.begin(), playedCards.end(), card), playedCards.end());
                         flag = 0;
                         break;

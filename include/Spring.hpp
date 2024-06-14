@@ -9,7 +9,7 @@ class Spring : public Special
 public:
     Spring(const std::string &p_name);
 
-    virtual void use(Player &player, IO_Interface &terminal_handler) override;
+    virtual void use(std::shared_ptr<Player> player, IO_Interface &terminal_handler) override;
 
     void use(std::vector<std::shared_ptr<Player>> &players, IO_Interface &terminal_handler);
 };
