@@ -13,6 +13,6 @@ void Land::setLandOwner(std::shared_ptr<PlayerSign> p_owner) {
     owner = p_owner;
 }
 
-std::shared_ptr<PlayerSign> Land::getLandOwner() const {
-    return owner;
+std::shared_ptr<Player> Land::getLandOwner() const {
+    return owner->getOwner();
 }

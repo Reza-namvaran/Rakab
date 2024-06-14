@@ -2,6 +2,24 @@
 
 Match::Match(std::vector<std::shared_ptr<Player>> p_players) : players(p_players), deck(std::make_shared<CardDeck>()), warSign(std::make_shared<WarSign>())
 {
+    this->adjacentList = {
+        {std::make_shared<Land>("ELINIA"), std::make_shared<Land>("ROLLO"), std::make_shared<Land>("TALMONE")},
+        {std::make_shared<Land>("MORINA"), std::make_shared<Land>("ROLLO"), std::make_shared<Land>("TALMONE")},
+        {std::make_shared<Land>("MORINA"), std::make_shared<Land>("ARMENTO"), std::make_shared<Land>("TALMONE")},
+        {std::make_shared<Land>("MORINA"), std::make_shared<Land>("ARMENTO"), std::make_shared<Land>("OLIVADI")},
+        {std::make_shared<Land>("ARMENTO"), std::make_shared<Land>("LIA"), std::make_shared<Land>("OLIVADI")},
+        {std::make_shared<Land>("MORINA"), std::make_shared<Land>("BORGE"), std::make_shared<Land>("PLADACI")},
+        {std::make_shared<Land>("BORGE"), std::make_shared<Land>("DIMASE"), std::make_shared<Land>("OLIVADI")},
+        {std::make_shared<Land>("ATELA"), std::make_shared<Land>("ENNA"), std::make_shared<Land>("DIMASE")},
+        {std::make_shared<Land>("ENNA"), std::make_shared<Land>("BORGE"), std::make_shared<Land>("CALINE")},
+        {std::make_shared<Land>("CALINE"), std::make_shared<Land>("BORGE"), std::make_shared<Land>("BELLA")},
+        {std::make_shared<Land>("PLADACI"), std::make_shared<Land>("BELLA"), std::make_shared<Land>("CALINE")},
+        {std::make_shared<Land>("CALINE"), std::make_shared<Land>("ENNA"), std::make_shared<Land>("ATELA")},
+        {std::make_shared<Land>("BELLA"), std::make_shared<Land>("PLADACI"), std::make_shared<Land>("BORGE")},
+        {std::make_shared<Land>("ROLLO"), std::make_shared<Land>("PLADACI"), std::make_shared<Land>("MORINA")},
+        {std::make_shared<Land>("MORINA"), std::make_shared<Land>("BORGE"), std::make_shared<Land>("OLIVADI")},
+        {std::make_shared<Land>("CALINE"), std::make_shared<Land>("BORGE"), std::make_shared<Land>("PLADACI")},
+        {std::make_shared<Land>("ENNA"), std::make_shared<Land>("BORGE"), std::make_shared<Land>("DIMASE")}};
     unsigned int min_age = players[0]->getPlayerAge();
     int first_player = 0;
     for (int idx = 0; idx < players.size(); ++idx)
@@ -184,16 +202,25 @@ void Match::stateWinner()
         winner->addLand(this->warSign->getLand());
         this->warSign->getLand()->setLandOwner(winner->getSign());
         this->warSign->setOwner(winner);
-        if (winner->getPlayerLandsCount() == 5)
-        {
-            this->winner(winner);
-        }
+        this->winner(winner);
     }
     else
     {
         terminal_handler.print("Nobody wins!\n");
-        this->war();
     }
 }
 
-void Match::winner(std::shared_ptr<Player> winner) {}
+void Match::winner(std::shared_ptr<Player> winner)
+{
+    if (winner->getPlayerLandsCount() == 5)
+    {
+        this->is_match_over = true;
+    }
+    for (std::vector<std::shared_ptr<Land>> list : this->adjacentList)
+    {
+        if (list[0]->getLandOwner()->getPlayerName() == list[1]->getLandOwner()->getPlayerName() && list[1]->getLandOwner()->getPlayerName() == list[2]->getLandOwner()->getPlayerName())
+        {
+            this->is_match_over = true;
+        }
+    }
+}

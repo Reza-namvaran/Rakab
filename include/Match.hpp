@@ -18,7 +18,7 @@ private:
     std::shared_ptr<CardDeck> deck;
     std::shared_ptr<WarSign> warSign;
     std::shared_ptr<Special> season = nullptr;
-    std::vector<std::shared_ptr<Land>> adjacentList;
+    std::vector<std::vector<std::shared_ptr<Land>>> adjacentList;
 
 public:
     Match(std::vector<std::shared_ptr<Player>> p_players);

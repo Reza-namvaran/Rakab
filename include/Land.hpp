@@ -6,6 +6,7 @@
 #include <string>
 
 class PlayerSign;
+class Player;
 
 class Land {
 private:
@@ -20,7 +21,7 @@ public:
 
     virtual void setLandOwner(std::shared_ptr<PlayerSign> p_owner);
 
-    std::shared_ptr<PlayerSign> getLandOwner() const;
+    std::shared_ptr<Player> getLandOwner() const;
 };
 
 #endif
