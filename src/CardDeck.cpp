@@ -1,9 +1,6 @@
 #include "CardDeck.hpp"
 
-CardDeck::CardDeck()
-{
-    this->generateDeck();
-}
+CardDeck::CardDeck(){}
 
 CardDeck::~CardDeck()
 {

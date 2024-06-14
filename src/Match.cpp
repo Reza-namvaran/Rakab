@@ -50,16 +50,37 @@ void Match::dealCard()
     }
 }
 
+void Match::rechargeDeck()
+{
+    int playersCount = this->players.size();
+    for (Player &player : this->players)
+    {
+        if (player.getCard().size() == 0)
+        {
+            playersCount--;
+        }
+    }
+    if (playersCount <= 1)
+    {
+        this->deck->generateDeck();
+        this->deck->shuffleCards();
+        this->dealCard();
+    }
+}
+
 void Match::run()
 {
-    std::cout << "Before Shuffle: \n"
-              << std::endl;
-    for (const auto &card : this->deck->getDeck())
-        std::cout << card->getCardType() << " " << card->getCardName() << "\n";
-    this->deck->shuffleCards();
-    std::cout << "After Shuffle: \n"
-              << std::endl;
-    for (const auto &card : this->deck->getDeck())
-        std::cout << card->getCardType() << " " << card->getCardName() << "\n";
-    this->dealCard();
+    while (this->is_match_over)
+    {
+        std::cout << "Before Shuffle: \n"
+                  << std::endl;
+        for (const auto &card : this->deck->getDeck())
+            std::cout << card->getCardType() << " " << card->getCardName() << "\n";
+        this->deck->shuffleCards();
+        std::cout << "After Shuffle: \n"
+                  << std::endl;
+        for (const auto &card : this->deck->getDeck())
+            std::cout << card->getCardType() << " " << card->getCardName() << "\n";
+        this->rechargeDeck();
+    }
 }

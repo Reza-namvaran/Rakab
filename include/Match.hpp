@@ -26,6 +26,8 @@ public:
 
   void dealCard();
 
+  void rechargeDeck();
+
   void run();
 };
 
