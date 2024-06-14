@@ -1,5 +1,4 @@
 #include "Match.hpp"
-#include "CardDeck.cpp"
 
 Match::Match(std::vector<Player> p_players) : players(p_players)
 {

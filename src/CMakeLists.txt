@@ -16,6 +16,7 @@ set(PROJECT_SOURCES
     Winter.cpp
     Spring.cpp
     Heroine.cpp
+    CardDeck.cpp
 )
 
 add_executable(Rakab

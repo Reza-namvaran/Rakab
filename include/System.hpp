@@ -11,7 +11,7 @@
 class System{
   private:
     IO_Interface terminal_handler;
-    std::vector<Match> matches;
+    std::vector<Match*> matches;
   
   public:
     System();

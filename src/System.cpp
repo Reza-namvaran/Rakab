@@ -7,7 +7,10 @@ System::System() {
   runMatch(1);
 }
 
-System::~System() {}
+System::~System() {
+  for(auto &match : matches)
+    delete match;
+}
 
 std::vector<Player> System::initialize() {
   int player_count = 0;
@@ -37,7 +40,7 @@ std::vector<Player> System::initialize() {
 }
 
 void System::createNewMatch() {
-  Match new_match(this->initialize());
+  Match* new_match = new Match(this->initialize());
   matches.emplace_back(new_match);
 }
 
@@ -46,5 +49,5 @@ void System::createNewMatch() {
 // }
 
 void System::runMatch(int match_id){
-  this->matches[match_id - 1].run();
+  this->matches[match_id - 1]->run();
 }
