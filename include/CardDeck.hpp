@@ -4,6 +4,7 @@
 #include <random>
 #include <unordered_map>
 #include <unordered_set>
+#include <algorithm>
 #include "Player.hpp"
 #include "Card.hpp"
 #include "Special.hpp"
@@ -16,7 +17,7 @@
 
 class CardDeck {
    private:
-      std::unordered_multiset<Card*> deck;
+      std::vector<Card*> deck;
       std::unordered_map<std::string, int> card_type_count;
 
    public:
@@ -28,9 +29,9 @@ class CardDeck {
 
     void generateDeck();
 
-    std::unordered_multiset<Card*> getDeck() const;
+    std::vector<Card*> getDeck() const;
 
-    void setCardDeck(std::unordered_multiset<Card*> p_deck);
+    void setCardDeck(std::vector<Card*> p_deck);
 
     void dealCard(Player* p_player);
 };
