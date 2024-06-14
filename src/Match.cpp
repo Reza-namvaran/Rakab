@@ -46,7 +46,6 @@ Match::Match(std::vector<std::shared_ptr<Player>> p_players) : players(p_players
         }
     }
     warSign->setOwner(players[first_player]);
-    this->setWarLand();
 }
 
 Match::~Match() {}
@@ -98,7 +97,7 @@ void Match::refreshData()
 unsigned int Match::findStarterPlayer() const
 {
     int i = 0;
-    for (int i; i < players.size(); i++)
+    for (i; i < players.size(); i++)
     {
         if (players[i]->getPlayerName() == warSign->getOwner()->getPlayerName())
         {
@@ -110,7 +109,7 @@ unsigned int Match::findStarterPlayer() const
 
 void Match::playerChoice(std::shared_ptr<Player> player)
 {
-    terminal_handler.print("Select a card to play : \n");
+    terminal_handler.print(player->getPlayerName() + " Select a card to play : \n");
     for (std::shared_ptr<Card> card : player->getCard())
     {
         terminal_handler.print(card->getCardName() + " ");
@@ -140,9 +139,9 @@ void Match::playerChoice(std::shared_ptr<Player> player)
 void Match::setWarLand()
 {
     terminal_handler.print(this->warSign->getOwner()->getPlayerName() + " choose a land for war :\n");
-    for (std::shared_ptr<Land> land : lands)
+    for (std::shared_ptr<Land> land : this->lands)
     {
-        if (land->getLandOwner() != nullptr)
+        if (land->getLandOwner() == nullptr)
         {
             terminal_handler.print(land->getLandName() + " ");
         }
@@ -183,7 +182,7 @@ void Match::war()
         this->calculateScore();
         if (i == playersSize - 1 && this->passCounter != playersSize)
         {
-            i = 0;
+            i = -1;
         }
     }
     this->stateWinner();
@@ -247,6 +246,7 @@ void Match::stateWinner()
         this->warSign->getLand()->setLandOwner(winner->getSign());
         this->warSign->setOwner(winner);
         this->winner(winner);
+        this->setWarLand();
     }
     else
     {
@@ -264,22 +264,9 @@ void Match::winner(std::shared_ptr<Player> winner)
     int counter;
     for (std::vector<std::shared_ptr<Land>> list : this->adjacentList)
     {
-        counter = 0;
-        for (std::shared_ptr<Land> winnerLand : winner->getSign()->getLands())
+        if (list[0]->getLandOwner()->getPlayerName() == list[1]->getLandOwner()->getPlayerName() && list[0]->getLandOwner()->getPlayerName() == list[2]->getLandOwner()->getPlayerName())
         {
-            for (std::shared_ptr<Land> land : list)
-            {
-                if (winnerLand->getLandName() == land->getLandName())
-                {
-                    counter++;
-                }
-            }
+            this->is_match_over = true;
         }
-        if (counter == 3)
-            break;
-    }
-    if (counter == 3)
-    {
-        this->is_match_over = true;
     }
 }
