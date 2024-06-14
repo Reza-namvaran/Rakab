@@ -1,10 +1,13 @@
 #include "Match.hpp"
 
-Match::Match(std::vector<std::shared_ptr<Player>> p_players) : players(p_players), deck(std::make_shared<CardDeck>()), warSign(std::make_shared<WarSign>()) {
+Match::Match(std::vector<std::shared_ptr<Player>> p_players) : players(p_players), deck(std::make_shared<CardDeck>()), warSign(std::make_shared<WarSign>())
+{
     unsigned int min_age = players[0]->getPlayerAge();
     int first_player = 0;
-    for (int idx = 0; idx < players.size(); ++idx) {
-        if (players[idx]->getPlayerAge() < min_age) {
+    for (int idx = 0; idx < players.size(); ++idx)
+    {
+        if (players[idx]->getPlayerAge() < min_age)
+        {
             min_age = players[idx]->getPlayerAge();
             first_player = idx;
         }
@@ -14,8 +17,10 @@ Match::Match(std::vector<std::shared_ptr<Player>> p_players) : players(p_players
 
 Match::~Match() {}
 
-void Match::dealCard() {
-    for (auto &player : players) {
+void Match::dealCard()
+{
+    for (auto &player : players)
+    {
         deck->dealCard(player);
     }
 }
@@ -30,7 +35,7 @@ void Match::rechargeDeck()
             playersCount--;
         }
     }
-    
+
     if (playersCount <= 1)
     {
         this->deck->generateDeck();
@@ -39,12 +44,10 @@ void Match::rechargeDeck()
     }
 }
 
-void Match::run() {
-
-    rechargeDeck();
-   
-    std::cout << players[0]->getCard(true).size() << "\n";
-    for (const auto &card : players[0]->getCard(true)) {
-        std::cout << card->getCardName() << " " << card->getCardType() << "\n";
+void Match::run()
+{
+    while (this->is_match_over)
+    {
+        this->rechargeDeck();
     }
 }
