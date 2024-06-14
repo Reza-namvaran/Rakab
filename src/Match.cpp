@@ -182,7 +182,12 @@ void Match::stateWinner()
     if (maxCounter < 2)
     {
         winner->addLand(this->warSign->getLand());
+        this->warSign->getLand()->setLandOwner(winner->getSign());
         this->warSign->setOwner(winner);
+        if (winner->getPlayerLandsCount() == 5)
+        {
+            this->winner(winner);
+        }
     }
     else
     {
@@ -190,3 +195,5 @@ void Match::stateWinner()
         this->war();
     }
 }
+
+void Match::winner(std::shared_ptr<Player> winner) {}

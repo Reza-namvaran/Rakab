@@ -5,12 +5,12 @@
 #include <memory>
 #include <string>
 
-class Sign;
+class PlayerSign;
 
 class Land {
 private:
     std::string name;
-    std::shared_ptr<Sign> owner;
+    std::shared_ptr<PlayerSign> owner;
 
 public:
     Land();
@@ -18,9 +18,9 @@ public:
 
     std::string getLandName() const;
 
-    void setLandOwner(std::shared_ptr<Sign> p_owner);
+    virtual void setLandOwner(std::shared_ptr<PlayerSign> p_owner);
 
-    std::shared_ptr<Sign> getLandOwner() const;
+    std::shared_ptr<PlayerSign> getLandOwner() const;
 };
 
 #endif

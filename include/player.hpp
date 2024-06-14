@@ -33,6 +33,7 @@ public:
     unsigned int getPlayerScore() const;
     unsigned int getPlayerLandsCount() const;
     bool getPlayerPassed() const;
+    std::shared_ptr<PlayerSign> getSign() const;
 
     std::vector<std::shared_ptr<Card>> getCard(bool hand = true) const;
 

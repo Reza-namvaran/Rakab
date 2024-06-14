@@ -52,6 +52,8 @@ unsigned int Player::getPlayerLandsCount() const
 
 bool Player::getPlayerPassed() const { return this->passed; }
 
+std::shared_ptr<PlayerSign> Player::getSign() const { return this->sign; }
+
 std::vector<std::shared_ptr<Card>> Player::getCard(bool hand) const
 {
     if (hand)

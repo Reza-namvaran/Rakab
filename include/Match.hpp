@@ -18,6 +18,7 @@ private:
     std::shared_ptr<CardDeck> deck;
     std::shared_ptr<WarSign> warSign;
     std::shared_ptr<Special> season = nullptr;
+    std::vector<std::shared_ptr<Land>> adjacentList;
 
 public:
     Match(std::vector<std::shared_ptr<Player>> p_players);
@@ -45,6 +46,8 @@ public:
     void calculateScore();
 
     void stateWinner();
+
+    void winner(std::shared_ptr<Player> winner);
 };
 
 #endif // MATCH_H
