@@ -3,22 +3,23 @@
 
 #include <iostream>
 #include <vector>
+#include <memory>
 
 #include "Player.hpp"
 
 class Player;
 
-class Sign
-{
+class Sign {
 private:
-  std::string color;
-  Player *owner;
+    std::string color;
+    std::shared_ptr<Player> owner;
 
 public:
-  Sign();
-  Sign(const std::string &p_color);
-  void setOwner(Player *owner);
-  Player *getOwner() const;
+    Sign();
+    Sign(const std::string &p_color);
+
+    void setOwner(std::shared_ptr<Player> owner);
+    std::shared_ptr<Player> getOwner() const;
 };
 
 #endif // SIGN_H

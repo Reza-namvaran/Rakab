@@ -4,6 +4,9 @@
 #include <random>
 #include <unordered_map>
 #include <algorithm>
+#include <vector>
+#include <memory>
+
 #include "Player.hpp"
 #include "Card.hpp"
 #include "Special.hpp"
@@ -15,24 +18,21 @@
 #include "Scarecrow.hpp"
 
 class CardDeck {
-   private:
-      std::vector<Card*> deck;
-      std::unordered_map<std::string, int> card_type_count;
+private:
+    std::vector<std::shared_ptr<Card>> deck;
+    std::unordered_map<std::string, int> card_type_count;
 
-   public:
+public:
     CardDeck();
 
     ~CardDeck();
 
     void shuffleCards();
-
     void generateDeck();
 
-    std::vector<Card*> getDeck() const;
-
-    void setCardDeck(std::vector<Card*> p_deck);
-
-    void dealCard(Player* p_player);
+    std::vector<std::shared_ptr<Card>> getDeck() const;
+    void setCardDeck(std::vector<std::shared_ptr<Card>> p_deck);
+    void dealCard(std::shared_ptr<Player> p_player);
 };
 
 #endif // CARD_DECK_H

@@ -1,18 +1,18 @@
 #include "Land.hpp"
 #include "Sign.hpp"
 
-Land::Land() {}
+Land::Land() : name(""), owner(nullptr) {}
 
-Land::Land(const std::string &p_name)
-{
-  this->name = p_name;
+Land::Land(const std::string& p_name) : name(p_name), owner(nullptr) {}
+
+std::string Land::getLandName() const {
+    return name;
 }
 
-std::string Land::getLandName() const { return this->name; }
-
-
-void Land::setLandOwner(Sign* p_owner){
-  this->owner = p_owner;
+void Land::setLandOwner(std::shared_ptr<Sign> p_owner) {
+    owner = p_owner;
 }
 
-Sign* Land::getLandOwner() const{ return this->owner; }
+std::shared_ptr<Sign> Land::getLandOwner() const {
+    return owner;
+}

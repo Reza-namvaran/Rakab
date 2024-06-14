@@ -1,34 +1,36 @@
 #include "Soldier.hpp"
 
-Soldier::Soldier(const std::string p_name, const unsigned int score) : Card(p_name)
-{
-  this->setCardScore(score);
-  this->setCardDescription("This Card will add " + std::to_string(score) + " points!");
-  /// FIXME: Set a better description
+Soldier::Soldier(const std::string p_name, const unsigned int score) : Card(p_name) {
+    this->setCardScore(score);
+    this->setCardDescription("This Card will add " + std::to_string(score) + " points!");
+    /// FIXME: Set a better description
 }
 
-void Soldier::use(Player &player, IO_Interface &terminal_handler)
-{
-  int score = 0;
-  for (Card *card : player.getCard(false))
-  {
-    if (card->getCardType() == "Soldier")
-    {
-      Soldier *soldier = dynamic_cast<Soldier *>(card);
-      score += soldier->getCardScore();
+void Soldier::use(Player &player, IO_Interface &terminal_handler) {
+    int score = 0;
+    for (const auto &card : player.getCard(false)) {
+        if (card->getCardType() == "Soldier") {
+            std::shared_ptr<Soldier> soldier = std::dynamic_pointer_cast<Soldier>(card);
+            if (soldier) {
+                score += soldier->getCardScore();
+            }
+        }
     }
-  }
-  player.setPlayerScore(score);
+    player.setPlayerScore(score);
 }
 
-std::string Soldier::getCardType() const { return "Soldier"; }
-
-void Soldier::setCardScore(const unsigned int &p_score)
-{
-  if (p_score >= 1)
-    this->score = p_score;
-  else
-    this->score = 1;
+std::string Soldier::getCardType() const {
+    return "Soldier";
 }
 
-unsigned int Soldier::getCardScore() const { return this->score; }
+void Soldier::setCardScore(const unsigned int &p_score) {
+    if (p_score >= 1) {
+        this->score = p_score;
+    } else {
+        this->score = 1;
+    }
+}
+
+unsigned int Soldier::getCardScore() const {
+    return this->score;
+}

@@ -2,23 +2,25 @@
 #define LAND_H
 
 #include <iostream>
+#include <memory>
+#include <string>
 
 class Sign;
 
-class Land{
-  private:
+class Land {
+private:
     std::string name;
-    Sign* owner;
+    std::shared_ptr<Sign> owner;
 
-  public:
+public:
     Land();
     Land(const std::string& p_name);
-    
+
     std::string getLandName() const;
 
-    void setLandOwner(Sign* p_owner);
+    void setLandOwner(std::shared_ptr<Sign> p_owner);
 
-    Sign* getLandOwner() const;
+    std::shared_ptr<Sign> getLandOwner() const;
 };
 
 #endif

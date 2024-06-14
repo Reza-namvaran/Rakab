@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <memory>
 
 #include "IO_Interface.hpp"
 #include "Player.hpp"

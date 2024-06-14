@@ -1,65 +1,36 @@
 #include "Match.hpp"
 
-Match::Match(std::vector<Player> p_players) : players(p_players)
-{
-    unsigned int min_age = players[0].getPlayerAge();
+Match::Match(std::vector<std::shared_ptr<Player>> p_players) : players(p_players), deck(std::make_shared<CardDeck>()), warSign(std::make_shared<WarSign>()) {
+    unsigned int min_age = players[0]->getPlayerAge();
     int first_player = 0;
-    for (int idx = 0; idx < players.size(); ++idx)
-    {
-        if (players[idx].getPlayerAge() < min_age)
-        {
-            min_age = players[idx].getPlayerAge();
+    for (int idx = 0; idx < players.size(); ++idx) {
+        if (players[idx]->getPlayerAge() < min_age) {
+            min_age = players[idx]->getPlayerAge();
             first_player = idx;
         }
     }
-    this->warSign->setOwner(&p_players[first_player]);
+    warSign->setOwner(players[first_player]);
 }
 
-Match::~Match()
-{
-    delete deck;
-}
+Match::~Match() {}
 
-// int Match::findRoundStarter(bool first_round)
-// {
-//     if (first_round)
-//     {
-//         unsigned int min_age = players[0].getPlayerAge();
-//         int first_player = 0;
-//         for (int idx = 0; idx < players.size(); ++idx)
-//         {
-//             if (players[idx].getPlayerAge() < min_age)
-//             {
-//                 min_age = players[idx].getPlayerAge();
-//                 first_player = idx;
-//             }
-//         }
-
-//         this->terminal_handler.print(players[first_player].getPlayerName() + " shall start the game");
-//         return first_player;
-//     }
-
-//     return -1;
-// }
-
-void Match::dealCard()
-{
-    for (Player player : this->players)
-    {
-        this->deck->dealCard(&player);
+void Match::dealCard() {
+    for (auto &player : players) {
+        deck->dealCard(player);
     }
 }
 
 void Match::rechargeDeck()
 {
     int playersCount = this->players.size();
-    for (Player &player : this->players)
+    for (std::shared_ptr<Player> player : this->players)
     {
-        if (player.getCard().size() == 0)
+        if (player->getCard().size() == 0)
         {
             playersCount--;
         }
     }
+    
     if (playersCount <= 1)
     {
         this->deck->generateDeck();
@@ -68,19 +39,23 @@ void Match::rechargeDeck()
     }
 }
 
-void Match::run()
-{
-    while (this->is_match_over)
-    {
-        std::cout << "Before Shuffle: \n"
-                  << std::endl;
-        for (const auto &card : this->deck->getDeck())
-            std::cout << card->getCardType() << " " << card->getCardName() << "\n";
-        this->deck->shuffleCards();
-        std::cout << "After Shuffle: \n"
-                  << std::endl;
-        for (const auto &card : this->deck->getDeck())
-            std::cout << card->getCardType() << " " << card->getCardName() << "\n";
-        this->rechargeDeck();
+void Match::run() {
+    std::cout << "Before Shuffle: \n" << std::endl;
+    for (const auto &card : deck->getDeck()) {
+        std::cout << card->getCardType() << " " << card->getCardName() << "\n";
+    }
+
+    deck->shuffleCards();
+
+    std::cout << "After Shuffle: \n" << std::endl;
+    for (const auto &card : deck->getDeck()) {
+        std::cout << card->getCardType() << " " << card->getCardName() << "\n";
+    }
+
+    rechargeDeck();
+   
+    std::cout << players[0]->getCard(true).size() << "\n";
+    for (const auto &card : players[0]->getCard(true)) {
+        std::cout << card->getCardName() << " " << card->getCardType() << "\n";
     }
 }

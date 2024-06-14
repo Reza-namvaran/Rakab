@@ -1,53 +1,43 @@
 #include "System.hpp"
 
 System::System() {
-  /// NOTE: Seed the random number generator with the current time
-  srand(static_cast<unsigned int>(time(nullptr)));
-  this->createNewMatch();
-  runMatch(1);
+    // Seed the random number generator with the current time
+    srand(static_cast<unsigned int>(time(nullptr)));
+    this->createNewMatch();
+    runMatch(1);
 }
 
-System::~System() {
-  for(auto &match : matches)
-    delete match;
-}
+System::~System() {}
 
-std::vector<Player> System::initialize() {
-  int player_count = 0;
+std::vector<std::shared_ptr<Player>> System::initialize() {
+    int player_count = 0;
+    this->terminal_handler.print("Please enter the number of players: ");
+    this->terminal_handler.input(player_count);
 
-  this->terminal_handler.print("Please enter the number of players: ");
-  this->terminal_handler.input(player_count);
+    std::vector<std::shared_ptr<Player>> players;
 
-  std::vector<Player> players;
+    // Creating Players based on inputs
+    for (int idx = 0; idx < player_count; ++idx) {
+        std::string name;
+        unsigned int age;
 
-  // Creating Players based on inputs
-  for(int idx = 0; idx < player_count; ++idx)
-  {
-    std::string name;
-    unsigned int age;
+        this->terminal_handler.print("Please enter player " + std::to_string(idx + 1) + "'s name: ");
+        this->terminal_handler.input(name);
+        this->terminal_handler.print("Please enter player " + std::to_string(idx + 1) + "'s age: ");
+        this->terminal_handler.input(age);
 
-    this->terminal_handler.print("Please enter player" + std::to_string(idx + 1) + "'s name: ");
-    this->terminal_handler.input(name);
-    this->terminal_handler.print("Please enter player" + std::to_string(idx + 1) + "'s age: ");
-    this->terminal_handler.input(age);
+        auto new_player = std::make_shared<Player>(name, age);
+        players.emplace_back(new_player);
+    }
 
-    Player new_player(name, age);
-
-    players.emplace_back(new_player);
-  }
-
-  return players;
+    return players;
 }
 
 void System::createNewMatch() {
-  Match* new_match = new Match(this->initialize());
-  matches.emplace_back(new_match);
+    auto new_match = std::make_shared<Match>(this->initialize());
+    matches.emplace_back(new_match);
 }
 
-// void System::selectMatch(int match_id){
-  /// TODO: Implement this method
-// }
-
-void System::runMatch(int match_id){
-  this->matches[match_id - 1]->run();
+void System::runMatch(int match_id) {
+    this->matches[match_id - 1]->run();
 }

@@ -1,6 +1,7 @@
 #ifndef SPECIAL_H
 #define SPECIAL_H
 
+
 #include "Card.hpp"
 
 class Special : public Card

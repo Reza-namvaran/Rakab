@@ -3,28 +3,25 @@
 
 #include <vector>
 #include <ctime>
+#include <memory>
 
 #include "IO_Interface.hpp"
 #include "Player.hpp"
 #include "Match.hpp"
 
-class System{
-  private:
+class System {
+private:
     IO_Interface terminal_handler;
-    std::vector<Match*> matches;
-  
-  public:
-    System();
+    std::vector<std::shared_ptr<Match>> matches;
 
+public:
+    System();
     ~System();
 
     void createNewMatch();
-
-    std::vector<Player> initialize();
-
+    std::vector<std::shared_ptr<Player>> initialize();
     void selectMatch(int match_id);
-    
-    void runMatch(int match_id);     
+    void runMatch(int match_id);
 };
 
 #endif // SYSTEM_H
