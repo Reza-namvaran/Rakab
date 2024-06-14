@@ -46,6 +46,8 @@ public:
     std::shared_ptr<Card> selectCard(const std::string &p_card);
 
     void playCard(std::string cardName);
+
+    void refreshData();
 };
 
 #endif // PLAYER_H

@@ -106,3 +106,10 @@ void Player::playCard(std::string cardName)
         }
     }
 }
+
+void Player::refreshData()
+{
+    this->setPlayerPassed(false);
+    this->clearPlayedCard();
+    this->setPlayerScore(0);
+}

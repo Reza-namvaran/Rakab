@@ -18,7 +18,10 @@ private:
     std::shared_ptr<CardDeck> deck;
     std::shared_ptr<WarSign> warSign;
     std::shared_ptr<Special> season = nullptr;
+    std::vector<std::shared_ptr<Land>> lands;
     std::vector<std::vector<std::shared_ptr<Land>>> adjacentList;
+    unsigned int passCounter = 0;
+    std::shared_ptr<Player> lastPlayerPassed = nullptr;
 
 public:
     Match(std::vector<std::shared_ptr<Player>> p_players);
@@ -33,11 +36,13 @@ public:
 
     void rechargeDeck();
 
-    unsigned int passCounter() const;
+    void refreshData();
 
     unsigned int findStarterPlayer() const;
 
     void playerChoice(std::shared_ptr<Player> player);
+
+    void setWarLand();
 
     void run();
 

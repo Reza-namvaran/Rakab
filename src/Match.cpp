@@ -2,6 +2,21 @@
 
 Match::Match(std::vector<std::shared_ptr<Player>> p_players) : players(p_players), deck(std::make_shared<CardDeck>()), warSign(std::make_shared<WarSign>())
 {
+    this->lands = {
+        std::make_shared<Land>("ELINIA"),
+        std::make_shared<Land>("ROLLO"),
+        std::make_shared<Land>("TALMONE"),
+        std::make_shared<Land>("PLADACI"),
+        std::make_shared<Land>("MORINA"),
+        std::make_shared<Land>("ARMENTO"),
+        std::make_shared<Land>("LIA"),
+        std::make_shared<Land>("OLIVADI"),
+        std::make_shared<Land>("BORGE"),
+        std::make_shared<Land>("DIMASE"),
+        std::make_shared<Land>("BELLA"),
+        std::make_shared<Land>("CALINE"),
+        std::make_shared<Land>("ENNA"),
+        std::make_shared<Land>("ATELA")};
     this->adjacentList = {
         {std::make_shared<Land>("ELINIA"), std::make_shared<Land>("ROLLO"), std::make_shared<Land>("TALMONE")},
         {std::make_shared<Land>("MORINA"), std::make_shared<Land>("ROLLO"), std::make_shared<Land>("TALMONE")},
@@ -31,6 +46,7 @@ Match::Match(std::vector<std::shared_ptr<Player>> p_players) : players(p_players
         }
     }
     warSign->setOwner(players[first_player]);
+    this->setWarLand();
 }
 
 Match::~Match() {}
@@ -69,17 +85,14 @@ void Match::rechargeDeck()
     }
 }
 
-unsigned int Match::passCounter() const
+void Match::refreshData()
 {
-    int counter = 0;
+    this->passCounter = 0;
+    this->lastPlayerPassed = nullptr;
     for (std::shared_ptr<Player> player : players)
     {
-        if (player->getPlayerPassed())
-        {
-            counter++;
-        }
+        player->refreshData();
     }
-    return counter;
 }
 
 unsigned int Match::findStarterPlayer() const
@@ -115,13 +128,44 @@ void Match::playerChoice(std::shared_ptr<Player> player)
             }
         }
     }
+    else if (cardName == "pass")
+    {
+        player->setPlayerPassed(true);
+        this->passCounter++;
+        this->lastPlayerPassed = player;
+    }
     player->playCard(cardName);
+}
+
+void Match::setWarLand()
+{
+    terminal_handler.print(this->warSign->getOwner()->getPlayerName() + " choose a land for war :\n");
+    for (std::shared_ptr<Land> land : lands)
+    {
+        if (land->getLandOwner() != nullptr)
+        {
+            terminal_handler.print(land->getLandName() + " ");
+        }
+    }
+    terminal_handler.print("\n");
+    std::string landName;
+    terminal_handler.input(landName);
+    for (std::shared_ptr<Land> land : lands)
+    {
+        if (land->getLandName() == landName)
+        {
+            this->warSign->setLand(land);
+            break;
+        }
+    }
 }
 
 void Match::run()
 {
     while (!this->is_match_over)
     {
+        this->setWarLand();
+        this->refreshData();
         this->rechargeDeck();
         this->war();
     }
@@ -137,7 +181,7 @@ void Match::war()
             continue;
         this->playerChoice(players[i]);
         this->calculateScore();
-        if (i == playersSize - 1 && this->passCounter() != playersSize)
+        if (i == playersSize - 1 && this->passCounter != playersSize)
         {
             i = 0;
         }
@@ -207,6 +251,7 @@ void Match::stateWinner()
     else
     {
         terminal_handler.print("Nobody wins!\n");
+        this->warSign->setOwner(this->lastPlayerPassed);
     }
 }
 

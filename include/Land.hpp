@@ -11,7 +11,7 @@ class Player;
 class Land {
 private:
     std::string name;
-    std::shared_ptr<PlayerSign> owner;
+    std::shared_ptr<PlayerSign> owner = nullptr;
 
 public:
     Land();
