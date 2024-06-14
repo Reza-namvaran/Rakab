@@ -6,23 +6,27 @@
 #include "CardDeck.hpp"
 #include "IO_Interface.hpp"
 #include "Land.hpp"
-#include "Sign.hpp"
+#include "WarSign.hpp"
 
-class Match{
-  private:
-    IO_Interface terminal_handler;
-    std::vector<Player> players;
-    bool is_match_over = false;
-    CardDeck* deck =  new CardDeck;
+class Match
+{
+private:
+  IO_Interface terminal_handler;
+  std::vector<Player> players;
+  bool is_match_over = false;
+  CardDeck *deck = new CardDeck;
+  WarSign *warSign;
 
-  public:
-    Match(std::vector<Player> p_players);
+public:
+  Match(std::vector<Player> p_players);
 
-    ~Match();
+  ~Match();
 
-    int findRoundStarter(bool first_round);
+  // int findRoundStarter(bool first_round);
 
-    void run();
+  void dealCard();
+
+  void run();
 };
 
 #endif // MATCH_H

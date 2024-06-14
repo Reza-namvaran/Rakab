@@ -8,14 +8,17 @@
 
 class Player;
 
-class Sign{
-  private:
-    std::string color;
-    Player* owner;
+class Sign
+{
+private:
+  std::string color;
+  Player *owner;
 
-  public:
-    Sign();
-    Sign(const std::string& p_color);
+public:
+  Sign();
+  Sign(const std::string &p_color);
+  void setOwner(Player *owner);
+  Player *getOwner() const;
 };
 
 #endif // SIGN_H

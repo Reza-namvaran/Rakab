@@ -3,6 +3,8 @@
     "*.embeddedhtml": "html",
     "memory": "cpp",
     "istream": "cpp",
-    "functional": "cpp"
-  }
+    "functional": "cpp",
+    "iostream": "cpp"
+  },
+  "cSpell.words": ["WARSGIN"]
 }
