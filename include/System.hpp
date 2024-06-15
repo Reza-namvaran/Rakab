@@ -4,6 +4,7 @@
 #include <vector>
 #include <ctime>
 #include <memory>
+#include <unordered_set>
 
 #include "IO_Interface.hpp"
 #include "Player.hpp"
