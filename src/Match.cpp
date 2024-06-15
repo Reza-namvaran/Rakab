@@ -224,7 +224,7 @@ void Match::setWarLand()
     terminal_handler.print("\n");
     std::string landName;
     terminal_handler.input(landName);
-    int iterator = 0;
+    int iterator = -1;
     for (std::shared_ptr<Land> land : lands)
     {
         iterator++;
@@ -334,8 +334,8 @@ void Match::calculateScore()
 
 void Match::stateWinner()
 {
-    this->calculateScore();
-    std::shared_ptr<Player> winner;
+    std::shared_ptr<Player> winner = std::make_shared<
+        Player>("temp", 1, "test");
     for (std::shared_ptr<Player> player : players)
     {
         if (player->getPlayerScore() > winner->getPlayerScore())
@@ -357,12 +357,11 @@ void Match::stateWinner()
         this->warSign->getLand()->setLandOwner(winner->getSign());
         this->warSign->setOwner(winner);
         this->winner(winner);
-        this->setWarLand();
     }
     else
     {
-        terminal_handler.print("Nobody wins!\n");
         this->warSign->setOwner(this->lastPlayerPassed);
+        this->lands.emplace_back(this->warSign->getLand());
     }
 }
 
