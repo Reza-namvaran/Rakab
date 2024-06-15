@@ -283,6 +283,8 @@ void Match::war()
         if (players[iterator]->getCard().empty())
         {
             players[iterator]->setPlayerPassed(true);
+            this->passCounter++;
+            this->lastPlayerPassed = players[iterator];
             iterator = tempIterator;
             continue;
         }
