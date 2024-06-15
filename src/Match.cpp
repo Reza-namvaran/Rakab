@@ -50,6 +50,60 @@ Match::Match(std::vector<std::shared_ptr<Player>> p_players) : players(p_players
 
 Match::~Match() {}
 
+void Match::displayStatus() {
+    
+    /* First field of status -> players' score + played cards */
+    std::string separator(50, '-');
+
+    this->terminal_handler.print(separator);
+    this->terminal_handler.print("\n");
+
+
+    for(std::shared_ptr<Player> player : this->players)
+    {
+        this->terminal_handler.print(player->getPlayerName() + " [Score: " + std::to_string(player->getPlayerScore()) + "]");
+        
+        std::string cards = "";
+        for(std::shared_ptr<Card> card : player->getCard(false))
+        {
+            cards += card->getCardName() + " ";
+        }
+
+        this->terminal_handler.print(cards);
+
+        this->terminal_handler.print("");
+    }
+
+    this->terminal_handler.print(separator);
+
+    /* End of first field */
+
+    /* Second field of status -> Lands of each Player */
+
+    for(std::shared_ptr<Player> player : this->players)
+    {
+        this->terminal_handler.print(player->getPlayerName() + ":");
+
+        std::string player_lands = "";
+        
+        if(!player->getSign()->getLands().empty())
+        {
+            for(std::shared_ptr<Land> land : player->getSign()->getLands())
+            {
+                player_lands += land->getLandName() + " ";
+            }
+;
+            this->terminal_handler.print(player_lands);
+        }
+        else
+        {
+            this->terminal_handler.print("");
+        }
+    }
+
+    /* End of second field */
+}
+
 void Match::setSeason(std::shared_ptr<Special> season)
 {
     this->season = season;
@@ -138,7 +192,7 @@ void Match::playerChoice(std::shared_ptr<Player> player)
 
 void Match::setWarLand()
 {
-    terminal_handler.print(this->warSign->getOwner()->getPlayerName() + " choose a land for war :\n");
+    terminal_handler.print(this->warSign->getOwner()->getPlayerName() + ", You shall choose a land for war :\n");
     for (std::shared_ptr<Land> land : this->lands)
     {
         if (land->getLandOwner() == nullptr)
@@ -163,7 +217,9 @@ void Match::run()
 {
     while (!this->is_match_over)
     {
+        this->terminal_handler.clearScreen();
         this->setWarLand();
+        this->displayStatus();
         this->refreshData();
         this->rechargeDeck();
         this->war();

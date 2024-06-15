@@ -1,6 +1,8 @@
 #ifndef MATCH_H
 #define MATCH_H
 
+#include <memory>
+
 #include "Player.hpp"
 #include "Card.hpp"
 #include "CardDeck.hpp"
@@ -8,7 +10,6 @@
 #include "Land.hpp"
 #include "WarSign.hpp"
 #include "PlayerSign.hpp"
-#include <memory>
 
 class Match
 {
@@ -28,6 +29,8 @@ public:
     Match(std::vector<std::shared_ptr<Player>> p_players);
 
     ~Match();
+
+    void displayStatus();
 
     void setSeason(std::shared_ptr<Special> season);
 
