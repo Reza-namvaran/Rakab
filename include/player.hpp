@@ -21,7 +21,7 @@ private:
     std::shared_ptr<PlayerSign> sign;
 
 public:
-    Player(const std::string &p_name, const unsigned int &age);
+    Player(const std::string &p_name, const unsigned int &age, const std::string & p_color);
 
     void setPlayerName(const std::string &p_name);
     void setPlayerAge(const unsigned int &p_age);

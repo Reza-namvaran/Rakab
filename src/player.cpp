@@ -1,10 +1,9 @@
 #include "Player.hpp"
 #include "Card.hpp"
 #include "PlayerSign.hpp"
-#include <memory> // For std::shared_ptr
 
-Player::Player(const std::string &p_name, const unsigned int &p_age)
-    : name(p_name), age(p_age), total_score(0), sign(nullptr) {}
+Player::Player(const std::string &p_name, const unsigned int &p_age, const std::string &p_color)
+    : name(p_name), age(p_age), total_score(0), passed(false), sign(std::make_shared<PlayerSign>(p_color)) {}
 
 void Player::setPlayerName(const std::string &p_name)
 {
