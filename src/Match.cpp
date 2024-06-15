@@ -56,8 +56,6 @@ void Match::displayStatus() {
     std::string separator(50, '-');
 
     this->terminal_handler.print(separator);
-    this->terminal_handler.print("\n");
-
 
     for(std::shared_ptr<Player> player : this->players)
     {
@@ -95,12 +93,9 @@ void Match::displayStatus() {
 ;
             this->terminal_handler.print(player_lands);
         }
-        else
-        {
-            this->terminal_handler.print("");
-        }
     }
 
+    this->terminal_handler.print(separator);
     /* End of second field */
 }
 
@@ -163,12 +158,24 @@ unsigned int Match::findStarterPlayer() const
 
 void Match::playerChoice(std::shared_ptr<Player> player)
 {
-    terminal_handler.print(player->getPlayerName() + " Select a card to play : \n");
+    this->terminal_handler.print("The Battle is in " + this->warSign->getLand()->getLandName());
+
+    if(this->season)
+        this->terminal_handler.print("Season: " + this->season->getCardName());
+    else
+        this->terminal_handler.print("");
+    
+    std::string player_cards = "";
+
+    this->terminal_handler.print(player->getPlayerName() + "'s hand: \n");
     for (std::shared_ptr<Card> card : player->getCard())
     {
-        terminal_handler.print(card->getCardName() + " ");
+        player_cards += card->getCardName() + " ";
     }
-    terminal_handler.print("\n");
+    
+    this->terminal_handler.print(player_cards);
+
+    this->terminal_handler.print("Select a card to play: ");
     std::string cardName;
     terminal_handler.input(cardName);
     if (cardName == "Scarecrow")
@@ -219,7 +226,6 @@ void Match::run()
     {
         this->terminal_handler.clearScreen();
         this->setWarLand();
-        this->displayStatus();
         this->refreshData();
         this->rechargeDeck();
         this->war();
@@ -234,6 +240,17 @@ void Match::war()
     {
         if (players[i]->getPlayerPassed())
             continue;
+
+        this->terminal_handler.clearScreen();
+        
+        this->terminal_handler.print("Please pass the turn to " + players[i]->getPlayerName());
+        this->terminal_handler.print("Press any key");
+        char key;
+        
+        this->terminal_handler.input(key);
+        this->terminal_handler.clearScreen();
+
+        this->displayStatus();
         this->playerChoice(players[i]);
         this->calculateScore();
         if (i == playersSize - 1 && this->passCounter != playersSize)
