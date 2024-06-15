@@ -42,11 +42,7 @@ unsigned int Player::getPlayerScore() const
 
 unsigned int Player::getPlayerLandsCount() const
 {
-    if (sign)
-    {
-        return this->sign->getLands().size();
-    }
-    return 0; // If the sign is not set, return 0
+    return this->sign->getLands().size();
 }
 
 bool Player::getPlayerPassed() const { return this->passed; }
@@ -93,13 +89,14 @@ std::shared_ptr<Card> Player::selectCard(const std::string &p_card)
     return nullptr;
 }
 
-void Player::playCard(std::string cardName)
+void Player::playCard(std::string cardName, bool goToPlayed)
 {
     for (int i = 0; i < this->hand.size(); i++)
     {
         if (this->hand[i]->getCardName() == cardName)
         {
-            this->played.emplace_back(this->hand[i]);
+            if (goToPlayed)
+                this->played.emplace_back(this->hand[i]);
             this->hand.erase(this->hand.begin() + i);
             break;
         }

@@ -14,14 +14,14 @@ class Player
 private:
     std::string name;
     unsigned int age;
-    unsigned int total_score;
+    unsigned int total_score = 0;
     bool passed = false;
     std::vector<std::shared_ptr<Card>> hand;
     std::vector<std::shared_ptr<Card>> played;
     std::shared_ptr<PlayerSign> sign;
 
 public:
-    Player(const std::string &p_name, const unsigned int &age, const std::string & p_color);
+    Player(const std::string &p_name, const unsigned int &age, const std::string &p_color);
 
     void setPlayerName(const std::string &p_name);
     void setPlayerAge(const unsigned int &p_age);
@@ -45,7 +45,7 @@ public:
 
     std::shared_ptr<Card> selectCard(const std::string &p_card);
 
-    void playCard(std::string cardName);
+    void playCard(std::string cardName, bool goToPlayed = true);
 
     void refreshData();
 };

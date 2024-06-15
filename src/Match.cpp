@@ -50,19 +50,20 @@ Match::Match(std::vector<std::shared_ptr<Player>> p_players) : players(p_players
 
 Match::~Match() {}
 
-void Match::displayStatus() {
-    
+void Match::displayStatus()
+{
+
     /* First field of status -> players' score + played cards */
     std::string separator(50, '-');
 
     this->terminal_handler.print(separator);
 
-    for(std::shared_ptr<Player> player : this->players)
+    for (std::shared_ptr<Player> player : this->players)
     {
         this->terminal_handler.print(player->getPlayerName() + " [Score: " + std::to_string(player->getPlayerScore()) + "]");
-        
+
         std::string cards = "";
-        for(std::shared_ptr<Card> card : player->getCard(false))
+        for (std::shared_ptr<Card> card : player->getCard(false))
         {
             cards += card->getCardName() + " ";
         }
@@ -78,19 +79,18 @@ void Match::displayStatus() {
 
     /* Second field of status -> Lands of each Player */
 
-    for(std::shared_ptr<Player> player : this->players)
+    for (std::shared_ptr<Player> player : this->players)
     {
         this->terminal_handler.print(player->getPlayerName() + ":");
 
         std::string player_lands = "";
-        
-        if(!player->getSign()->getLands().empty())
+
+        if (!player->getSign()->getLands().empty())
         {
-            for(std::shared_ptr<Land> land : player->getSign()->getLands())
+            for (std::shared_ptr<Land> land : player->getSign()->getLands())
             {
                 player_lands += land->getLandName() + " ";
-            }
-;
+            };
             this->terminal_handler.print(player_lands);
         }
     }
@@ -160,11 +160,11 @@ void Match::playerChoice(std::shared_ptr<Player> player)
 {
     this->terminal_handler.print("The Battle is in " + this->warSign->getLand()->getLandName());
 
-    if(this->season)
+    if (this->season)
         this->terminal_handler.print("Season: " + this->season->getCardName());
     else
         this->terminal_handler.print("");
-    
+
     std::string player_cards = "";
 
     this->terminal_handler.print(player->getPlayerName() + "'s hand: \n");
@@ -172,7 +172,7 @@ void Match::playerChoice(std::shared_ptr<Player> player)
     {
         player_cards += card->getCardName() + " ";
     }
-    
+
     this->terminal_handler.print(player_cards);
 
     this->terminal_handler.print("Select a card to play: ");
@@ -185,14 +185,28 @@ void Match::playerChoice(std::shared_ptr<Player> player)
             if (card->getCardName() == cardName)
             {
                 card->use(player, terminal_handler);
+                break;
             }
         }
+    }
+    else if (cardName == "Winter" || cardName == "Spring")
+    {
+        for (std::shared_ptr<Card> card : player->getCard())
+        {
+            if (card->getCardName() == cardName)
+            {
+                this->setSeason(std::dynamic_pointer_cast<Special>(card));
+                break;
+            }
+        }
+        player->playCard(cardName, false);
     }
     else if (cardName == "pass")
     {
         player->setPlayerPassed(true);
         this->passCounter++;
         this->lastPlayerPassed = player;
+        return;
     }
     player->playCard(cardName);
 }
@@ -210,11 +224,14 @@ void Match::setWarLand()
     terminal_handler.print("\n");
     std::string landName;
     terminal_handler.input(landName);
+    int iterator = 0;
     for (std::shared_ptr<Land> land : lands)
     {
+        iterator++;
         if (land->getLandName() == landName)
         {
             this->warSign->setLand(land);
+            this->lands.erase(this->lands.begin() + iterator);
             break;
         }
     }
@@ -242,18 +259,22 @@ void Match::war()
             continue;
 
         this->terminal_handler.clearScreen();
-        
+
         this->terminal_handler.print("Please pass the turn to " + players[i]->getPlayerName());
         this->terminal_handler.print("Press any key");
         char key;
-        
+
         this->terminal_handler.input(key);
         this->terminal_handler.clearScreen();
 
         this->displayStatus();
         this->playerChoice(players[i]);
         this->calculateScore();
-        if (i == playersSize - 1 && this->passCounter != playersSize)
+        if (this->passCounter == playersSize)
+        {
+            break;
+        }
+        else if (i == playersSize - 1)
         {
             i = -1;
         }
@@ -265,19 +286,25 @@ void Match::calculateScore()
 {
     for (std::shared_ptr<Player> player : players)
     {
-        for (std::shared_ptr<Card> card : player->getCard(false))
+        std::vector<std::shared_ptr<Card>> playedCards = player->getCard(false);
+        player->setPlayerScore(0);
+        for (std::shared_ptr<Card> card : playedCards)
         {
             if (card->getCardType() == "Soldier")
             {
                 card->use(player, terminal_handler);
             }
         }
-        if (this->getSeason() != nullptr && this->getSeason()->getCardName() == "Winter")
-        {
-            std::shared_ptr<Winter> winter = std::dynamic_pointer_cast<Winter>(season);
-            winter->use(players, terminal_handler);
-        }
-        for (std::shared_ptr<Card> card : player->getCard(false))
+    }
+    if (this->getSeason() != nullptr && this->getSeason()->getCardName() == "Winter")
+    {
+        std::shared_ptr<Winter> winter = std::dynamic_pointer_cast<Winter>(season);
+        winter->use(players, terminal_handler);
+    }
+    for (std::shared_ptr<Player> player : players)
+    {
+        std::vector<std::shared_ptr<Card>> playedCards = player->getCard(false);
+        for (std::shared_ptr<Card> card : playedCards)
         {
             if (card->getCardName() == "Drummer")
             {
@@ -285,10 +312,22 @@ void Match::calculateScore()
                 break;
             }
         }
-        if (this->getSeason() != nullptr && this->getSeason()->getCardName() == "Spring")
+    }
+    if (this->getSeason() != nullptr && this->getSeason()->getCardName() == "Spring")
+    {
+        std::shared_ptr<Spring> spring = std::dynamic_pointer_cast<Spring>(season);
+        spring->use(players, terminal_handler);
+    }
+    for (std::shared_ptr<Player> player : players)
+    {
+        std::vector<std::shared_ptr<Card>> playedCards = player->getCard(false);
+        for (std::shared_ptr<Card> card : playedCards)
         {
-            std::shared_ptr<Spring> spring = std::dynamic_pointer_cast<Spring>(season);
-            spring->use(players, terminal_handler);
+            if (card->getCardName() == "Heroine")
+            {
+                card->use(player, terminal_handler);
+                break;
+            }
         }
     }
 }
@@ -297,12 +336,11 @@ void Match::stateWinner()
 {
     this->calculateScore();
     std::shared_ptr<Player> winner;
-    winner->setPlayerScore(0);
     for (std::shared_ptr<Player> player : players)
     {
         if (player->getPlayerScore() > winner->getPlayerScore())
         {
-            winner->setPlayerScore(player->getPlayerScore());
+            winner = player;
         }
     }
     int maxCounter = 0;
@@ -333,13 +371,17 @@ void Match::winner(std::shared_ptr<Player> winner)
     if (winner->getPlayerLandsCount() == 5)
     {
         this->is_match_over = true;
+        return;
     }
-    int counter;
-    for (std::vector<std::shared_ptr<Land>> list : this->adjacentList)
+    if (winner->getPlayerLandsCount() >= 3)
     {
-        if (list[0]->getLandOwner()->getPlayerName() == list[1]->getLandOwner()->getPlayerName() && list[0]->getLandOwner()->getPlayerName() == list[2]->getLandOwner()->getPlayerName())
+        for (std::vector<std::shared_ptr<Land>> list : this->adjacentList)
         {
-            this->is_match_over = true;
+            if (list[0]->getLandOwner()->getPlayerName() == list[1]->getLandOwner()->getPlayerName() && list[0]->getLandOwner()->getPlayerName() == list[2]->getLandOwner()->getPlayerName())
+            {
+                this->is_match_over = true;
+                return;
+            }
         }
     }
 }
