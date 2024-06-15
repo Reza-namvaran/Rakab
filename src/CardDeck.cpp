@@ -13,7 +13,7 @@ void CardDeck::generateDeck()
         {"Four", std::make_pair(8, 4)},
         {"Five", std::make_pair(8, 5)},
         {"Six", std::make_pair(8, 6)},
-        {"Ten", std::make_pair(8, 10)},
+        {"Ten", std::make_pair(10, 10)},
         {"Heroine", std::make_pair(3, 0)},
         {"Winter", std::make_pair(3, 0)},
         {"Spring", std::make_pair(3, 0)},
