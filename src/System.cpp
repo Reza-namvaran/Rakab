@@ -22,10 +22,12 @@ std::vector<std::shared_ptr<Player>> System::initialize() {
             if (player_count <= 0) {
                 throw std::invalid_argument("Number of players must be a positive integer.");
             }
-            break;  // If conversion is successful, break out of the loop
-        } catch (const std::invalid_argument&) {
+            break;
+        } 
+        catch (const std::invalid_argument&) {
             this->terminal_handler.print("Invalid input. Please enter a positive integer.");
-        } catch (const std::out_of_range&) {
+        } 
+        catch (const std::out_of_range&) {
             this->terminal_handler.print("Input is out of range. Please enter a smaller number.");
         }
     }
@@ -54,10 +56,12 @@ std::vector<std::shared_ptr<Player>> System::initialize() {
                     throw std::invalid_argument("Age must be a non-negative integer.");
                 }
                 age = static_cast<unsigned int>(temp_age);
-                break;  // If conversion is successful and age is non-negative, break out of the loop
-            } catch (const std::invalid_argument&) {
+                break;
+            } 
+            catch (const std::invalid_argument&) {
                 this->terminal_handler.print("Invalid input. Please enter a non-negative integer.");
-            } catch (const std::out_of_range&) {
+            } 
+            catch (const std::out_of_range&) {
                 this->terminal_handler.print("Input is out of range. Please enter a smaller number.");
             }
         }

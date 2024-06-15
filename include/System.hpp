@@ -22,7 +22,6 @@ public:
 
     void createNewMatch();
     std::vector<std::shared_ptr<Player>> initialize();
-    void selectMatch(int match_id);
     void runMatch(int match_id);
 };
 
