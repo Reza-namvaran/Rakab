@@ -348,7 +348,6 @@ void Match::calculateScore()
             if (card->getCardName() == "Heroine")
             {
                 card->use(player, terminal_handler);
-                break;
             }
         }
     }

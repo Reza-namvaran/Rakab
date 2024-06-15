@@ -58,7 +58,7 @@ void CardDeck::setCardDeck(std::vector<std::shared_ptr<Card>> p_deck)
 
 void CardDeck::dealCard(std::shared_ptr<Player> p_player)
 {
-    int count = 10;
+    int count = 10 + p_player->getPlayerLandsCount();
     std::vector<std::shared_ptr<Card>> cards;
     for (int i = 0; i < count; i++)
     {
