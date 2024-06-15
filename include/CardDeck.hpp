@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <vector>
 #include <memory>
+#include <utility>
 
 #include "Player.hpp"
 #include "Card.hpp"
@@ -17,10 +18,11 @@
 #include "Drummer.hpp"
 #include "Scarecrow.hpp"
 
-class CardDeck {
+class CardDeck
+{
 private:
     std::vector<std::shared_ptr<Card>> deck;
-    std::unordered_map<std::string, int> card_type_count;
+    std::unordered_map<std::string, std::pair<int, int>> card_type_count;
 
 public:
     CardDeck();
