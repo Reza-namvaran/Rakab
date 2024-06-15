@@ -137,6 +137,7 @@ void Match::refreshData()
 {
     this->passCounter = 0;
     this->lastPlayerPassed = nullptr;
+    this->season = nullptr;
     for (std::shared_ptr<Player> player : players)
     {
         player->refreshData();
