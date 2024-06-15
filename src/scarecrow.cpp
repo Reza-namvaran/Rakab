@@ -5,6 +5,7 @@ Scarecrow::Scarecrow(const std::string p_name) : Special("Scarecrow") {}
 void Scarecrow::use(std::shared_ptr<Player> player, IO_Interface &terminal_handler)
 {
     std::vector<std::shared_ptr<Card>> playedCards = player->getCard(false);
+    bool exists = false;
     if (!playedCards.empty())
     {
         terminal_handler.print("Choose one of these cards to back into your hand: \n");
@@ -12,8 +13,13 @@ void Scarecrow::use(std::shared_ptr<Player> player, IO_Interface &terminal_handl
         {
             if (card->getCardType() == "Soldier")
             {
+                exists = true;
                 terminal_handler.print(card->getCardName() + " ");
             }
+        }
+        if (!exists)
+        {
+            return;
         }
         terminal_handler.print("\n");
         int flag = 2;

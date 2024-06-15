@@ -39,8 +39,18 @@ Match::Match(std::vector<std::shared_ptr<Player>> p_players) : players(p_players
     int first_player = 0;
     for (int idx = 0; idx < players.size(); ++idx)
     {
-        if (players[idx]->getPlayerAge() < min_age)
+        if (players[idx]->getPlayerAge() <= min_age)
         {
+            if (players[idx]->getPlayerAge() == min_age)
+            {
+                int random = rand() % 2;
+                if (random)
+                {
+                    min_age = players[idx]->getPlayerAge();
+                    first_player = idx;
+                }
+                continue;
+            }
             min_age = players[idx]->getPlayerAge();
             first_player = idx;
         }
@@ -281,6 +291,14 @@ void Match::war()
             iterator = tempIterator;
             continue;
         }
+        if (players[iterator]->getCard().empty())
+        {
+            players[iterator]->setPlayerPassed(true);
+            this->passCounter++;
+            this->lastPlayerPassed = players[iterator];
+            iterator = tempIterator;
+            continue;
+        }
 
         this->terminal_handler.clearScreen();
 
@@ -343,7 +361,6 @@ void Match::calculateScore()
             if (card->getCardName() == "Heroine")
             {
                 card->use(player, terminal_handler);
-                break;
             }
         }
     }
