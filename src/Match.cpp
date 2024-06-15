@@ -304,9 +304,8 @@ void Match::war()
 
         this->terminal_handler.print("Please pass the turn to " + players[iterator]->getPlayerName());
         this->terminal_handler.print("Press any key");
-        char key;
 
-        this->terminal_handler.input(key);
+        this->terminal_handler.onClickInput();
         this->terminal_handler.clearScreen();
 
         this->displayStatus();

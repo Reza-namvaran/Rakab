@@ -3,6 +3,14 @@
 
 #include <iostream>
 
+#ifdef _WIN32
+  #include <conio.h>
+
+#else
+  #include <ncurses>
+
+#endif
+
 class IO_Interface{
   public:
     IO_Interface();
@@ -15,10 +23,13 @@ class IO_Interface{
       std::cout << p_data << "\n";
     }
 
+    /// NOTE: the on_click flag is used for when we don't need to press Enter for inputs
     template <typename T>
     void input(T& p_data){
       std::cin >> p_data;
     }
+
+    void onClickInput() const;
 
     void clearScreen() const;
 };
