@@ -60,8 +60,16 @@ void Match::displayStatus()
 
     for (std::shared_ptr<Player> player : this->players)
     {
-        this->terminal_handler.print(player->getPlayerName() + " [Score: " + std::to_string(player->getPlayerScore()) + "]");
+        if(!player->getPlayerPassed())
+        {
+            this->terminal_handler.print(player->getPlayerName() + " [Score: " + std::to_string(player->getPlayerScore()) + "]");
+        }
 
+        else
+        {
+            this->terminal_handler.print(player->getPlayerName() + " [Score: " + std::to_string(player->getPlayerScore()) + "]" + " Passed this turn");
+        }
+        
         std::string cards = "";
         for (std::shared_ptr<Card> card : player->getCard(false))
         {
@@ -106,7 +114,7 @@ void Match::setSeason(std::shared_ptr<Special> season)
 
 std::shared_ptr<Special> Match::getSeason() const { return this->season; }
 
-void Match::dealCard()
+void Match::dealCardsToPlayers()
 {
     for (auto &player : players)
     {
@@ -129,7 +137,7 @@ void Match::rechargeDeck()
     {
         this->deck->generateDeck();
         this->deck->shuffleCards();
-        this->dealCard();
+        this->dealCardsToPlayers();
     }
 }
 
@@ -140,7 +148,7 @@ void Match::refreshData()
     this->season = nullptr;
     for (std::shared_ptr<Player> player : players)
     {
-        player->refreshData();
+        player->resetPlayerData();
     }
 }
 
@@ -164,7 +172,7 @@ void Match::playerChoice(std::shared_ptr<Player> player)
     if (this->season)
         this->terminal_handler.print("Season: " + this->season->getCardName());
     else
-        this->terminal_handler.print("");
+        this->terminal_handler.print("Season: ---");
 
     std::string player_cards = "";
 
@@ -215,14 +223,17 @@ void Match::playerChoice(std::shared_ptr<Player> player)
 void Match::setWarLand()
 {
     terminal_handler.print(this->warSign->getOwner()->getPlayerName() + ", You shall choose a land for war :\n");
+    std::string remaining_lands = "";
     for (std::shared_ptr<Land> land : this->lands)
     {
         if (land->getLandOwner() == nullptr)
         {
-            terminal_handler.print(land->getLandName() + " ");
+           remaining_lands += land->getLandName() + " ";
         }
     }
-    terminal_handler.print("\n");
+
+    terminal_handler.print(remaining_lands);
+    terminal_handler.print("");
     std::string landName;
     terminal_handler.input(landName);
     int iterator = -1;
@@ -362,7 +373,7 @@ void Match::stateWinner()
         winner->addLand(this->warSign->getLand());
         this->warSign->getLand()->setLandOwner(winner->getSign());
         this->warSign->setOwner(winner);
-        this->winner(winner);
+        this->gameWinner(winner);
     }
     else
     {
@@ -371,19 +382,22 @@ void Match::stateWinner()
     }
 }
 
-void Match::winner(std::shared_ptr<Player> winner)
+/// TODO: Decide on making it return bool instead of void
+void Match::gameWinner(std::shared_ptr<Player> p_winner)
 {
-    if (winner->getPlayerLandsCount() == 5)
+    if (p_winner->getPlayerLandsCount() == 5)
     {
+        this->terminal_handler.print(p_winner->getPlayerName() + ", has won!");
         this->is_match_over = true;
         return;
     }
-    if (winner->getPlayerLandsCount() >= 3)
+    if (p_winner->getPlayerLandsCount() >= 3)
     {
         for (std::vector<std::shared_ptr<Land>> list : this->adjacentList)
         {
             if (list[0]->getLandOwner()->getPlayerName() == list[1]->getLandOwner()->getPlayerName() && list[0]->getLandOwner()->getPlayerName() == list[2]->getLandOwner()->getPlayerName())
             {
+                this->terminal_handler.print(p_winner->getPlayerName() + ", has won!");
                 this->is_match_over = true;
                 return;
             }

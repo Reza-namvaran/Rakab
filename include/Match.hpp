@@ -36,7 +36,7 @@ public:
 
     std::shared_ptr<Special> getSeason() const;
 
-    void dealCard();
+    void dealCardsToPlayers();
 
     void rechargeDeck();
 
@@ -56,7 +56,7 @@ public:
 
     void stateWinner();
 
-    void winner(std::shared_ptr<Player> winner);
+    void gameWinner(std::shared_ptr<Player> winner);
 };
 
 #endif // MATCH_H

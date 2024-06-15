@@ -103,7 +103,7 @@ void Player::playCard(std::string cardName, bool goToPlayed)
     }
 }
 
-void Player::refreshData()
+void Player::resetPlayerData()
 {
     this->setPlayerPassed(false);
     this->clearPlayedCard();

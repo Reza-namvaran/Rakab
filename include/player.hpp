@@ -47,7 +47,7 @@ public:
 
     void playCard(std::string cardName, bool goToPlayed = true);
 
-    void refreshData();
+    void resetPlayerData();
 };
 
 #endif // PLAYER_H
