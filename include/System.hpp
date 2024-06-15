@@ -5,6 +5,7 @@
 #include <ctime>
 #include <memory>
 #include <unordered_set>
+#include <stdexcept>
 
 #include "IO_Interface.hpp"
 #include "Player.hpp"
