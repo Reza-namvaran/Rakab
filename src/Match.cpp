@@ -252,16 +252,28 @@ void Match::run()
 
 void Match::war()
 {
-    int i = this->findStarterPlayer();
+    int iterator = this->findStarterPlayer();
     int playersSize = players.size();
-    for (i; i < playersSize; i++)
+    for (iterator; iterator < playersSize; iterator++)
     {
-        if (players[i]->getPlayerPassed())
+        int tempIterator = iterator;
+        if (this->passCounter == playersSize)
+        {
+            break;
+        }
+        else if (iterator == playersSize - 1)
+        {
+            tempIterator = -1;
+        }
+        if (players[iterator]->getPlayerPassed())
+        {
+            iterator = tempIterator;
             continue;
+        }
 
         this->terminal_handler.clearScreen();
 
-        this->terminal_handler.print("Please pass the turn to " + players[i]->getPlayerName());
+        this->terminal_handler.print("Please pass the turn to " + players[iterator]->getPlayerName());
         this->terminal_handler.print("Press any key");
         char key;
 
@@ -269,16 +281,9 @@ void Match::war()
         this->terminal_handler.clearScreen();
 
         this->displayStatus();
-        this->playerChoice(players[i]);
+        this->playerChoice(players[iterator]);
         this->calculateScore();
-        if (this->passCounter == playersSize)
-        {
-            break;
-        }
-        else if (i == playersSize - 1)
-        {
-            i = -1;
-        }
+        iterator = tempIterator;
     }
     this->stateWinner();
 }
