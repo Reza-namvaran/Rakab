@@ -18,9 +18,9 @@ class IO_Interface{
     template <typename T>
     void input(T& p_data){
       std::cin >> p_data;
-
-      /// IMPORTANT: Decide on using getline()
     }
+
+    void clearScreen() const;
 };
 
 #endif // IO_INTERFACE_H
