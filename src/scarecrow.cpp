@@ -14,19 +14,19 @@ void Scarecrow::use(std::shared_ptr<Player> player, IO_Interface &terminal_handl
             if (card->getCardType() == "Soldier")
             {
                 exists = true;
-                terminal_handler.print(card->getCardName() + " ");
+                terminal_handler.print(card->getCardName(), false);
             }
         }
+        terminal_handler.print("");
         if (!exists)
         {
             return;
         }
-        terminal_handler.print("\n");
         int flag = 2;
         do
         {
             if (flag != 2)
-                terminal_handler.print("Invalid choice! Please try again...\n");
+                terminal_handler.print("Invalid choice! Please try again...");
             flag = 1;
             std::string cardName;
             terminal_handler.input(cardName);

@@ -66,23 +66,21 @@ std::vector<std::shared_ptr<Player>> System::initialize() {
             }
         }
 
-        std::string colors = "";
-        for (auto& sign : player_signs) {
-            colors += sign + " ";
+        for(const auto& color : player_signs)
+        {
+            this->terminal_handler.print(color, false);
         }
-
-        this->terminal_handler.print(colors);
 
         std::string player_color;
         while (true) {
-            this->terminal_handler.print("Player" + std::to_string(idx + 1) + ", Please pick a sign to play: ");
+            this->terminal_handler.print("\nPlayer" + std::to_string(idx + 1) + ", Please pick a sign to play: ");
             this->terminal_handler.input(player_color);
 
             if (player_signs.find(player_color) != player_signs.end()) {
                 // The color sign is available
                 break;
             } else {
-                this->terminal_handler.print("Invalid color sign. Please choose from the available signs.");
+                this->terminal_handler.print("\nInvalid color sign. Please choose from the available signs.");
             }
         }
 

@@ -2,6 +2,7 @@
 #define MATCH_H
 
 #include <memory>
+#include <unordered_set>
 
 #include "Player.hpp"
 #include "Card.hpp"

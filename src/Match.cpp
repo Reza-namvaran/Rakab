@@ -184,19 +184,32 @@ void Match::playerChoice(std::shared_ptr<Player> player)
     else
         this->terminal_handler.print("Season: ---");
 
-    std::string player_cards = "";
+    std::unordered_set<std::string> player_cards;
 
     this->terminal_handler.print(player->getPlayerName() + "'s hand: \n");
     for (std::shared_ptr<Card> card : player->getCard())
     {
-        player_cards += card->getCardName() + " ";
+        player_cards.emplace(card->getCardName());
     }
 
-    this->terminal_handler.print(player_cards);
+    for(const auto& card : player_cards)
+    {
+        terminal_handler.print(card, false);
+    }
 
-    this->terminal_handler.print("Select a card to play: ");
+    this->terminal_handler.print("\nSelect a card to play: ");
     std::string cardName;
-    terminal_handler.input(cardName);
+
+    while(true){
+        this->terminal_handler.input(cardName);
+
+        if(player_cards.find(cardName) != player_cards.end() || cardName == "pass" || cardName == "help")
+        {
+            break;
+        }
+        this->terminal_handler.print("\nInvalid card! Please select an available card to play.");
+    }    
+
     if (cardName == "Scarecrow")
     {
         for (std::shared_ptr<Card> card : player->getCard())
@@ -233,19 +246,33 @@ void Match::playerChoice(std::shared_ptr<Player> player)
 void Match::setWarLand()
 {
     terminal_handler.print(this->warSign->getOwner()->getPlayerName() + ", You shall choose a land for war :\n");
-    std::string remaining_lands = "";
+    std::unordered_set<std::string> remaining_lands;
     for (std::shared_ptr<Land> land : this->lands)
     {
         if (land->getLandOwner() == nullptr)
         {
-           remaining_lands += land->getLandName() + " ";
+           remaining_lands.emplace(land->getLandName());
         }
     }
 
-    terminal_handler.print(remaining_lands);
+    for(const auto& land : remaining_lands)
+    {
+        terminal_handler.print(land, false);
+    }
+
     terminal_handler.print("");
     std::string landName;
-    terminal_handler.input(landName);
+
+    while(true){
+        terminal_handler.input(landName);
+
+        if(remaining_lands.find(landName) != remaining_lands.end())
+        {
+            break;
+        }
+        terminal_handler.print("\nInvalid Land! Please select one of available lands.");
+    }
+
     int iterator = -1;
     for (std::shared_ptr<Land> land : lands)
     {
