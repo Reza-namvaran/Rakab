@@ -19,8 +19,11 @@ class IO_Interface{
 
     /// NOTE: using template functions to avoid code repetition 
     template <typename T>
-    void print(const T& p_data){
-      std::cout << p_data << "\n";
+    void print(const T& p_data, const bool& new_line = true){
+      if(new_line)
+        std::cout << p_data << "\n";
+      else
+        std::cout << p_data << " ";
     }
 
     template <typename T>
