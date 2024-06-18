@@ -17,25 +17,25 @@ Match::Match(std::vector<std::shared_ptr<Player>> p_players) : players(p_players
         std::make_shared<Land>("CALINE"),
         std::make_shared<Land>("ENNA"),
         std::make_shared<Land>("ATELA")};
-        /// fix this
     this->adjacentList = {
-        {std::make_shared<Land>("ELINIA"), std::make_shared<Land>("ROLLO"), std::make_shared<Land>("TALMONE")},
-        {std::make_shared<Land>("MORINA"), std::make_shared<Land>("ROLLO"), std::make_shared<Land>("TALMONE")},
-        {std::make_shared<Land>("MORINA"), std::make_shared<Land>("ARMENTO"), std::make_shared<Land>("TALMONE")},
-        {std::make_shared<Land>("MORINA"), std::make_shared<Land>("ARMENTO"), std::make_shared<Land>("OLIVADI")},
-        {std::make_shared<Land>("ARMENTO"), std::make_shared<Land>("LIA"), std::make_shared<Land>("OLIVADI")},
-        {std::make_shared<Land>("MORINA"), std::make_shared<Land>("BORGE"), std::make_shared<Land>("PLADACI")},
-        {std::make_shared<Land>("BORGE"), std::make_shared<Land>("DIMASE"), std::make_shared<Land>("OLIVADI")},
-        {std::make_shared<Land>("ATELA"), std::make_shared<Land>("ENNA"), std::make_shared<Land>("DIMASE")},
-        {std::make_shared<Land>("ENNA"), std::make_shared<Land>("BORGE"), std::make_shared<Land>("CALINE")},
-        {std::make_shared<Land>("CALINE"), std::make_shared<Land>("BORGE"), std::make_shared<Land>("BELLA")},
-        {std::make_shared<Land>("PLADACI"), std::make_shared<Land>("BELLA"), std::make_shared<Land>("CALINE")},
-        {std::make_shared<Land>("CALINE"), std::make_shared<Land>("ENNA"), std::make_shared<Land>("ATELA")},
-        {std::make_shared<Land>("BELLA"), std::make_shared<Land>("PLADACI"), std::make_shared<Land>("BORGE")},
-        {std::make_shared<Land>("ROLLO"), std::make_shared<Land>("PLADACI"), std::make_shared<Land>("MORINA")},
-        {std::make_shared<Land>("MORINA"), std::make_shared<Land>("BORGE"), std::make_shared<Land>("OLIVADI")},
-        {std::make_shared<Land>("CALINE"), std::make_shared<Land>("BORGE"), std::make_shared<Land>("PLADACI")},
-        {std::make_shared<Land>("ENNA"), std::make_shared<Land>("BORGE"), std::make_shared<Land>("DIMASE")}};
+        {this->lands[0], this->lands[1], this->lands[2]},
+        {this->lands[4], this->lands[1], this->lands[2]},
+        {this->lands[4], this->lands[5], this->lands[2]},
+        {this->lands[4], this->lands[5], this->lands[7]},
+        {this->lands[5], this->lands[6], this->lands[7]},
+        {this->lands[4], this->lands[8], this->lands[3]},
+        {this->lands[8], this->lands[9], this->lands[7]},
+        {this->lands[13], this->lands[12], this->lands[9]},
+        {this->lands[12], this->lands[8], this->lands[11]},
+        {this->lands[11], this->lands[8], this->lands[10]},
+        {this->lands[3], this->lands[10], this->lands[11]},
+        {this->lands[11], this->lands[12], this->lands[13]},
+        {this->lands[10], this->lands[3], this->lands[8]},
+        {this->lands[1], this->lands[3], this->lands[4]},
+        {this->lands[4], this->lands[8], this->lands[7]},
+        {this->lands[11], this->lands[8], this->lands[3]},
+        {this->lands[12], this->lands[8], this->lands[9]}};
+        
     unsigned int min_age = players[0]->getPlayerAge();
     int first_player = 0;
     for (int idx = 0; idx < players.size(); ++idx)
