@@ -17,6 +17,7 @@ set(PROJECT_SOURCES
     Spring.cpp
     Heroine.cpp
     CardDeck.cpp
+    GameGuide.cpp
 )
 
 add_executable(Rakab
