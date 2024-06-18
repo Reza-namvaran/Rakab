@@ -2,8 +2,6 @@
 
 Soldier::Soldier(const std::string p_name, const unsigned int score) : Card(p_name) {
     this->setCardScore(score);
-    this->setCardDescription("This Card will add " + std::to_string(score) + " points!");
-    /// FIXME: Set a better description
 }
 
 void Soldier::use(std::shared_ptr<Player> player, IO_Interface &terminal_handler) {

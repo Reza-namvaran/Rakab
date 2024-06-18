@@ -14,7 +14,6 @@ class Card
 {
 protected:
   std::string name;
-  std::string description;
 
 public:
   Card(const std::string p_name);
@@ -27,9 +26,6 @@ public:
 
   std::string getCardName() const;
 
-  void setCardDescription(std::string description);
-
-  std::string getCardDescription() const;
 };
 
 #endif

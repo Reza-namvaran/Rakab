@@ -17,6 +17,7 @@ Match::Match(std::vector<std::shared_ptr<Player>> p_players) : players(p_players
         std::make_shared<Land>("CALINE"),
         std::make_shared<Land>("ENNA"),
         std::make_shared<Land>("ATELA")};
+        /// fix this
     this->adjacentList = {
         {std::make_shared<Land>("ELINIA"), std::make_shared<Land>("ROLLO"), std::make_shared<Land>("TALMONE")},
         {std::make_shared<Land>("MORINA"), std::make_shared<Land>("ROLLO"), std::make_shared<Land>("TALMONE")},
@@ -201,13 +202,20 @@ void Match::playerChoice(std::shared_ptr<Player> player)
     std::string cardName;
 
     while(true){
-        this->terminal_handler.input(cardName);
+        this->terminal_handler.input(cardName); 
 
-        if(player_cards.find(cardName) != player_cards.end() || cardName == "pass" || cardName == "help")
+        if(player_cards.find(cardName) != player_cards.end() || cardName == "pass")
         {
             break;
         }
-        this->terminal_handler.print("\nInvalid card! Please select an available card to play.");
+        else if(cardName == "help")
+        {
+            /// TODO: impelemnt a logic here
+        }
+        else
+        {
+            this->terminal_handler.print("\nInvalid card! Please select an available card to play.");
+        }
     }    
 
     if (cardName == "Scarecrow")
@@ -394,8 +402,7 @@ void Match::calculateScore()
 
 void Match::stateWinner()
 {
-    std::shared_ptr<Player> winner = std::make_shared<
-        Player>("temp", 1, "test");
+    std::shared_ptr<Player> winner = std::make_shared<Player>("temp", 1, "test");
     for (std::shared_ptr<Player> player : players)
     {
         if (player->getPlayerScore() > winner->getPlayerScore())
@@ -438,9 +445,8 @@ void Match::gameWinner(std::shared_ptr<Player> p_winner)
     {
         for (std::vector<std::shared_ptr<Land>> list : this->adjacentList)
         {
-            if (list[0]->getLandOwner()->getPlayerName() == list[1]->getLandOwner()->getPlayerName() && list[0]->getLandOwner()->getPlayerName() == list[2]->getLandOwner()->getPlayerName())
+            if (list[0]->getLandOwner()->getPlayerName() == p_winner->getPlayerName() && list[1]->getLandOwner()->getPlayerName() == p_winner->getPlayerName() && list[2]->getLandOwner()->getPlayerName() == p_winner->getPlayerName())
             {
-                this->terminal_handler.print(p_winner->getPlayerName() + ", has won!");
                 this->is_match_over = true;
                 return;
             }
