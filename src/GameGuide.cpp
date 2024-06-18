@@ -11,3 +11,5 @@ void GameGuide::getCardInfo(const std::string& card_name){
   this->terminal_handler.print("press any key to continue");
   this->terminal_handler.onClickInput();
 }
+
+std::unordered_map<std::string, std::string> GameGuide::getDescriptions() const { return this->cards_description; }

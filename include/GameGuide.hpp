@@ -37,6 +37,10 @@ class GameGuide {
 
     /// TODO: is_valid_input()
 
+    /// TODO: Implement getGameRules()
+
+    std::unordered_map<std::string, std::string> getDescriptions() const;
+
     void getCardInfo(const std::string& card_name);
 
     std::unordered_set<std::string> getCommands() const;
