@@ -35,7 +35,7 @@ Match::Match(std::vector<std::shared_ptr<Player>> p_players) : players(p_players
         {this->lands[4], this->lands[8], this->lands[7]},
         {this->lands[11], this->lands[8], this->lands[3]},
         {this->lands[12], this->lands[8], this->lands[9]}};
-        
+
     unsigned int min_age = players[0]->getPlayerAge();
     int first_player = 0;
     for (int idx = 0; idx < players.size(); ++idx)
@@ -71,7 +71,7 @@ void Match::displayStatus()
 
     for (std::shared_ptr<Player> player : this->players)
     {
-        if(!player->getPlayerPassed())
+        if (!player->getPlayerPassed())
         {
             this->terminal_handler.print(player->getPlayerName() + " [Score: " + std::to_string(player->getPlayerScore()) + "]");
         }
@@ -80,7 +80,7 @@ void Match::displayStatus()
         {
             this->terminal_handler.print(player->getPlayerName() + " [Score: " + std::to_string(player->getPlayerScore()) + "]" + " Passed this turn");
         }
-        
+
         std::string cards = "";
         for (std::shared_ptr<Card> card : player->getCard(false))
         {
@@ -138,9 +138,9 @@ std::shared_ptr<Special> Match::getSeason() const { return this->season; }
 
 void Match::dealCardsToPlayers()
 {
-    for (auto &player : players)
+    for (std::shared_ptr<Player> player : this->players)
     {
-        deck->dealCard(player);
+        this->deck->dealCard(player);
     }
 }
 
@@ -190,16 +190,16 @@ unsigned int Match::findStarterPlayer() const
 void Match::playerChoice(std::shared_ptr<Player> player)
 {
 
-    std::unordered_set<std::string> player_cards;
+    std::vector<std::string> player_cards;
 
     /// IMPORTANT: Avoid code duplication in here
     this->terminal_handler.print(player->getPlayerName() + "'s hand: \n");
     for (std::shared_ptr<Card> card : player->getCard())
     {
-        player_cards.emplace(card->getCardName());
+        player_cards.emplace_back(card->getCardName());
     }
 
-    for(const auto& card : player_cards)
+    for (const auto &card : player_cards)
     {
         terminal_handler.print(card, false);
     }
@@ -207,36 +207,37 @@ void Match::playerChoice(std::shared_ptr<Player> player)
     this->terminal_handler.print("\nSelect a card to play: ");
     std::string cardName;
 
-    while(true){
-        this->terminal_handler.input(cardName); 
+    while (true)
+    {
+        this->terminal_handler.input(cardName);
 
-        if(player_cards.find(cardName) != player_cards.end() || cardName == "pass")
+        if (std::find(player_cards.begin(), player_cards.end(), cardName) != player_cards.end() || cardName == "pass")
         {
             break;
         }
-        else if(cardName.find("help") != std::string::npos)
+        else if (cardName.find("help") != std::string::npos)
         {
-            if(cardName == "help")
+            if (cardName == "help")
             {
                 /// TODO:
             }
             else
             {
                 std::string token = cardName.substr(cardName.find(" ") + 1);
-                if(this->guide.getDescriptions().find(token) != this->guide.getDescriptions().end())
+                if (this->guide.getDescriptions().find(token) != this->guide.getDescriptions().end())
                 {
                     this->guide.getCardInfo(token);
                     this->terminal_handler.clearScreen();
                     this->displayStatus();
 
                     this->terminal_handler.print(player->getPlayerName() + "'s hand: \n");
-                    
-                    for(const auto& card : player_cards)
+
+                    for (const auto &card : player_cards)
                     {
                         terminal_handler.print(card, false);
                     }
 
-                    this->terminal_handler.print("\nSelect a card to play: ");       
+                    this->terminal_handler.print("\nSelect a card to play: ");
                 }
                 else
                 {
@@ -248,7 +249,7 @@ void Match::playerChoice(std::shared_ptr<Player> player)
         {
             this->terminal_handler.print("\nInvalid card! Please select an available card to play.");
         }
-    }    
+    }
 
     if (cardName == "Scarecrow")
     {
@@ -291,11 +292,11 @@ void Match::setWarLand()
     {
         if (land->getLandOwner() == nullptr)
         {
-           remaining_lands.emplace(land->getLandName());
+            remaining_lands.emplace(land->getLandName());
         }
     }
 
-    for(const auto& land : remaining_lands)
+    for (const auto &land : remaining_lands)
     {
         terminal_handler.print(land, false);
     }
@@ -303,10 +304,11 @@ void Match::setWarLand()
     terminal_handler.print("");
     std::string landName;
 
-    while(true){
+    while (true)
+    {
         terminal_handler.input(landName);
 
-        if(remaining_lands.find(landName) != remaining_lands.end())
+        if (remaining_lands.find(landName) != remaining_lands.end())
         {
             break;
         }

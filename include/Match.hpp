@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <unordered_set>
+#include <algorithm>
 
 #include "Player.hpp"
 #include "Card.hpp"
