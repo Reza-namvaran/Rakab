@@ -322,7 +322,6 @@ void Match::setWarLand()
         if (land->getLandName() == landName)
         {
             this->warSign->setLand(land);
-            this->lands.erase(this->lands.begin() + iterator);
             break;
         }
     }
@@ -338,6 +337,8 @@ void Match::run()
         this->rechargeDeck();
         this->war();
     }
+    terminal_handler.print("You Win!");
+    system("pause");
 }
 
 void Match::war()
@@ -479,7 +480,11 @@ void Match::gameWinner(std::shared_ptr<Player> p_winner)
     {
         for (std::vector<std::shared_ptr<Land>> list : this->adjacentList)
         {
-            if (list[0]->getLandOwner()->getPlayerName() == p_winner->getPlayerName() && list[1]->getLandOwner()->getPlayerName() == p_winner->getPlayerName() && list[2]->getLandOwner()->getPlayerName() == p_winner->getPlayerName())
+            if (list[0]->getLandOwner() == nullptr || list[1]->getLandOwner() == nullptr || list[2]->getLandOwner() == nullptr)
+            {
+                continue;
+            }
+            else if (list[0]->getLandOwner()->getPlayerName() == p_winner->getPlayerName() && list[1]->getLandOwner()->getPlayerName() == p_winner->getPlayerName() && list[2]->getLandOwner()->getPlayerName() == p_winner->getPlayerName())
             {
                 this->is_match_over = true;
                 return;

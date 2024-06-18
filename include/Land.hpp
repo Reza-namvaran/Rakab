@@ -8,18 +8,19 @@
 class PlayerSign;
 class Player;
 
-class Land {
+class Land
+{
 private:
     std::string name;
-    std::shared_ptr<PlayerSign> owner = nullptr;
+    std::shared_ptr<PlayerSign> owner;
 
 public:
     Land();
-    Land(const std::string& p_name);
+    Land(const std::string &p_name);
 
     std::string getLandName() const;
 
-    virtual void setLandOwner(std::shared_ptr<PlayerSign> p_owner);
+    void setLandOwner(std::shared_ptr<PlayerSign> p_owner);
 
     std::shared_ptr<Player> getLandOwner() const;
 };

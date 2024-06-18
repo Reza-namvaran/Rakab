@@ -85,6 +85,7 @@ std::vector<std::shared_ptr<Player>> System::initialize() {
         }
 
         auto new_player = std::make_shared<Player>(name, age, player_color);
+        new_player->getSign()->setOwner(new_player);
         player_signs.erase(player_color);
 
         players.emplace_back(new_player);
