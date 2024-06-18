@@ -116,6 +116,17 @@ void Match::displayStatus()
 
     this->terminal_handler.print(separator);
     /* End of second field */
+
+    /* Third field */
+
+    this->terminal_handler.print("The Battle is in " + this->warSign->getLand()->getLandName());
+
+    if (this->season)
+        this->terminal_handler.print("Season: " + this->season->getCardName());
+    else
+        this->terminal_handler.print("Season: ---");
+
+    /* End of third field*/
 }
 
 void Match::setSeason(std::shared_ptr<Special> season)
@@ -178,15 +189,10 @@ unsigned int Match::findStarterPlayer() const
 
 void Match::playerChoice(std::shared_ptr<Player> player)
 {
-    this->terminal_handler.print("The Battle is in " + this->warSign->getLand()->getLandName());
-
-    if (this->season)
-        this->terminal_handler.print("Season: " + this->season->getCardName());
-    else
-        this->terminal_handler.print("Season: ---");
 
     std::unordered_set<std::string> player_cards;
 
+    /// IMPORTANT: Avoid code duplication in here
     this->terminal_handler.print(player->getPlayerName() + "'s hand: \n");
     for (std::shared_ptr<Card> card : player->getCard())
     {
@@ -222,13 +228,6 @@ void Match::playerChoice(std::shared_ptr<Player> player)
                     this->guide.getCardInfo(token);
                     this->terminal_handler.clearScreen();
                     this->displayStatus();
-
-                    this->terminal_handler.print("The Battle is in " + this->warSign->getLand()->getLandName());
-
-                    if (this->season)
-                        this->terminal_handler.print("Season: " + this->season->getCardName());
-                    else
-                        this->terminal_handler.print("Season: ---");
 
                     this->terminal_handler.print(player->getPlayerName() + "'s hand: \n");
                     
