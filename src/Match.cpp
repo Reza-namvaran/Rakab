@@ -208,9 +208,42 @@ void Match::playerChoice(std::shared_ptr<Player> player)
         {
             break;
         }
-        else if(cardName == "help")
+        else if(cardName.find("help") != std::string::npos)
         {
-            /// TODO: impelemnt a logic here
+            if(cardName == "help")
+            {
+                /// TODO:
+            }
+            else
+            {
+                std::string token = cardName.substr(cardName.find(" ") + 1);
+                if(this->guide.getDescriptions().find(token) != this->guide.getDescriptions().end())
+                {
+                    this->guide.getCardInfo(token);
+                    this->terminal_handler.clearScreen();
+                    this->displayStatus();
+
+                    this->terminal_handler.print("The Battle is in " + this->warSign->getLand()->getLandName());
+
+                    if (this->season)
+                        this->terminal_handler.print("Season: " + this->season->getCardName());
+                    else
+                        this->terminal_handler.print("Season: ---");
+
+                    this->terminal_handler.print(player->getPlayerName() + "'s hand: \n");
+                    
+                    for(const auto& card : player_cards)
+                    {
+                        terminal_handler.print(card, false);
+                    }
+
+                    this->terminal_handler.print("\nSelect a card to play: ");       
+                }
+                else
+                {
+                    this->terminal_handler.print("\nInvalid command!");
+                }
+            }
         }
         else
         {

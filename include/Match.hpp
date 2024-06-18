@@ -11,6 +11,7 @@
 #include "Land.hpp"
 #include "WarSign.hpp"
 #include "PlayerSign.hpp"
+#include "GameGuide.hpp"
 
 class Match
 {
@@ -25,6 +26,7 @@ private:
     std::vector<std::vector<std::shared_ptr<Land>>> adjacentList;
     unsigned int passCounter = 0;
     std::shared_ptr<Player> lastPlayerPassed = nullptr;
+    GameGuide guide;
 
 public:
     Match(std::vector<std::shared_ptr<Player>> p_players);
