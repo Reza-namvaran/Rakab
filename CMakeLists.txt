@@ -4,7 +4,7 @@ project(Rakab
     HOMEPAGE_URL "https://github.com/Reza-namvaran/Rakab"
     LANGUAGES CXX
     VERSION 0.1
- )
+)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON) # for clangd to know include directories
 
