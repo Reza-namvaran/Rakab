@@ -1,0 +1,29 @@
+Rakab
+This is a 3 - 6 players strategic game based on Condottiere.
+In this game, players battle against each other for capturing lands.
+If you can captur three adjacent lands, or capture a total of five lands, you'll win the game.
+
+At the begining of the game, the youngest player should start the battle and choose a land for the battle, but after the first match 
+the player who won the last land should choose the next land for battle and start that battle.
+NOTE: If there was a tie in a match the last player who passed its turn should start the battle.
+
+each player would have 10 cards at the start, the cards won't recharge until all of the players ran out of cards or there is only
+one player left that has cards.
+NOTE: In the case that there was only one player left with cards all of its cards would burn.
+
+we have 2 types of cards special cards ans soldier cards. soldiers only have a score [from 1 to 6 and 10], and special cards has some abilities
+that would affect the game like, decrease each soldier's score in game to 1, or double the score of a player, etc.
+
+The cards are: One, Two, Three, Four, Five, Six, Ten [These are soldiers], and Heroine, Winter, Spring, Drummer, Scarecrow [These are special]
+NOTE: You can see the description of each card by using help command followd by the card name. e.g. help Winter
+
+In each turn of the battle you can either play a card or pass your turn. The battle goes on until all of the players pass their turns or no one
+left with cards.
+
+at the end of each battle the player with the highest score will win that battle [These are special]
+NOTE: You can see the description of each card by using help command followd by the card name. e.g. help Winter
+
+In each turn of the battle you can either play a card or pass your turn. The battle goes on until all of the players pass their turns or no one
+left with cards.
+
+at the end of each battle the player with the highest score will win that battle.
