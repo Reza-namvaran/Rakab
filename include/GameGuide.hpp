@@ -14,22 +14,18 @@ class GameGuide {
     std::string game_rules;
     std::unordered_map<std::string, std::string> cards_description;
 
-    std::unordered_set<std::string> valid_commands = {
-      {"Winter"}, {"Spring"}, {"Heroine"}, {"One"}, {"Two"}, {"Three"}, {"Four"}, {"Five"}, {"Six"}, {"Ten"}, {"Drummer"}, {"Scarecrow"}, {"help"}, {"pass"}, {"help Winter"}, {"help Spring"}
-    };
+    std::unordered_set<std::string> valid_commands;
 
   public:
     GameGuide();
 
     ~GameGuide();
 
-    /// TODO: is_valid_input()
-
-    /// TODO: Implement getGameRules()
-
     void readGameRules();
 
     void readCardInfo();
+
+    void readValidCommands();
 
     std::unordered_map<std::string, std::string> getDescriptions() const;
 
@@ -37,7 +33,9 @@ class GameGuide {
 
     void getGameRules();
 
-    std::unordered_set<std::string> getCommands() const;
+    int leveshteinDistance(const std::string& str1, const std::string str2, const int& str1_len,const int& str2_len) const;
+
+    std::string suggestion(std::string& str) const;
 };
 
 #endif // GAMEGUIDE_H
