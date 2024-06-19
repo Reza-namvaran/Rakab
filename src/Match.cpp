@@ -117,7 +117,7 @@ void Match::displayStatus()
     this->terminal_handler.print(separator);
     /* End of second field */
 
-    /* Third field */
+    /* Third field -> current land and season */
 
     this->terminal_handler.print("The Battle is in " + this->warSign->getLand()->getLandName());
 
@@ -192,7 +192,6 @@ void Match::playerChoice(std::shared_ptr<Player> player)
 
     std::vector<std::string> player_cards;
 
-    /// IMPORTANT: Avoid code duplication in here
     this->terminal_handler.print(player->getPlayerName() + "'s hand: \n");
     for (std::shared_ptr<Card> card : player->getCard())
     {
@@ -219,7 +218,18 @@ void Match::playerChoice(std::shared_ptr<Player> player)
         {
             if (cardName == "help")
             {
-                /// TODO:
+                this->guide.getGameRules();
+                this->terminal_handler.clearScreen();
+                this->displayStatus();
+
+                this->terminal_handler.print(player->getPlayerName() + "'s hand: \n");
+
+                for (const auto &card : player_cards)
+                {
+                    terminal_handler.print(card, false);
+                }
+
+                this->terminal_handler.print("\nSelect a card to play: ");
             }
             else
             {
@@ -467,12 +477,10 @@ void Match::stateWinner()
     }
 }
 
-/// TODO: Decide on making it return bool instead of void
 void Match::gameWinner(std::shared_ptr<Player> p_winner)
 {
     if (p_winner->getPlayerLandsCount() == 5)
     {
-        this->terminal_handler.print(p_winner->getPlayerName() + ", has won!");
         this->is_match_over = true;
         return;
     }
