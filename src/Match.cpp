@@ -397,6 +397,12 @@ void Match::war()
 
         this->displayStatus();
         this->playerChoice(players[iterator]);
+        if (players[iterator]->getCard().empty())
+        {
+            players[iterator]->setPlayerPassed(true);
+            this->passCounter++;
+            this->lastPlayerPassed = players[iterator];
+        }
         this->calculateScore();
         iterator = tempIterator;
     }
@@ -508,6 +514,4 @@ void Match::gameWinner(std::shared_ptr<Player> p_winner)
             }
         }
     }
-
-
 }

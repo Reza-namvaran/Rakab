@@ -6,6 +6,7 @@ CardDeck::~CardDeck() {}
 
 void CardDeck::generateDeck()
 {
+    this->deck.clear();
     card_type_count = {
         {"One", std::make_pair(8, 1)},
         {"Two", std::make_pair(8, 2)},
