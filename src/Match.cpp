@@ -257,7 +257,15 @@ void Match::playerChoice(std::shared_ptr<Player> player)
         }
         else
         {
-            this->terminal_handler.print("\nInvalid card! Please select an available card to play.");
+            std::string valid_str = this->guide.suggestion(cardName);
+            if(valid_str != cardName && valid_str.length() != 0)
+            {
+                this->terminal_handler.print("Did you mean " + valid_str + "?");
+            }
+            else
+            {
+                this->terminal_handler.print("\nInvalid card! Please select an available card to play.");
+            }
         }
     }
 
