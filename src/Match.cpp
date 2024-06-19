@@ -203,7 +203,7 @@ void Match::playerChoice(std::shared_ptr<Player> player)
         terminal_handler.print(card, false);
     }
 
-    this->terminal_handler.print("\n" + player->getPlayerName() + " Please select a card to play: ");
+    this->terminal_handler.print("\n" + player->getPlayerName() + " Please select a card to play: (pass => skip your turns in this war , help => learn game , help -{card name} => read card description)");
     std::string cardName;
 
     while (true)
@@ -228,9 +228,9 @@ void Match::playerChoice(std::shared_ptr<Player> player)
                 {
                     terminal_handler.print(card, false);
                 }
-
-                this->terminal_handler.print("\n" + player->getPlayerName() + " Please select a card to play: ");
-            }
+                
+                 this->terminal_handler.print("\n" + player->getPlayerName() + " Please select a card to play: (pass => skip your turns in this war , help => learn game , help -{card name} => read card description)");
+             }
             else
             {
                 std::string token = cardName.substr(cardName.find(" ") + 1);
