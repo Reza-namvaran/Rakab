@@ -43,8 +43,6 @@ public:
 
     void clearPlayedCard();
 
-    std::shared_ptr<Card> selectCard(const std::string &p_card);
-
     void playCard(std::string cardName, bool goToPlayed = true);
 
     void resetPlayerData();

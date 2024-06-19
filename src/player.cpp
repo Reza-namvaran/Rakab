@@ -83,12 +83,6 @@ void Player::clearPlayedCard()
     this->played.clear();
 }
 
-std::shared_ptr<Card> Player::selectCard(const std::string &p_card)
-{
-    // TODO: Implement this method
-    return nullptr;
-}
-
 void Player::playCard(std::string cardName, bool goToPlayed)
 {
     for (int i = 0; i < this->hand.size(); i++)
