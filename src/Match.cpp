@@ -355,7 +355,6 @@ void Match::run()
         this->rechargeDeck();
         this->war();
     }
-    terminal_handler.print("You Win!");
     system("pause");
 }
 
@@ -490,6 +489,7 @@ void Match::gameWinner(std::shared_ptr<Player> p_winner)
     if (p_winner->getPlayerLandsCount() == 5)
     {
         this->is_match_over = true;
+        terminal_handler.print(p_winner->getPlayerName() + ", You Win!");
         return;
     }
     if (p_winner->getPlayerLandsCount() >= 3)
@@ -503,8 +503,11 @@ void Match::gameWinner(std::shared_ptr<Player> p_winner)
             else if (list[0]->getLandOwner()->getPlayerName() == p_winner->getPlayerName() && list[1]->getLandOwner()->getPlayerName() == p_winner->getPlayerName() && list[2]->getLandOwner()->getPlayerName() == p_winner->getPlayerName())
             {
                 this->is_match_over = true;
+                terminal_handler.print(p_winner->getPlayerName() + ", You Win!");
                 return;
             }
         }
     }
+
+
 }
