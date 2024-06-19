@@ -1,6 +1,7 @@
 #include "System.hpp"
 
-System::System() {
+System::System()
+{
     // Seed the random number generator with the current time
     srand(static_cast<unsigned int>(time(nullptr)));
     this->terminal_handler.clearScreen();
@@ -10,76 +11,96 @@ System::System() {
 
 System::~System() {}
 
-std::vector<std::shared_ptr<Player>> System::initialize() {
+std::vector<std::shared_ptr<Player>> System::initialize()
+{
     int player_count = 0;
-    while (true) {
+    while (true)
+    {
         this->terminal_handler.print("Please enter the number of players: ");
         std::string input_str;
         this->terminal_handler.input(input_str);
 
-        try {
+        try
+        {
             player_count = std::stoi(input_str);
-            if (player_count <= 0) {
+            if (player_count <= 0)
+            {
                 throw std::invalid_argument("Number of players must be a positive integer.");
             }
+            else if (player_count < 3 || player_count > 6)
+            {
+                throw std::invalid_argument("Number of players must be between 3 to 6");
+            }
             break;
-        } 
-        catch (const std::invalid_argument&) {
-            this->terminal_handler.print("Invalid input. Please enter a positive integer.");
-        } 
-        catch (const std::out_of_range&) {
+        }
+        catch (const std::invalid_argument &)
+        {
+            this->terminal_handler.print("Invalid input. Please enter a positive integer between 3 to 6");
+        }
+        catch (const std::out_of_range &)
+        {
             this->terminal_handler.print("Input is out of range. Please enter a smaller number.");
         }
     }
 
     std::vector<std::shared_ptr<Player>> players;
     this->terminal_handler.clearScreen();
-        
-    std::unordered_set<std::string> player_signs {"Blue", "Green", "Red", "Yellow", "Gray", "Purple"};
-    
+
+    std::unordered_set<std::string> player_signs{"Blue", "Green", "Red", "Yellow", "Gray", "Purple"};
+
     // Creating Players based on inputs
-    for (int idx = 0; idx < player_count; ++idx) {
+    for (int idx = 0; idx < player_count; ++idx)
+    {
         std::string name;
         unsigned int age;
 
         this->terminal_handler.print("Please enter player" + std::to_string(idx + 1) + "'s name: ");
         this->terminal_handler.input(name);
 
-        while (true) {
+        while (true)
+        {
             this->terminal_handler.print("Please enter player" + std::to_string(idx + 1) + "'s age: ");
             std::string input_str;
             this->terminal_handler.input(input_str);
 
-            try {
+            try
+            {
                 int temp_age = std::stoi(input_str);
-                if (temp_age < 0) {
+                if (temp_age < 0)
+                {
                     throw std::invalid_argument("Age must be a non-negative integer.");
                 }
                 age = static_cast<unsigned int>(temp_age);
                 break;
-            } 
-            catch (const std::invalid_argument&) {
+            }
+            catch (const std::invalid_argument &)
+            {
                 this->terminal_handler.print("Invalid input. Please enter a non-negative integer.");
-            } 
-            catch (const std::out_of_range&) {
+            }
+            catch (const std::out_of_range &)
+            {
                 this->terminal_handler.print("Input is out of range. Please enter a smaller number.");
             }
         }
 
-        for(const auto& color : player_signs)
+        for (const auto &color : player_signs)
         {
             this->terminal_handler.print(color, false);
         }
 
         std::string player_color;
-        while (true) {
+        while (true)
+        {
             this->terminal_handler.print("\nPlayer" + std::to_string(idx + 1) + ", Please pick a sign to play: ");
             this->terminal_handler.input(player_color);
 
-            if (player_signs.find(player_color) != player_signs.end()) {
+            if (player_signs.find(player_color) != player_signs.end())
+            {
                 // The color sign is available
                 break;
-            } else {
+            }
+            else
+            {
                 this->terminal_handler.print("\nInvalid color sign. Please choose from the available signs.");
             }
         }
@@ -95,11 +116,13 @@ std::vector<std::shared_ptr<Player>> System::initialize() {
     return players;
 }
 
-void System::createNewMatch() {
+void System::createNewMatch()
+{
     auto new_match = std::make_shared<Match>(this->initialize());
     matches.emplace_back(new_match);
 }
 
-void System::runMatch(int match_id) {
+void System::runMatch(int match_id)
+{
     this->matches[match_id - 1]->run();
 }

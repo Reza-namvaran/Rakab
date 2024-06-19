@@ -6,8 +6,6 @@ void Spring::use(std::shared_ptr<Player> player, IO_Interface &terminal_handler)
 
 void Spring::use(std::vector<std::shared_ptr<Player>> &players, IO_Interface &terminal_handler)
 {
-    terminal_handler.print("Spring has been played!\n");
-
     unsigned int max = 0;
     for (std::shared_ptr<Player> player : players)
     {

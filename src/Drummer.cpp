@@ -4,8 +4,6 @@ Drummer::Drummer(const std::string p_name) : Special("Drummer") {}
 
 void Drummer::use(std::shared_ptr<Player> player, IO_Interface &terminal_handler)
 {
-
-    terminal_handler.print("Drummer has been played!");
     terminal_handler.print("All of " + player->getPlayerName() + "'s soldiers' scores will be doubled.\n");
     player->setPlayerScore(player->getPlayerScore() * 2);
 }

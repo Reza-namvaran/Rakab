@@ -203,7 +203,7 @@ void Match::playerChoice(std::shared_ptr<Player> player)
         terminal_handler.print(card, false);
     }
 
-    this->terminal_handler.print("\nSelect a card to play: ");
+    this->terminal_handler.print("\n" + player->getPlayerName() + " Please select a card to play: ");
     std::string cardName;
 
     while (true)
@@ -229,7 +229,7 @@ void Match::playerChoice(std::shared_ptr<Player> player)
                     terminal_handler.print(card, false);
                 }
 
-                this->terminal_handler.print("\nSelect a card to play: ");
+                this->terminal_handler.print("\n" + player->getPlayerName() + " Please select a card to play: ");
             }
             else
             {
@@ -258,7 +258,7 @@ void Match::playerChoice(std::shared_ptr<Player> player)
         else
         {
             std::string valid_str = this->guide.suggestion(cardName);
-            if(valid_str != cardName && valid_str.length() != 0)
+            if (valid_str != cardName && valid_str.length() != 0)
             {
                 this->terminal_handler.print("Did you mean " + valid_str + "?");
             }
