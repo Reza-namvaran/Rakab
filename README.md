@@ -2,18 +2,17 @@
 
 ## Overview
 
-Rakab is the Iranian version of Condottiere, this is the video game of this board game using C++ ...
+Rakab is the Iranian version of Condottiere, this is a video game of this game using C++
 
 ## ✨ Features
 
 🔹 3 - 6 Players
 
-🔹 ...
-
-🔹 ...
+🔹 Cross Platform
 
 🔹 Fun to Play with friends 
 
+🔹Save multiple games (Coming soon)
 ## 📬 Dependencies
 
 - C++17 compatible compiler
@@ -33,29 +32,27 @@ git clone --depth=1 https://github.com/Reza-namvaran/Rakab.git
 cd Rakab
 ```
 
-3. Create a build directory and navigate into it:
+3. Generate the build files using CMake:
 ```bash
-mkdir build
-cd build
+cmake -S . -B build -G "MinGW Makefiles"
 ```
 
-4. Generate the build files using CMake:
+4. Navigate to the build directory:
 ```bash
-cmake ..
+cd build
 ```
 
 5. Build the project:
 ```bash
-make .
+make
 ```
 
 ## 🏹 Usage
 
-1. Run the compiled executable:
+Run the compiled executable in build directory:
 ```bash
 ./bin/Rakab
 ```
-#### #TODO
 
 ## 👥 Contributing
 
