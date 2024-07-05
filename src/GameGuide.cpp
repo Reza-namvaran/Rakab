@@ -26,11 +26,7 @@ void GameGuide::getGameRules() {
 }
 
 void GameGuide::readGameRules() {
-<<<<<<< HEAD
   std::ifstream input("../data/gamerules.txt");
-=======
-  std::ifstream input("../../data/gamerules.bin", std::ios::binary);
->>>>>>> 467a75bcebb9827ea696258d32eb59c57fd86fc3
 
   if(!input.is_open())
   {
@@ -48,11 +44,7 @@ void GameGuide::readGameRules() {
 }
 
 void GameGuide::readCardInfo() {
-<<<<<<< HEAD
   std::ifstream input("../data/card_info.txt");
-=======
-  std::ifstream input("../../data/card_info.bin", std::ios::binary);
->>>>>>> 467a75bcebb9827ea696258d32eb59c57fd86fc3
 
   if(!input.is_open())
   {
@@ -77,11 +69,7 @@ void GameGuide::readCardInfo() {
 }
 
 void GameGuide::readValidCommands() {
-<<<<<<< HEAD
   std::ifstream input("../data/valid_commands.txt");
-=======
-  std::ifstream input("../../data/valid_commands.bin");
->>>>>>> 467a75bcebb9827ea696258d32eb59c57fd86fc3
 
   std::string line;
   while(std::getline(input, line))
