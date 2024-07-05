@@ -19,6 +19,7 @@ set(PROJECT_SOURCES
     CardDeck.cpp
     GameGuide.cpp
     Spy.cpp
+    Turncoat.cpp
 )
 
 add_executable(Rakab

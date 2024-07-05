@@ -11,6 +11,7 @@ Ten
 Drummer
 Scarecrow
 Spy
+Turncoat
 help
 help Winter
 help Spring
@@ -25,4 +26,5 @@ help Ten
 help Drummer
 help Scarecrow
 help Spy
+help Turncoat
 pass

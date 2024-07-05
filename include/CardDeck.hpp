@@ -18,6 +18,7 @@
 #include "Drummer.hpp"
 #include "Scarecrow.hpp"
 #include "Spy.hpp"
+#include "Turncoat.hpp"
 
 class CardDeck
 {

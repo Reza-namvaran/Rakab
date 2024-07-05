@@ -187,13 +187,13 @@ unsigned int Match::findStarterPlayer() const
     return i;
 }
 
-void Match::playerChoice(std::shared_ptr<Player> player)
+void Match::playerChoice(std::shared_ptr<Player> p_player)
 {
 
     std::vector<std::string> player_cards;
 
-    this->terminal_handler.print(player->getPlayerName() + "'s hand: \n");
-    for (std::shared_ptr<Card> card : player->getCard())
+    this->terminal_handler.print(p_player->getPlayerName() + "'s hand: \n");
+    for (std::shared_ptr<Card> card : p_player->getCard())
     {
         player_cards.emplace_back(card->getCardName());
     }
@@ -203,7 +203,7 @@ void Match::playerChoice(std::shared_ptr<Player> player)
         terminal_handler.print(card, false);
     }
 
-    this->terminal_handler.print("\n" + player->getPlayerName() + " Please select a card to play: (pass => skip your turns in this war , help => learn game , help -{card name} => read card description)");
+    this->terminal_handler.print("\n" + p_player->getPlayerName() + " Please select a card to play: (pass => skip your turns in this war , help => learn game , help -{card name} => read card description)");
     std::string cardName;
 
     while (true)
@@ -222,14 +222,14 @@ void Match::playerChoice(std::shared_ptr<Player> player)
                 this->terminal_handler.clearScreen();
                 this->displayStatus();
 
-                this->terminal_handler.print(player->getPlayerName() + "'s hand: \n");
+                this->terminal_handler.print(p_player->getPlayerName() + "'s hand: \n");
 
                 for (const auto &card : player_cards)
                 {
                     terminal_handler.print(card, false);
                 }
                 
-                 this->terminal_handler.print("\n" + player->getPlayerName() + " Please select a card to play: (pass => skip your turns in this war , help => learn game , help -{card name} => read card description)");
+                 this->terminal_handler.print("\n" + p_player->getPlayerName() + " Please select a card to play: (pass => skip your turns in this war , help => learn game , help -{card name} => read card description)");
              }
             else
             {
@@ -240,7 +240,7 @@ void Match::playerChoice(std::shared_ptr<Player> player)
                     this->terminal_handler.clearScreen();
                     this->displayStatus();
 
-                    this->terminal_handler.print(player->getPlayerName() + "'s hand: \n");
+                    this->terminal_handler.print(p_player->getPlayerName() + "'s hand: \n");
 
                     for (const auto &card : player_cards)
                     {
@@ -271,18 +271,18 @@ void Match::playerChoice(std::shared_ptr<Player> player)
 
     if (cardName == "Scarecrow")
     {
-        for (std::shared_ptr<Card> card : player->getCard())
+        for (std::shared_ptr<Card> card : p_player->getCard())
         {
             if (card->getCardName() == cardName)
             {
-                card->use(player, terminal_handler);
+                card->use(p_player, terminal_handler);
                 break;
             }
         }
     }
     else if (cardName == "Winter" || cardName == "Spring")
     {
-        for (std::shared_ptr<Card> card : player->getCard())
+        for (std::shared_ptr<Card> card : p_player->getCard())
         {
             if (card->getCardName() == cardName)
             {
@@ -290,16 +290,23 @@ void Match::playerChoice(std::shared_ptr<Player> player)
                 break;
             }
         }
-        player->playCard(cardName, false);
+        p_player->playCard(cardName, false);
+    }
+    else if (cardName == "Turncoat")
+    {
+        for(std::shared_ptr<Player> player : this->players)
+        {
+            player->setPlayerPassed(true);
+        }
     }
     else if (cardName == "pass")
     {
-        player->setPlayerPassed(true);
+        p_player->setPlayerPassed(true);
         this->passCounter++;
-        this->lastPlayerPassed = player;
+        this->lastPlayerPassed = p_player;
         return;
     }
-    player->playCard(cardName);
+    p_player->playCard(cardName);
 }
 
 void Match::setWarLand()
