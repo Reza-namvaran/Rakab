@@ -17,6 +17,7 @@
 #include "Heroine.hpp"
 #include "Drummer.hpp"
 #include "Scarecrow.hpp"
+#include "Spy.hpp"
 
 class CardDeck
 {

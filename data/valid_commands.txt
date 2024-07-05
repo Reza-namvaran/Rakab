@@ -10,6 +10,7 @@ Six
 Ten
 Drummer
 Scarecrow
+Spy
 help
 help Winter
 help Spring
@@ -23,4 +24,5 @@ help Six
 help Ten
 help Drummer
 help Scarecrow
+help Spy
 pass

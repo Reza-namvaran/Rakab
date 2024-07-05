@@ -445,12 +445,13 @@ void Match::calculateScore()
         std::shared_ptr<Spring> spring = std::dynamic_pointer_cast<Spring>(season);
         spring->use(players, terminal_handler);
     }
+    /// NOTE: Calculate score for Heroine and Spy
     for (std::shared_ptr<Player> player : players)
     {
         std::vector<std::shared_ptr<Card>> playedCards = player->getCard(false);
         for (std::shared_ptr<Card> card : playedCards)
         {
-            if (card->getCardName() == "Heroine")
+            if (card->getCardName() == "Heroine" || card->getCardName() == "Spy")
             {
                 card->use(player, terminal_handler);
             }

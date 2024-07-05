@@ -20,6 +20,7 @@ void CardDeck::generateDeck()
         {"Spring", std::make_pair(3, 0)},
         {"Drummer", std::make_pair(6, 0)},
         {"Scarecrow", std::make_pair(16, 0)},
+        {"Spy", std::make_pair(12, 0)},
     };
 
     for (const auto &pair : card_type_count)
@@ -36,6 +37,8 @@ void CardDeck::generateDeck()
                 deck.emplace_back(std::make_shared<Drummer>("Drummer"));
             else if (pair.first == "Scarecrow")
                 deck.emplace_back(std::make_shared<Scarecrow>("Scarecrow"));
+            else if (pair.first == "Spy")
+                deck.emplace_back(std::make_shared<Spy>("Spy"));
             else
                 deck.emplace_back(std::make_shared<Soldier>(pair.first, pair.second.second));
         }

@@ -10,3 +10,4 @@ Spring While Spring is in play, check which soldier has the highest value among 
 Winter While Winter is in play, the value of each soldier in all player rows is 1.\nOnly spring can change the winter
 Scarecrow When you play a Scarecrow, take one of the soldiers from your row back into your hand (if possib0le).\nThe scarecrow cannot be used to take back special cards.
 Drummer While you have a Drummer in your row, double the value of each mercenary in your row.\nYou can play additional Drummers, but they have no effect.
+Spy For each Spy in your row, add 1 to your strength.\n Also, after each battle, the player with the most Spies takes the battle marker instead of the player who won the battle.\n If players are tied for most Spies, the battle marker is taken as normal.
