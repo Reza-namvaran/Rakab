@@ -49,7 +49,7 @@ std::vector<std::shared_ptr<Card>> CardDeck::getDeck() const
 
 void CardDeck::shuffleCards()
 {
-    std::random_shuffle(this->deck.begin(), this->deck.end());
+    std::shuffle(this->deck.begin(), this->deck.end(), std::mt19937{std::random_device{}()});
 }
 
 void CardDeck::setCardDeck(std::vector<std::shared_ptr<Card>> p_deck)
