@@ -18,6 +18,7 @@ set(PROJECT_SOURCES
     Heroine.cpp
     CardDeck.cpp
     GameGuide.cpp
+    Spy.cpp
 )
 
 add_executable(Rakab
