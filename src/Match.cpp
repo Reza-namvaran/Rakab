@@ -294,6 +294,11 @@ void Match::playerChoice(std::shared_ptr<Player> p_player)
     }
     else if (cardName == "Turncoat")
     {
+        if (passCounter == 0)
+        {
+            this->lastPlayerPassed = this->warSign->getOwner();
+        }
+
         for(std::shared_ptr<Player> player : this->players)
         {
             if(!player->getPlayerPassed())
