@@ -300,7 +300,6 @@ void Match::playerChoice(std::shared_ptr<Player> p_player)
             {
                 player->setPlayerPassed(true);
                 this->passCounter++;
-                this->lastPlayerPassed = player;
             }
         }
     }
