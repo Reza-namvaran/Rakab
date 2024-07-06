@@ -296,7 +296,12 @@ void Match::playerChoice(std::shared_ptr<Player> p_player)
     {
         for(std::shared_ptr<Player> player : this->players)
         {
-            player->setPlayerPassed(true);
+            if(!player->getPlayerPassed())
+            {
+                player->setPlayerPassed(true);
+                this->passCounter++;
+                this->lastPlayerPassed = player;
+            }
         }
     }
     else if (cardName == "pass")
