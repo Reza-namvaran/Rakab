@@ -13,7 +13,7 @@
 #include "WarSign.hpp"
 #include "PlayerSign.hpp"
 #include "GameGuide.hpp"
-#include "PeaceSign.cpp"
+#include "PeaceSign.hpp"
 
 class Match
 {

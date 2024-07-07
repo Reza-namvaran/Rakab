@@ -12,6 +12,7 @@ set(PROJECT_SOURCES
     scarecrow.cpp
     Drummer.cpp
     WarSign.cpp
+    PeaceSign.cpp
     main.cpp
     Winter.cpp
     Spring.cpp

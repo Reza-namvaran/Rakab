@@ -1,5 +1,9 @@
 #include "Bishop.hpp"
 
+Bishop::Bishop(const std::string &p_name) : Special("Bishop") {}
+
+void Bishop::use(std::shared_ptr<Player> player, IO_Interface &terminal_handler) {}
+
 void Bishop::use(std::vector<std::shared_ptr<Player>> &players)
 {
     unsigned int max = 0;
