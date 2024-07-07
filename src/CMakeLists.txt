@@ -20,6 +20,7 @@ set(PROJECT_SOURCES
     GameGuide.cpp
     Spy.cpp
     Turncoat.cpp
+    Bishop.cpp
 )
 
 add_executable(Rakab

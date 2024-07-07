@@ -19,6 +19,7 @@
 #include "Scarecrow.hpp"
 #include "Spy.hpp"
 #include "Turncoat.hpp"
+#include "Bishop.hpp"
 
 class CardDeck
 {

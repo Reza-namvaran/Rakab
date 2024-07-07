@@ -12,6 +12,7 @@ Drummer
 Scarecrow
 Spy
 Turncoat
+Bishop
 help
 help Winter
 help Spring
@@ -27,4 +28,5 @@ help Drummer
 help Scarecrow
 help Spy
 help Turncoat
+help Bishop
 pass
