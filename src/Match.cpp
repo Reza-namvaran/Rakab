@@ -322,9 +322,11 @@ void Match::setWarLand()
 {
     terminal_handler.print(this->warSign->getOwner()->getPlayerName() + ", You shall choose a land for war :\n");
     std::unordered_set<std::string> remaining_lands;
+    std::string peace_land = this->peace_sign->getLand()->getLandName();
+
     for (std::shared_ptr<Land> land : this->lands)
     {
-        if (land->getLandOwner() == nullptr)
+        if (land->getLandOwner() == nullptr && land->getLandName() != peace_land)
         {
             remaining_lands.emplace(land->getLandName());
         }

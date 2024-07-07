@@ -13,6 +13,7 @@
 #include "WarSign.hpp"
 #include "PlayerSign.hpp"
 #include "GameGuide.hpp"
+#include "PeaceSign.cpp"
 
 class Match
 {
@@ -22,6 +23,7 @@ private:
     bool is_match_over = false;
     std::shared_ptr<CardDeck> deck;
     std::shared_ptr<WarSign> warSign;
+    std::shared_ptr<PeaceSign> peace_sign;
     std::shared_ptr<Special> season = nullptr;
     std::vector<std::shared_ptr<Land>> lands;
     std::vector<std::vector<std::shared_ptr<Land>>> adjacentList;
