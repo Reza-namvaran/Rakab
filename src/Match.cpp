@@ -1,6 +1,6 @@
 #include "Match.hpp"
 
-Match::Match(std::vector<std::shared_ptr<Player>> p_players) : players(p_players), deck(std::make_shared<CardDeck>()), warSign(std::make_shared<WarSign>())
+Match::Match(std::vector<std::shared_ptr<Player>> p_players) : players(p_players), deck(std::make_shared<CardDeck>()), warSign(std::make_shared<WarSign>()), peace_sign(std::make_shared<PeaceSign>())
 {
     this->lands = {
         std::make_shared<Land>("ELINIA"),
@@ -228,9 +228,9 @@ void Match::playerChoice(std::shared_ptr<Player> p_player)
                 {
                     terminal_handler.print(card, false);
                 }
-                
-                 this->terminal_handler.print("\n" + p_player->getPlayerName() + " Please select a card to play: (pass => skip your turns in this war , help => learn game , help -{card name} => read card description)");
-             }
+
+                this->terminal_handler.print("\n" + p_player->getPlayerName() + " Please select a card to play: (pass => skip your turns in this war , help => learn game , help -{card name} => read card description)");
+            }
             else
             {
                 std::string token = cardName.substr(cardName.find(" ") + 1);
@@ -294,17 +294,13 @@ void Match::playerChoice(std::shared_ptr<Player> p_player)
     }
     else if (cardName == "Turncoat")
     {
-        if (passCounter == 0)
+        for (std::shared_ptr<Card> card : p_player->getCard())
         {
-            this->lastPlayerPassed = this->warSign->getOwner();
-        }
-
-        for(std::shared_ptr<Player> player : this->players)
-        {
-            if(!player->getPlayerPassed())
+            if (card->getCardName() == cardName)
             {
-                player->setPlayerPassed(true);
-                this->passCounter++;
+                std::shared_ptr<Turncoat> turncoat = std::dynamic_pointer_cast<Turncoat>(card);
+                turncoat->use(this->players, this->lastPlayerPassed, this->warSign, this->passCounter);
+                break;
             }
         }
     }
@@ -322,7 +318,7 @@ void Match::setWarLand()
 {
     terminal_handler.print(this->warSign->getOwner()->getPlayerName() + ", You shall choose a land for war :\n");
     std::unordered_set<std::string> remaining_lands;
-    std::string peace_land = this->peace_sign->getLand()->getLandName();
+    std::string peace_land = (this->peace_sign->getLand() != nullptr) ? this->peace_sign->getLand()->getLandName() : "";
 
     for (std::shared_ptr<Land> land : this->lands)
     {
