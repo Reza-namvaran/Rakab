@@ -49,6 +49,7 @@ void Storage::savePlayerInfo(std::shared_ptr<Player> p_player,const std::string&
             f_write << soldier->getCardName() << soldier->getCardScore() << " ";
         }
     }
+    f_write << "\n";
     
     /// Played
     for(std::shared_ptr<Card> card : p_player->getCard(false))
@@ -63,7 +64,7 @@ void Storage::savePlayerInfo(std::shared_ptr<Player> p_player,const std::string&
             f_write << soldier->getCardName() << soldier->getCardScore() << " ";        
         }
     }
-
+    f_write << "\n";
     /// ---------------------------------------------------------------
 
     /// ---------------------- Player lands ------------------------------
@@ -71,6 +72,7 @@ void Storage::savePlayerInfo(std::shared_ptr<Player> p_player,const std::string&
     {
         f_write << land->getLandName() << " ";
     }
+    f_write << "\n";
 
     /// ------------------------------------------------------------------
 }
