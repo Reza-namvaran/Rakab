@@ -75,7 +75,11 @@ void Storage::savePlayerInfo(std::shared_ptr<Player> p_player,const std::string&
     f_write << "\n";
 
     /// ------------------------------------------------------------------
+
+    f_write.close();
 }
+
+void Storage::saveMatchInfo(std::shared_ptr<Match> match, const std::string& path) const {}
 
 /// DESCRIPTION: this method saves constructs a complete save file
 void Storage::saveNewGame(std::vector<std::shared_ptr<Player>> players) {

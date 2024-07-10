@@ -21,6 +21,8 @@ class Storage {
 
     void savePlayerInfo(std::shared_ptr<Player> p_player,const std::string& path) const;
 
+    void saveMatchInfo(std::shared_ptr<Match> match, const std::string& path) const;
+
     void saveNewGame(std::vector<std::shared_ptr<Player>> p_player);
 
     std::string generateFileName() const;
