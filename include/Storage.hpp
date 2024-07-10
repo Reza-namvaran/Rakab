@@ -19,9 +19,9 @@ class Storage {
 
     ~Storage() = default;
 
-    void savePlayerInfo(const Player& p_player,const std::string& path) const;
+    void savePlayerInfo(std::shared_ptr<Player> p_player,const std::string& path) const;
 
-    void saveNewGame();
+    void saveNewGame(std::vector<std::shared_ptr<Player>> p_player);
 
     std::string generateFileName() const;
 
