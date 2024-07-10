@@ -128,17 +128,29 @@ void System::runMatch(int match_id)
 
 void System::mainMenu()
 {
-    this->terminal_handler.print("Press n for starting a new match or l to load a match");
+    this->terminal_handler.print("Press n for starting a new match or l to load a match or e to exit");
     char c;
-    this->terminal_handler.input(c);
+    std::cin >> c;
+    std::cin.ignore();
 
-    switch(c){
-        case 'n':
-                this->createNewMatch();
-                runMatch(this->matches.size());
-                break;
-        
-        case 'l':
-            /// TODO: Implement save game system
+    while(1)
+    {
+        switch(c){
+            case 'n':
+                    this->terminal_handler.clearScreen();
+                    this->createNewMatch();
+                    runMatch(this->matches.size());
+                    break;
+            
+            case 'l':
+                /// TODO: Implement save game system
+                return;
+
+            case 'e':
+                return;
+
+            default:
+                this->terminal_handler.print("Enter a valid option, n or l or e");
+        }
     }
 }
