@@ -20,6 +20,7 @@ public:
     System();
     ~System();
 
+    void mainMenu();
     void createNewMatch();
     std::vector<std::shared_ptr<Player>> initialize();
     void runMatch(int match_id);

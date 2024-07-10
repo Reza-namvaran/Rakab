@@ -5,8 +5,7 @@ System::System()
     // Seed the random number generator with the current time
     srand(static_cast<unsigned int>(time(nullptr)));
     this->terminal_handler.clearScreen();
-    this->createNewMatch();
-    runMatch(1);
+    this->mainMenu();
 }
 
 System::~System() {}
@@ -125,4 +124,21 @@ void System::createNewMatch()
 void System::runMatch(int match_id)
 {
     this->matches[match_id - 1]->run();
+}
+
+void System::mainMenu()
+{
+    this->terminal_handler.print("Press n for starting a new match or l to load a match");
+    char c;
+    this->terminal_handler.input(c);
+
+    switch(c){
+        case 'n':
+                this->createNewMatch();
+                runMatch(this->matches.size());
+                break;
+        
+        case 'l':
+            /// TODO: Implement save game system
+    }
 }
