@@ -22,6 +22,7 @@ set(PROJECT_SOURCES
     Spy.cpp
     Turncoat.cpp
     Bishop.cpp
+    Storage.cpp
 )
 
 add_executable(Rakab
