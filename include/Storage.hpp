@@ -8,7 +8,8 @@
 #include <iomanip>
 #include <sstream>
 #include <string>
-/// NOTE: deque to use ring buffer 
+
+/// NOTE: using deque as a ring buffer 
 
 #include "Match.hpp"
 

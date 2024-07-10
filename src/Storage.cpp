@@ -3,10 +3,12 @@
 Storage::Storage() {
     if (!std::filesystem::exists(SAVE_FOLDER))
     {
+        /// NOTE: if file save folder isn't available this will create it
         std::filesystem::create_directory(SAVE_FOLDER);
     }
 }
 
+/// DESCRIPTION: this method is used for generating name for save files using the time of the save action
 std::string Storage::generateFileName() const {
     auto now = std::chrono::system_clock::now();
     auto time_t = std::chrono::system_clock::to_time_t(now);
@@ -16,8 +18,10 @@ std::string Storage::generateFileName() const {
     return out.str();
 }
 
+/// DESCRIPTION: this method writes player related data in the save file
 void Storage::savePlayerInfo(const Player& p_player,const std::string& path) const {}
 
+/// DESCRIPTION: this method saves constructs a complete save file
 void Storage::saveNewGame() {
     if (save_files.size() == MAX_SAVES)
     {
