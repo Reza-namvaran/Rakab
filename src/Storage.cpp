@@ -89,9 +89,12 @@ void Storage::saveMatchInfo(std::shared_ptr<Match> match, const std::string& pat
         return;
     }
 
-    // --------------------------------- War and Peace Signs --------------------------------
-    f_write << match->warSign->getOwner() << " " << match->warSign->getLand() << "\n";
-    f_write << match->peace_sign->getOwner() << " " << match->peace_sign->getLand() << "\n";
+    // --------------------------------- War and Peace Signs -------------------------------- 
+    if (match->warSign->getOwner() != nullptr)
+        f_write << match->warSign->getOwner() << " " << match->warSign->getLand() << "\n";
+
+    if (match->peace_sign->getOwner() != nullptr)
+        f_write << match->peace_sign->getOwner() << " " << match->peace_sign->getLand() << "\n";
     // --------------------------------------------------------------------------------------
     
     /// -------------- Season -----------------
@@ -101,7 +104,8 @@ void Storage::saveMatchInfo(std::shared_ptr<Match> match, const std::string& pat
     /// ------------------------ Lands ---------------------------------
     for (auto land : match->lands)
     {
-        f_write << land->getLandName() << " " << land->getLandOwner()->getPlayerName() << "\n";
+        if (land->getLandOwner() != nullptr)
+            f_write << land->getLandName() << " " << land->getLandOwner()->getPlayerName() << "\n";
     }
     /// ----------------------------------------------------------------
 
