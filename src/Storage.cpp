@@ -95,10 +95,18 @@ void Storage::saveMatchInfo(std::shared_ptr<Match> match, const std::string& pat
 
     if (match->peace_sign->getOwner() != nullptr)
         f_write << match->peace_sign->getOwner() << " " << match->peace_sign->getLand() << "\n";
+    else 
+        f_write << "None" << " None" << "\n";
+    
+    // we could have war sign without peace sign
+
     // --------------------------------------------------------------------------------------
     
     /// -------------- Season -----------------
-    f_write << match->getSeason() << "\n";
+    if (match->getSeason() != nullptr)
+        f_write << match->getSeason() << "\n";
+    else
+        f_write << "None" << "\n";
     /// ---------------------------------------
 
     /// ------------------------ Lands ---------------------------------
@@ -111,7 +119,11 @@ void Storage::saveMatchInfo(std::shared_ptr<Match> match, const std::string& pat
 
     // ------------------------ Pass Status -------------------------
     f_write << match->passCounter << "\n";
-    f_write << match->lastPlayerPassed << "\n";
+    
+    if(match->lastPlayerPassed != nullptr)
+        f_write << match->lastPlayerPassed << "\n";
+    else
+        f_write << "None" << "\n";
     // --------------------------------------------------------------
 
     f_write.close();
