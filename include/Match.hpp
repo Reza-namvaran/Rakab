@@ -14,6 +14,9 @@
 #include "PlayerSign.hpp"
 #include "GameGuide.hpp"
 #include "PeaceSign.hpp"
+#include "Storage.hpp"
+
+class Storage;
 
 class Match
 {
@@ -35,6 +38,8 @@ public:
     Match(std::vector<std::shared_ptr<Player>> p_players);
 
     ~Match();
+
+    friend class Storage;
 
     void displayStatus();
 

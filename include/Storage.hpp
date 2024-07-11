@@ -13,6 +13,8 @@
 
 #include "Match.hpp"
 
+class Match;
+
 class Storage {
   public:
     Storage();
@@ -23,14 +25,14 @@ class Storage {
 
     void saveMatchInfo(std::shared_ptr<Match> match, const std::string& path) const;
 
-    void saveNewGame(std::vector<std::shared_ptr<Player>> p_player);
+    void saveNewGame(std::shared_ptr<Match> match);
 
     std::string generateFileName() const;
 
     void load();  
   
   private:
-    static const int MAX_SAVES = 5;
+    const int MAX_SAVES = 5;
     const std::string SAVE_FOLDER = "data/";
     const std::string SAVE_FILE_PREFIX = "rakab_";
     const std::string SAVE_FILE_EXTENSION = ".txt";

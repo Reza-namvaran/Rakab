@@ -36,7 +36,7 @@ void Storage::savePlayerInfo(std::shared_ptr<Player> p_player,const std::string&
     /// IMPORTANT: Do something about score of soldiers!
 
     /// -------------------- Player Cards -----------------------------
-    /// In hand
+    ///  ---------------------  In hand ---------------------
     for(std::shared_ptr<Card> card : p_player->getCard())
     {
         if(card->getCardType() != "Soldier")
@@ -51,7 +51,7 @@ void Storage::savePlayerInfo(std::shared_ptr<Player> p_player,const std::string&
     }
     f_write << "\n";
     
-    /// Played
+    ///  --------------------- Played ---------------------
     for(std::shared_ptr<Card> card : p_player->getCard(false))
     {
         if(card->getCardType() != "Soldier")
@@ -79,10 +79,42 @@ void Storage::savePlayerInfo(std::shared_ptr<Player> p_player,const std::string&
     f_write.close();
 }
 
-void Storage::saveMatchInfo(std::shared_ptr<Match> match, const std::string& path) const {}
+/// DESCRIPTION: This method saves match essential data (other than players) to the save files
+void Storage::saveMatchInfo(std::shared_ptr<Match> match, const std::string& path) const {
+    std::ofstream f_write(path, std::ios_base::app);
+
+    if (!f_write.is_open())
+    {
+        std::cerr << "Error opening " << path <<  std::endl;
+        return;
+    }
+
+    // --------------------------------- War and Peace Signs --------------------------------
+    f_write << match->warSign->getOwner() << " " << match->warSign->getLand() << "\n";
+    f_write << match->peace_sign->getOwner() << " " << match->peace_sign->getLand() << "\n";
+    // --------------------------------------------------------------------------------------
+    
+    /// -------------- Season -----------------
+    f_write << match->getSeason() << "\n";
+    /// ---------------------------------------
+
+    /// ------------------------ Lands ---------------------------------
+    for (auto land : match->lands)
+    {
+        f_write << land->getLandName() << " " << land->getLandOwner()->getPlayerName() << "\n";
+    }
+    /// ----------------------------------------------------------------
+
+    // ------------------------ Pass Status -------------------------
+    f_write << match->passCounter << "\n";
+    f_write << match->lastPlayerPassed << "\n";
+    // --------------------------------------------------------------
+
+    f_write.close();
+}
 
 /// DESCRIPTION: this method saves constructs a complete save file
-void Storage::saveNewGame(std::vector<std::shared_ptr<Player>> players) {
+void Storage::saveNewGame(std::shared_ptr<Match> match) {
     /// NOTE: Use ring buffer logic to re-write first game after 5 games
     if (save_files.size() == MAX_SAVES)
     {
@@ -92,12 +124,12 @@ void Storage::saveNewGame(std::vector<std::shared_ptr<Player>> players) {
 
     std::string new_file_name = this->generateFileName();
 
-    for(auto player : players)
+    for(auto player : match->players)
     {
         savePlayerInfo(player, new_file_name);
     }
-    
-    /// TODO: Implement this method
+
+    saveMatchInfo(match, new_file_name);
 
     save_files.push_back(new_file_name);
 }
