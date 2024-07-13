@@ -26,6 +26,8 @@ void Bishop::use(std::vector<std::shared_ptr<Player>> &players)
     for (std::shared_ptr<Player> player : players)
     {
         std::vector<std::shared_ptr<Card>> playedCards = player->getCard(false);
+        if (playedCards.empty())
+            continue;
         std::vector<std::shared_ptr<Card>> newPlayedCards = playedCards;
         int iterator = 0;
         for (std::shared_ptr<Card> card : playedCards)

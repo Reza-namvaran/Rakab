@@ -168,6 +168,7 @@ void Match::refreshData()
     this->passCounter = 0;
     this->lastPlayerPassed = nullptr;
     this->season = nullptr;
+    this->peace_sign->setOwner(nullptr);
     for (std::shared_ptr<Player> player : players)
     {
         player->resetPlayerData();
@@ -373,11 +374,61 @@ void Match::setWarLand()
     }
 }
 
+void Match::setPeaceLand()
+{
+    if (this->peace_sign->getOwner() == nullptr)
+    {
+        return;
+    }
+
+    terminal_handler.print(this->peace_sign->getOwner()->getPlayerName() + ", You shall choose a land that war can not be on it :\n");
+    std::unordered_set<std::string> remaining_lands;
+
+    for (std::shared_ptr<Land> land : this->lands)
+    {
+        if (land->getLandOwner() == nullptr)
+        {
+            remaining_lands.emplace(land->getLandName());
+        }
+    }
+
+    for (const auto &land : remaining_lands)
+    {
+        terminal_handler.print(land, false);
+    }
+
+    terminal_handler.print("");
+    std::string landName;
+
+    while (true)
+    {
+        terminal_handler.input(landName);
+
+        if (remaining_lands.find(landName) != remaining_lands.end())
+        {
+            break;
+        }
+        terminal_handler.print("\nInvalid Land! Please select one of available lands.");
+    }
+
+    int iterator = -1;
+    for (std::shared_ptr<Land> land : lands)
+    {
+        iterator++;
+        if (land->getLandName() == landName)
+        {
+            this->peace_sign->setLand(land);
+            break;
+        }
+    }
+}
+
 void Match::run()
 {
     while (!this->is_match_over)
     {
         this->terminal_handler.clearScreen();
+        this->setPeaceLand();
         this->setWarLand();
         this->refreshData();
         this->rechargeDeck();

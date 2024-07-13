@@ -59,6 +59,8 @@ public:
 
     void setWarLand();
 
+    void setPeaceLand();
+
     void run();
 
     void war();
