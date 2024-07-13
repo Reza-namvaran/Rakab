@@ -280,6 +280,19 @@ void Match::playerChoice(std::shared_ptr<Player> p_player)
             }
         }
     }
+    else if (cardName == "Bishop")
+    {
+        for (std::shared_ptr<Card> card : p_player->getCard())
+        {
+            if (card->getCardName() == cardName)
+            {
+                this->peace_sign->setOwner(p_player);
+                std::shared_ptr<Bishop> bishop = std::dynamic_pointer_cast<Bishop>(card);
+                bishop->use(this->players);
+                break;
+            }
+        }
+    }
     else if (cardName == "Winter" || cardName == "Spring")
     {
         for (std::shared_ptr<Card> card : p_player->getCard())
@@ -291,6 +304,7 @@ void Match::playerChoice(std::shared_ptr<Player> p_player)
             }
         }
         p_player->playCard(cardName, false);
+        return;
     }
     else if (cardName == "Turncoat")
     {

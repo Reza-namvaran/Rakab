@@ -26,6 +26,8 @@ void Bishop::use(std::vector<std::shared_ptr<Player>> &players)
     for (std::shared_ptr<Player> player : players)
     {
         std::vector<std::shared_ptr<Card>> playedCards = player->getCard(false);
+        std::vector<std::shared_ptr<Card>> newPlayedCards = playedCards;
+        int iterator = 0;
         for (std::shared_ptr<Card> card : playedCards)
         {
             if (card->getCardType() == "Soldier")
@@ -33,9 +35,11 @@ void Bishop::use(std::vector<std::shared_ptr<Player>> &players)
                 std::shared_ptr<Soldier> soldier = std::dynamic_pointer_cast<Soldier>(card);
                 if (soldier->getCardScore() == max)
                 {
-                    player->setPlayerScore(player->getPlayerScore() - max);
+                    newPlayedCards.erase(newPlayedCards.begin() + iterator - (playedCards.size() - newPlayedCards.size()));
                 }
             }
+            iterator++;
         }
+        player->addCard(newPlayedCards, false);
     }
 }
