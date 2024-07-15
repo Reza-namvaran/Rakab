@@ -57,6 +57,8 @@ public:
 
     void playerChoice(std::shared_ptr<Player> player);
 
+    void setWarSignOwner(std::shared_ptr<Player> p_player = nullptr);
+
     void setWarLand();
 
     void setPeaceLand();

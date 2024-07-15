@@ -329,6 +329,34 @@ void Match::playerChoice(std::shared_ptr<Player> p_player)
     p_player->playCard(cardName);
 }
 
+void Match::setWarSignOwner(std::shared_ptr<Player> p_player)
+{
+    if (p_player == nullptr)
+        p_player = this->lastPlayerPassed;
+    unsigned int max = 0;
+    std::shared_ptr<Player> warSignOwner;
+    for (std::shared_ptr<Player> player : this->players)
+    {
+        unsigned int maxCounter = 0;
+        std::vector<std::shared_ptr<Card>> playedCards = player->getCard(false);
+        for (std::shared_ptr<Card> card : playedCards)
+        {
+            if (card->getCardName() == "Spy")
+            {
+                maxCounter++;
+            }
+        }
+        if (maxCounter > max)
+        {
+            max = maxCounter;
+            warSignOwner = player;
+        }
+    }
+    if (max != 0)
+        p_player = warSignOwner;
+    this->warSign->setOwner(p_player);
+}
+
 void Match::setWarLand()
 {
     terminal_handler.print(this->warSign->getOwner()->getPlayerName() + ", You shall choose a land for war :\n");
@@ -560,12 +588,12 @@ void Match::stateWinner()
     {
         winner->addLand(this->warSign->getLand());
         this->warSign->getLand()->setLandOwner(winner->getSign());
-        this->warSign->setOwner(winner);
+        this->setWarSignOwner(winner);
         this->gameWinner(winner);
     }
     else
     {
-        this->warSign->setOwner(this->lastPlayerPassed);
+        this->setWarSignOwner();
         this->lands.emplace_back(this->warSign->getLand());
     }
 }
