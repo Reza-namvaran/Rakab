@@ -29,4 +29,6 @@ help Scarecrow
 help Spy
 help Turncoat
 help Bishop
+save
+exit
 pass

@@ -2,6 +2,8 @@
 
 Match::Match(std::vector<std::shared_ptr<Player>> p_players) : players(p_players), deck(std::make_shared<CardDeck>()), warSign(std::make_shared<WarSign>()), peace_sign(std::make_shared<PeaceSign>())
 {
+    this->save_match = false;
+
     this->lands = {
         std::make_shared<Land>("ELINIA"),
         std::make_shared<Land>("ROLLO"),
@@ -136,6 +138,12 @@ void Match::setSeason(std::shared_ptr<Special> season)
 
 std::shared_ptr<Special> Match::getSeason() const { return this->season; }
 
+bool Match::getSaveStatus() const { return this->save_match; }
+
+bool Match::isMatchOver() const { return this->is_match_over; }
+
+void Match::resetMatchstatus() { this->is_match_over = false; }
+
 void Match::dealCardsToPlayers()
 {
     for (std::shared_ptr<Player> player : this->players)
@@ -255,6 +263,15 @@ void Match::playerChoice(std::shared_ptr<Player> p_player)
                     this->terminal_handler.print("\nInvalid command!");
                 }
             }
+        }
+        else if(cardName == "save")
+        {
+            this->save_match = true;
+        }
+        else if(cardName == "exit")
+        {
+            this->is_match_over = true;
+            return;
         }
         else
         {
@@ -504,6 +521,11 @@ void Match::war()
 
         this->displayStatus();
         this->playerChoice(players[iterator]);
+        if (this->save_match)
+        {
+            return;
+        }
+
         if (players[iterator]->getCard().empty())
         {
             players[iterator]->setPlayerPassed(true);

@@ -92,6 +92,8 @@ void Storage::saveMatchInfo(std::shared_ptr<Match> match, const std::string& pat
     // --------------------------------- War and Peace Signs -------------------------------- 
     if (match->warSign->getOwner() != nullptr)
         f_write << match->warSign->getOwner() << " " << match->warSign->getLand() << "\n";
+    else
+        f_write << "None" << " None" << "\n";
 
     if (match->peace_sign->getOwner() != nullptr)
         f_write << match->peace_sign->getOwner() << " " << match->peace_sign->getLand() << "\n";
@@ -121,9 +123,9 @@ void Storage::saveMatchInfo(std::shared_ptr<Match> match, const std::string& pat
     f_write << match->passCounter << "\n";
     
     if(match->lastPlayerPassed != nullptr)
-        f_write << match->lastPlayerPassed << "\n";
+        f_write << match->lastPlayerPassed;
     else
-        f_write << "None" << "\n";
+        f_write << "None";
     // --------------------------------------------------------------
 
     f_write.close();

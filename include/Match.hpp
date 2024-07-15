@@ -24,6 +24,7 @@ private:
     IO_Interface terminal_handler;
     std::vector<std::shared_ptr<Player>> players;
     bool is_match_over = false;
+    bool save_match;
     std::shared_ptr<CardDeck> deck;
     std::shared_ptr<WarSign> warSign;
     std::shared_ptr<PeaceSign> peace_sign;
@@ -46,6 +47,12 @@ public:
     void setSeason(std::shared_ptr<Special> season);
 
     std::shared_ptr<Special> getSeason() const;
+
+    bool getSaveStatus() const;
+
+    bool isMatchOver() const;
+
+    void resetMatchstatus();
 
     void dealCardsToPlayers();
 

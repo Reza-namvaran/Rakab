@@ -5,6 +5,7 @@
 #include <ctime>
 #include <memory>
 #include <unordered_set>
+#include <unordered_map>
 #include <stdexcept>
 
 #include "IO_Interface.hpp"
@@ -14,7 +15,9 @@
 class System {
 private:
     IO_Interface terminal_handler;
-    std::vector<std::shared_ptr<Match>> matches;
+    // std::vector<std::shared_ptr<Match>> matches;
+    std::unordered_map<int, std::shared_ptr<Match>> match_list;
+    Storage database;
 
 public:
     System();

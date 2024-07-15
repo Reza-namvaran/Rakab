@@ -118,12 +118,12 @@ std::vector<std::shared_ptr<Player>> System::initialize()
 void System::createNewMatch()
 {
     auto new_match = std::make_shared<Match>(this->initialize());
-    matches.emplace_back(new_match);
+    this->match_list.insert({match_list.size() + 1, new_match});
 }
 
 void System::runMatch(int match_id)
 {
-    this->matches[match_id - 1]->run();
+    this->match_list.at(match_id)->run();
 }
 
 void System::mainMenu()
@@ -132,6 +132,7 @@ void System::mainMenu()
     char c;
     std::cin >> c;
     std::cin.ignore();
+    int id = 1;
 
     while(1)
     {
@@ -139,12 +140,29 @@ void System::mainMenu()
             case 'n':
                     this->terminal_handler.clearScreen();
                     this->createNewMatch();
-                    runMatch(this->matches.size());
+                    id = this->match_list.size();
+                    runMatch(id);
+                    
+                    if(this->match_list.at(id)->getSaveStatus())
+                    {
+                        this->database.saveNewGame(this->match_list.at(id));
+                        std::clog << "Save: successful" << std::endl;
+                    }
+                    std::cin >> c;
+                    std::cin.ignore();
                     break;
             
             case 'l':
-                /// TODO: Implement save game system
-                return;
+                this->terminal_handler.print("Please select a match: ");
+                for(const auto& match : this->match_list)
+                    this->terminal_handler.print(match.first);
+                
+                int id;
+                std::cin >> id;
+                std::cin.ignore();
+
+                runMatch(id);
+                break;
 
             case 'e':
                 return;
