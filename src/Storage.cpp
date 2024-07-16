@@ -112,7 +112,7 @@ void Storage::saveMatchInfo(std::shared_ptr<Match> match, const std::string& pat
     
     /// -------------- Season -----------------
     if (match->getSeason() != nullptr)
-        f_write << match->getSeason() << "\n";
+        f_write << match->getSeason()->getCardName() << "\n";
     else
         f_write << "None" << "\n";
     /// ---------------------------------------
