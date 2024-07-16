@@ -54,7 +54,10 @@ std::vector<std::shared_ptr<Player>> System::initialize()
         unsigned int age;
 
         this->terminal_handler.print("Please enter player" + std::to_string(idx + 1) + "'s name: ");
-        this->terminal_handler.input(name);
+        do
+        {
+            this->terminal_handler.input(name);
+        } while (name.length() == 0);
 
         while (true)
         {
