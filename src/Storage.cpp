@@ -91,15 +91,19 @@ void Storage::saveMatchInfo(std::shared_ptr<Match> match, const std::string& pat
 
     // --------------------------------- War and Peace Signs -------------------------------- 
     if (match->warSign->getOwner() != nullptr)
-        f_write << match->warSign->getOwner() << " " << match->warSign->getLand() << "\n";
+        f_write << match->warSign->getOwner()->getPlayerName() << " " << match->warSign->getLand()->getLandName() << "\n";
     else
         f_write << "None" << " None" << "\n";
 
+    if (match->peace_sign->getLand() != nullptr)
+        f_write << match->peace_sign->getLand()->getLandName() << "\n";
+    else
+        f_write << "None" << "\n";
+
     if (match->peace_sign->getOwner() != nullptr)
-        f_write << match->peace_sign->getOwner() << " " << match->peace_sign->getLand() << "\n";
-    else 
-        f_write << "None" << " None" << "\n";
-    
+        f_write << match->peace_sign->getOwner()->getPlayerName() << "\n";
+    else
+        f_write << "None" << "\n";
     // we could have war sign without peace sign
 
     // --------------------------------------------------------------------------------------
@@ -123,7 +127,7 @@ void Storage::saveMatchInfo(std::shared_ptr<Match> match, const std::string& pat
     f_write << match->passCounter << "\n";
     
     if(match->lastPlayerPassed != nullptr)
-        f_write << match->lastPlayerPassed;
+        f_write << match->lastPlayerPassed->getPlayerName();
     else
         f_write << "None";
     // --------------------------------------------------------------
