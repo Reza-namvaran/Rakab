@@ -138,10 +138,6 @@ void Match::setSeason(std::shared_ptr<Special> season)
 
 std::shared_ptr<Special> Match::getSeason() const { return this->season; }
 
-bool Match::getSaveStatus() const { return this->save_match; }
-
-bool Match::isMatchOver() const { return this->is_match_over; }
-
 void Match::resetMatchstatus() { this->is_match_over = false; }
 
 void Match::dealCardsToPlayers()
@@ -270,7 +266,7 @@ void Match::playerChoice(std::shared_ptr<Player> p_player)
         }
         else if(cardName == "exit")
         {
-            this->is_match_over = true;
+            this->exit = true;
             return;
         }
         else
@@ -468,11 +464,26 @@ void Match::setPeaceLand()
     }
 }
 
+void Match::checkSaveStatus()
+{
+    if (this->save_match)
+    {
+        std::shared_ptr<Match> save_instace = std::make_shared<Match>(*this);
+        this->database->saveNewGame(save_instace);
+        this->save_match = false;
+    }
+}
+
 void Match::run()
 {
     while (!this->is_match_over)
     {
         this->terminal_handler.clearScreen();
+        this->checkSaveStatus();
+        /// TODO: Clean here if possible
+        if (this->exit)
+            break;
+
         this->setPeaceLand();
         this->setWarLand();
         this->refreshData();

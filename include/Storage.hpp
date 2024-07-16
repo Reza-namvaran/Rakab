@@ -8,6 +8,7 @@
 #include <iomanip>
 #include <sstream>
 #include <string>
+#include <cassert>
 
 /// NOTE: using deque as a ring buffer 
 
@@ -26,10 +27,6 @@ class Storage {
     void load();  
 
   private:
-    const int MAX_SAVES = 5;
-    const std::string SAVE_FOLDER = "data/";
-    const std::string SAVE_FILE_PREFIX = "rakab_";
-    const std::string SAVE_FILE_EXTENSION = ".txt";
     static std::deque<std::string> save_files;
 
     /// ------------------------ private function members ---------------------------
@@ -40,20 +37,3 @@ class Storage {
 };
 
 #endif // STORAGE_H
-
-/*
-Save template:
-
-Players Data:
-for each player
-name, age, color, score, is_passed
-cards played
-cards in hand
-
-Warsign
-peacesign
-season
-lands
-passCounter
-lastPlayerPassed
-*/

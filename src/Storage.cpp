@@ -1,10 +1,12 @@
 #include "Storage.hpp"
 
+std::deque<std::string> Storage::save_files;
+
 Storage::Storage() {
-    if (!std::filesystem::exists(SAVE_FOLDER))
+    if (!std::filesystem::exists("data/"))
     {
         /// NOTE: if file save folder isn't available this will create it
-        std::filesystem::create_directory(SAVE_FOLDER);
+        std::filesystem::create_directory("data/");
     }
 }
 
@@ -12,9 +14,9 @@ Storage::Storage() {
 std::string Storage::generateFileName() const {
     auto now = std::chrono::system_clock::now();
     auto time_t = std::chrono::system_clock::to_time_t(now);
-    
+
     std::ostringstream out;
-    out <<  SAVE_FOLDER << SAVE_FILE_PREFIX << std::put_time(std::localtime(&time_t), "%Y%m%d%H%M%S") << SAVE_FILE_EXTENSION;
+    out <<  "data/" << "rakab_" << std::put_time(std::localtime(&time_t), "%Y%m%d%H%M%S") << ".txt";
     return out.str();
 }
 
@@ -138,7 +140,7 @@ void Storage::saveMatchInfo(std::shared_ptr<Match> match, const std::string& pat
 /// DESCRIPTION: this method saves constructs a complete save file
 void Storage::saveNewGame(std::shared_ptr<Match> match) {
     /// NOTE: Use ring buffer logic to re-write first game after 5 games
-    if (save_files.size() == MAX_SAVES)
+    if (save_files.size() == 5)
     {
         std::filesystem::remove(save_files.front());
         save_files.pop_front();

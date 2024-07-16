@@ -34,6 +34,8 @@ private:
     unsigned int passCounter = 0;
     std::shared_ptr<Player> lastPlayerPassed = nullptr;
     GameGuide guide;
+    std::shared_ptr<Storage> database;
+    bool exit = false;
 
 public:
     Match(std::vector<std::shared_ptr<Player>> p_players);
@@ -48,9 +50,7 @@ public:
 
     std::shared_ptr<Special> getSeason() const;
 
-    bool getSaveStatus() const;
-
-    bool isMatchOver() const;
+    void checkSaveStatus();
 
     void resetMatchstatus();
 

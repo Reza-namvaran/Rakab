@@ -145,21 +145,16 @@ void System::mainMenu()
                     this->createNewMatch();
                     id = this->match_list.size();
                     runMatch(id);
-                    
-                    if(this->match_list.at(id)->getSaveStatus())
-                    {
-                        this->database.saveNewGame(this->match_list.at(id));
-                        std::clog << "Save: successful" << std::endl;
-                    }
+
                     std::cin >> c;
                     std::cin.ignore();
                     break;
-            
+
             case 'l':
                 this->terminal_handler.print("Please select a match: ");
                 for(const auto& match : this->match_list)
                     this->terminal_handler.print(match.first);
-                
+
                 int id;
                 std::cin >> id;
                 std::cin.ignore();

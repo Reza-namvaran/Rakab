@@ -15,7 +15,6 @@
 class System {
 private:
     IO_Interface terminal_handler;
-    // std::vector<std::shared_ptr<Match>> matches;
     std::unordered_map<int, std::shared_ptr<Match>> match_list;
     Storage database;
 
