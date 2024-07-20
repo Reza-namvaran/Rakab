@@ -3,14 +3,12 @@
 
 #include <fstream>
 #include <filesystem>
-#include <deque> 
+#include <deque>
 #include <chrono>
 #include <iomanip>
 #include <sstream>
 #include <string>
-#include <cassert>
 
-/// NOTE: using deque as a ring buffer 
 
 #include "Match.hpp"
 
@@ -24,15 +22,18 @@ class Storage {
 
     void saveNewGame(std::shared_ptr<Match> match);
 
-    void load();  
+    void loadAllMatch() const;
 
   private:
     static std::deque<std::string> save_files;
+    /// NOTE: using deque as a ring buffer 
 
     /// ------------------------ private function members ---------------------------
     void savePlayerInfo(std::shared_ptr<Player> p_player,const std::string& path) const;
     void saveMatchInfo(std::shared_ptr<Match> match, const std::string& path) const;
     std::string generateFileName() const;
+    std::vector<std::shared_ptr<Card>> splitAndCapture(const std::string& str) const;
+    void loadMatch(std::shared_ptr<Match> match, const std::string& path) const;
     /// -----------------------------------------------------------------------------
 };
 

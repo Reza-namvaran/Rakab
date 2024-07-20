@@ -148,6 +148,17 @@ void Storage::saveNewGame(std::shared_ptr<Match> match) {
 
     std::string new_file_name = this->generateFileName();
 
+    std::ofstream f_write(new_file_name);
+
+    if (!f_write.is_open())
+    {
+        std::cerr << "Cannot open the file" << std::endl;
+    }
+
+    f_write << match->players.size() << "\n";
+
+    f_write.close();
+
     for(auto player : match->players)
     {
         savePlayerInfo(player, new_file_name);
@@ -156,4 +167,105 @@ void Storage::saveNewGame(std::shared_ptr<Match> match) {
     saveMatchInfo(match, new_file_name);
 
     save_files.push_back(new_file_name);
+}
+
+std::vector<std::shared_ptr<Card>> Storage::splitAndCapture(const std::string& str) const
+{
+    std::istringstream iss(str);
+    std::string token;
+
+    std::vector<std::shared_ptr<Card>> cards;
+
+    while(iss >> token)
+    {
+        std::string card_name;
+        std::string card_score;
+
+        for (char c : token)
+        {
+            if (std::isdigit(c)){
+                card_score += c;
+            }
+            else {
+                card_name += c;
+            }
+        }
+
+        if (!card_name.empty() && !card_score.empty())
+        {
+            std::shared_ptr<Soldier> soldier = std::make_shared<Soldier>(card_name, card_score);
+            cards.emplace_back(soldier);
+        }
+        else
+        {
+            /// TODO: Finish this section
+        }
+    }
+}
+
+void Storage::loadMatch(std::shared_ptr<Match> match, const std::string& path) const
+{
+    std::ifstream f_read(path);
+
+    if (!f_read.is_open())
+    {
+        std::cerr << "Error opening the file: " << path << std::endl;
+        return;
+    }
+
+    std::string line;
+    int player_count = 3;
+
+    f_read >> player_count;
+    std::string player_name, player_color, season, land;
+    int player_age, player_score, pass_counter;
+    bool is_passed;
+
+    for(int idx = 0; idx < player_count; ++idx)
+    {
+        f_read >> player_name >> player_age >> player_color >> player_score >> is_passed;
+        std::shared_ptr<Player> new_player = std::make_shared<Player>(player_name, player_age, player_color);
+        new_player->setPlayerPassed(is_passed);
+        new_player->setPlayerScore(player_score);
+
+
+        std::getline(f_read, line);
+
+        std::vector<std::shared_ptr<Card>> hand_cards = this->splitAndCapture(line);
+        
+        std::getline(f_read, line);
+
+        std::vector<std::shared_ptr<Card>> played_cards = this->splitAndCapture(line);
+
+        new_player->addCard(hand_cards, true);
+        new_player->addCard(played_cards, false);
+        
+        /// TODO: loadPlayerLands
+
+        match->players.emplace_back(new_player);        
+    }
+
+    f_read >> player_name >> land;
+
+    if (player_name != "None" && land != "None")
+    {
+        /// IMPORTANT: Check the logic
+        match->warSign->setOwner(std::make_shared<Player>(player_name, 1, "tmp"));
+        match->warSign->setLand(std::make_shared<Land>(land));
+    }
+
+    /// TODO: Peace sign
+
+    f_read >> season;
+
+    /// IMPORTANT: Check the logic
+    match->season = std::make_shared<Special>(season);
+
+    f_read >> pass_counter;
+    match->passCounter = pass_counter;
+
+    f_read >> player_name;
+
+    /// IMPORTANT: Check the logic
+    match->lastPlayerPassed = std::make_shared<Player>(player_name, 1, "tmp");
 }
