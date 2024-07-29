@@ -260,11 +260,11 @@ void Match::playerChoice(std::shared_ptr<Player> p_player)
                 }
             }
         }
-        else if(cardName == "save")
+        else if (cardName == "save")
         {
             this->save_match = true;
         }
-        else if(cardName == "exit")
+        else if (cardName == "exit")
         {
             this->exit = true;
             return;
@@ -296,16 +296,7 @@ void Match::playerChoice(std::shared_ptr<Player> p_player)
     }
     else if (cardName == "Bishop")
     {
-        for (std::shared_ptr<Card> card : p_player->getCard())
-        {
-            if (card->getCardName() == cardName)
-            {
-                this->peace_sign->setOwner(p_player);
-                std::shared_ptr<Bishop> bishop = std::dynamic_pointer_cast<Bishop>(card);
-                bishop->use(this->players);
-                break;
-            }
-        }
+        this->lastPlayerBishoped = p_player;
     }
     else if (cardName == "Winter" || cardName == "Spring")
     {
@@ -368,6 +359,34 @@ void Match::setWarSignOwner(std::shared_ptr<Player> p_player)
     if (max != 0)
         p_player = warSignOwner;
     this->warSign->setOwner(p_player);
+}
+
+void Match::setPeaceSignOwner()
+{
+    unsigned int max = 0;
+    std::shared_ptr<Player> peaceSignOwner = nullptr;
+    for (std::shared_ptr<Player> player : this->players)
+    {
+        unsigned int maxCounter = 0;
+        std::vector<std::shared_ptr<Card>> playedCards = player->getCard(false);
+        for (std::shared_ptr<Card> card : playedCards)
+        {
+            if (card->getCardName() == "Bishop")
+            {
+                maxCounter++;
+            }
+        }
+        if (maxCounter > max)
+        {
+            max = maxCounter;
+            peaceSignOwner = player;
+        }
+        else if (maxCounter == max)
+        {
+            peaceSignOwner = this->lastPlayerBishoped;
+        }
+    }
+    this->peace_sign->setOwner(peaceSignOwner);
 }
 
 void Match::setWarLand()
@@ -601,6 +620,18 @@ void Match::calculateScore()
 
 void Match::stateWinner()
 {
+    for (std::shared_ptr<Player> player : players)
+    {
+        for (std::shared_ptr<Card> card : player->getCard(false))
+        {
+            if (card->getCardName() == "Bishop")
+            {
+                std::shared_ptr<Bishop> bishop = std::dynamic_pointer_cast<Bishop>(card);
+                bishop->use(this->players);
+            }
+        }
+    }
+    this->calculateScore();
     std::shared_ptr<Player> winner = std::make_shared<Player>("temp", 1, "test");
     for (std::shared_ptr<Player> player : players)
     {
@@ -629,6 +660,7 @@ void Match::stateWinner()
         this->setWarSignOwner();
         this->lands.emplace_back(this->warSign->getLand());
     }
+    this->setPeaceSignOwner();
 }
 
 void Match::gameWinner(std::shared_ptr<Player> p_winner)

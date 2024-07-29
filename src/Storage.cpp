@@ -191,15 +191,15 @@ std::vector<std::shared_ptr<Card>> Storage::splitAndCapture(const std::string& s
             }
         }
 
-        if (!card_name.empty() && !card_score.empty())
-        {
-            std::shared_ptr<Soldier> soldier = std::make_shared<Soldier>(card_name, card_score);
-            cards.emplace_back(soldier);
-        }
-        else
-        {
-            /// TODO: Finish this section
-        }
+        // if (!card_name.empty() && !card_score.empty())
+        // {
+        //     std::shared_ptr<Soldier> soldier = std::make_shared<Soldier>(card_name, card_score);
+        //     cards.emplace_back(soldier);
+        // }
+        // else
+        // {
+        //     /// TODO: Finish this section
+        // }
     }
 }
 
@@ -259,7 +259,7 @@ void Storage::loadMatch(std::shared_ptr<Match> match, const std::string& path) c
     f_read >> season;
 
     /// IMPORTANT: Check the logic
-    match->season = std::make_shared<Special>(season);
+    // match->season = std::make_shared<Special>(season);
 
     f_read >> pass_counter;
     match->passCounter = pass_counter;

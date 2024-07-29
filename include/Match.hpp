@@ -33,6 +33,7 @@ private:
     std::vector<std::vector<std::shared_ptr<Land>>> adjacentList;
     unsigned int passCounter = 0;
     std::shared_ptr<Player> lastPlayerPassed = nullptr;
+    std::shared_ptr<Player> lastPlayerBishoped = nullptr;
     GameGuide guide;
     std::shared_ptr<Storage> database;
     bool exit = false;
@@ -65,6 +66,8 @@ public:
     void playerChoice(std::shared_ptr<Player> player);
 
     void setWarSignOwner(std::shared_ptr<Player> p_player = nullptr);
+
+    void setPeaceSignOwner();
 
     void setWarLand();
 
