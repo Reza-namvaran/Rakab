@@ -3,6 +3,12 @@
 
 #include <raylib.h>
 
+typedef struct Button {
+    Rectangle rect;
+    const char* text;
+    bool hover;
+};
+
 /// DESCRIPTION: State Design Pattern
 class State {
     public:
