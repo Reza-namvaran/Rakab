@@ -2,8 +2,6 @@
 
 Match::Match(std::vector<std::shared_ptr<Player>> p_players) : players(p_players), deck(std::make_shared<CardDeck>()), warSign(std::make_shared<WarSign>()), peace_sign(std::make_shared<PeaceSign>())
 {
-    this->save_match = false;
-
     this->lands = {
         std::make_shared<Land>("ELINIA"),
         std::make_shared<Land>("ROLLO"),
@@ -262,7 +260,7 @@ void Match::playerChoice(std::shared_ptr<Player> p_player)
         }
         else if (cardName == "save")
         {
-            this->save_match = true;
+            this->checkSaveStatus(p_player);
         }
         else if (cardName == "exit")
         {
@@ -483,14 +481,10 @@ void Match::setPeaceLand()
     }
 }
 
-void Match::checkSaveStatus()
+void Match::checkSaveStatus(std::shared_ptr<Player> playerTurn)
 {
-    if (this->save_match)
-    {
-        std::shared_ptr<Match> save_instace = std::make_shared<Match>(*this);
-        this->database->saveNewGame(save_instace);
-        this->save_match = false;
-    }
+    std::shared_ptr<Match> save_instance = std::make_shared<Match>(*this);
+    this->database->saveNewGame(save_instance, playerTurn);
 }
 
 void Match::run()
@@ -498,7 +492,6 @@ void Match::run()
     while (!this->is_match_over)
     {
         this->terminal_handler.clearScreen();
-        this->checkSaveStatus();
         /// TODO: Clean here if possible
         if (this->exit)
             break;
@@ -551,10 +544,6 @@ void Match::war()
 
         this->displayStatus();
         this->playerChoice(players[iterator]);
-        if (this->save_match)
-        {
-            return;
-        }
 
         if (players[iterator]->getCard().empty())
         {

@@ -131,42 +131,49 @@ void System::runMatch(int match_id)
 
 void System::mainMenu()
 {
-    this->terminal_handler.print("Press n for starting a new match or l to load a match or e to exit");
+    this->terminal_handler.print("Press n for starting a new match or e to exit or choose a saved game(1 to 5)");
+    int counter = 1;
+    for (const auto &fileName : this->database.getFilesNames())
+    {
+        this->terminal_handler.print(std::to_string(counter) + "." + fileName);
+        counter++;
+    }
+
     char c;
-    std::cin >> c;
-    std::cin.ignore();
+    c = getch();
     int id = 1;
 
-    while(1)
+    while (1)
     {
-        switch(c){
-            case 'n':
-                    this->terminal_handler.clearScreen();
-                    this->createNewMatch();
-                    id = this->match_list.size();
-                    runMatch(id);
+        switch (c)
+        {
+        case 'n':
+            this->terminal_handler.clearScreen();
+            this->createNewMatch();
+            id = this->match_list.size();
+            runMatch(id);
 
-                    std::cin >> c;
-                    std::cin.ignore();
-                    break;
+            std::cin >> c;
+            std::cin.ignore();
+            break;
 
-            case 'l':
-                this->terminal_handler.print("Please select a match: ");
-                for(const auto& match : this->match_list)
-                    this->terminal_handler.print(match.first);
+        case 'l':
+            this->terminal_handler.print("Please select a match: ");
+            for (const auto &match : this->match_list)
+                this->terminal_handler.print(match.first);
 
-                int id;
-                std::cin >> id;
-                std::cin.ignore();
+            int id;
+            std::cin >> id;
+            std::cin.ignore();
 
-                runMatch(id);
-                break;
+            runMatch(id);
+            break;
 
-            case 'e':
-                return;
+        case 'e':
+            return;
 
-            default:
-                this->terminal_handler.print("Enter a valid option, n or l or e");
+        default:
+            this->terminal_handler.print("Enter a valid option, n or l or e");
         }
     }
 }
