@@ -6,7 +6,7 @@
 class MainMenu : public State {
     public:
         MainMenu();
-        ~MainMenu();
+        ~MainMenu() override;
 
         virtual void EnterState() override;
 

@@ -12,8 +12,7 @@ typedef struct Button {
 /// DESCRIPTION: State Design Pattern
 class State {
     public:
-        State() {}
-        ~State() = default;
+        virtual ~State() = default;
 
         virtual void EnterState() = 0;
 
