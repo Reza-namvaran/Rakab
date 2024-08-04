@@ -264,8 +264,8 @@ void Match::playerChoice(std::shared_ptr<Player> p_player)
         }
         else if (cardName == "exit")
         {
-            this->exit = true;
-            return;
+            this->checkSaveStatus(p_player);
+            std::exit(1);
         }
         else
         {
@@ -492,10 +492,6 @@ void Match::run()
     while (!this->is_match_over)
     {
         this->terminal_handler.clearScreen();
-        /// TODO: Clean here if possible
-        if (this->exit)
-            break;
-
         this->setPeaceLand();
         this->setWarLand();
         this->refreshData();

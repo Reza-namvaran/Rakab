@@ -35,7 +35,6 @@ private:
     std::shared_ptr<Player> lastPlayerBishoped = nullptr;
     GameGuide guide;
     std::shared_ptr<Storage> database;
-    bool exit = false;
 
 public:
     Match(std::vector<std::shared_ptr<Player>> p_players);
