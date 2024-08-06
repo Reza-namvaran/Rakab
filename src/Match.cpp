@@ -1,7 +1,8 @@
 #include "Match.hpp"
 
-Match::Match(std::vector<std::shared_ptr<Player>> p_players) : players(p_players), deck(std::make_shared<CardDeck>()), warSign(std::make_shared<WarSign>()), peace_sign(std::make_shared<PeaceSign>())
+Match::Match(std::shared_ptr<Storage> database) : deck(std::make_shared<CardDeck>()), warSign(std::make_shared<WarSign>()), peace_sign(std::make_shared<PeaceSign>()), database(database)
 {
+this->playerTurn=-1;
     this->lands = {
         std::make_shared<Land>("ELINIA"),
         std::make_shared<Land>("ROLLO"),
@@ -35,7 +36,11 @@ Match::Match(std::vector<std::shared_ptr<Player>> p_players) : players(p_players
         {this->lands[4], this->lands[8], this->lands[7]},
         {this->lands[11], this->lands[8], this->lands[3]},
         {this->lands[12], this->lands[8], this->lands[9]}};
+}
 
+Match::Match(std::vector<std::shared_ptr<Player>> p_players) : Match(std::make_shared<Storage>())
+{
+    this->players = p_players;
     unsigned int min_age = players[0]->getPlayerAge();
     int first_player = 0;
     for (int idx = 0; idx < players.size(); ++idx)
@@ -481,10 +486,10 @@ void Match::setPeaceLand()
     }
 }
 
-void Match::checkSaveStatus(std::shared_ptr<Player> playerTurn)
+void Match::checkSaveStatus(std::shared_ptr<Player> player_turn)
 {
     std::shared_ptr<Match> save_instance = std::make_shared<Match>(*this);
-    this->database->saveNewGame(save_instance, playerTurn);
+    this->database->saveNewGame(save_instance, player_turn);
 }
 
 void Match::run()
@@ -492,10 +497,13 @@ void Match::run()
     while (!this->is_match_over)
     {
         this->terminal_handler.clearScreen();
-        this->setPeaceLand();
-        this->setWarLand();
-        this->refreshData();
-        this->rechargeDeck();
+        if (this->playerTurn == -1)
+        {
+            this->setPeaceLand();
+            this->setWarLand();
+            this->refreshData();
+            this->rechargeDeck();
+        }
         this->war();
     }
     system("pause");
@@ -503,7 +511,16 @@ void Match::run()
 
 void Match::war()
 {
-    int iterator = this->findStarterPlayer();
+    int iterator;
+    if (this->playerTurn != -1)
+    {
+        iterator = this->playerTurn;
+        this->playerTurn = -1;
+    }
+    else
+    {
+        iterator = this->findStarterPlayer();
+    }
     int playersSize = players.size();
     for (iterator; iterator < playersSize; iterator++)
     {

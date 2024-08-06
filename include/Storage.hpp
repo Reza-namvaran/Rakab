@@ -24,18 +24,19 @@ public:
 
   void saveNewGame(std::shared_ptr<Match> match, std::shared_ptr<Player> playerTurn);
 
-  void loadAllMatch() const;
+  void loadMatch(std::shared_ptr<Match> match, const std::string &path) ;
 
 private:
   static std::deque<std::string> save_files;
+  std::shared_ptr<CardDeck> deck;
   /// NOTE: using deque as a ring buffer
 
   /// ------------------------ private function members ---------------------------
   void savePlayerInfo(std::shared_ptr<Player> p_player, const std::string &path) const;
   void saveMatchInfo(std::shared_ptr<Match> match, const std::string &path, std::shared_ptr<Player> playerTurn) const;
   std::string generateFileName() const;
-  std::vector<std::shared_ptr<Card>> splitAndCapture(const std::string &str) const;
-  void loadMatch(std::shared_ptr<Match> match, const std::string &path) const;
+  std::vector<std::shared_ptr<Card>> splitAndCaptureCards(const std::string &str) ;
+  std::vector<std::shared_ptr<Land>> splitAndCaptureLands(const std::string &str, std::shared_ptr<Match> match) ;
   /// -----------------------------------------------------------------------------
 };
 
