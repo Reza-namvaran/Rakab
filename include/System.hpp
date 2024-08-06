@@ -12,11 +12,12 @@
 #include "Player.hpp"
 #include "Match.hpp"
 
-class System {
+class System
+{
 private:
     IO_Interface terminal_handler;
     std::unordered_map<int, std::shared_ptr<Match>> match_list;
-    Storage database;
+    std::shared_ptr<Storage> database;
 
 public:
     System();

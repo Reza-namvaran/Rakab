@@ -2,7 +2,7 @@
 
 std::deque<std::string> Storage::save_files;
 
-Storage::Storage()
+Storage::Storage() : deck(std::make_shared<CardDeck>())
 {
     if (!std::filesystem::exists("data/"))
     {
@@ -53,30 +53,14 @@ void Storage::savePlayerInfo(std::shared_ptr<Player> p_player, const std::string
     ///  ---------------------  In hand ---------------------
     for (std::shared_ptr<Card> card : p_player->getCard())
     {
-        if (card->getCardType() != "Soldier")
-        {
-            f_write << card->getCardName() << " ";
-        }
-        else
-        {
-            std::shared_ptr<Soldier> soldier = std::dynamic_pointer_cast<Soldier>(card);
-            f_write << soldier->getCardName() << soldier->getCardScore() << " ";
-        }
+        f_write << card->getCardName() << " ";
     }
     f_write << "\n";
 
     ///  --------------------- Played ---------------------
     for (std::shared_ptr<Card> card : p_player->getCard(false))
     {
-        if (card->getCardType() != "Soldier")
-        {
-            f_write << card->getCardName() << " ";
-        }
-        else
-        {
-            std::shared_ptr<Soldier> soldier = std::dynamic_pointer_cast<Soldier>(card);
-            f_write << soldier->getCardName() << soldier->getCardScore() << " ";
-        }
+        f_write << card->getCardName() << " ";
     }
     f_write << "\n";
     /// ---------------------------------------------------------------
@@ -184,43 +168,51 @@ void Storage::saveNewGame(std::shared_ptr<Match> match, std::shared_ptr<Player> 
     save_files.push_back(new_file_name);
 }
 
-std::vector<std::shared_ptr<Card>> Storage::splitAndCapture(const std::string &str) const
+std::vector<std::shared_ptr<Card>> Storage::splitAndCaptureCards(const std::string &str)
 {
     std::istringstream iss(str);
-    std::string token;
+    std::string cardName;
 
     std::vector<std::shared_ptr<Card>> cards;
+    this->deck->generateDeck();
+    std::vector<std::shared_ptr<Card>> tempDeck = this->deck->getDeck();
 
-    while (iss >> token)
+    while (iss >> cardName)
     {
-        std::string card_name;
-        std::string card_score;
-
-        for (char c : token)
+        for (std::shared_ptr<Card> card : tempDeck)
         {
-            if (std::isdigit(c))
+            if (card->getCardName() == cardName)
             {
-                card_score += c;
-            }
-            else
-            {
-                card_name += c;
+                cards.push_back(card);
+                break;
             }
         }
-
-        // if (!card_name.empty() && !card_score.empty())
-        // {
-        //     std::shared_ptr<Soldier> soldier = std::make_shared<Soldier>(card_name, card_score);
-        //     cards.emplace_back(soldier);
-        // }
-        // else
-        // {
-        //     /// TODO: Finish this section
-        // }
     }
+    return cards;
 }
 
-void Storage::loadMatch(std::shared_ptr<Match> match, const std::string &path) const
+std::vector<std::shared_ptr<Land>> Storage::splitAndCaptureLands(const std::string &str, std::shared_ptr<Match> match)
+{
+    std::istringstream iss(str);
+    std::string landName;
+
+    std::vector<std::shared_ptr<Land>> lands;
+
+    while (iss >> landName)
+    {
+        for (std::shared_ptr<Land> land : match->lands)
+        {
+            if (land->getLandName() == landName)
+            {
+                lands.push_back(land);
+                break;
+            }
+        }
+    }
+    return lands;
+}
+
+void Storage::loadMatch(std::shared_ptr<Match> match, const std::string &path)
 {
     std::ifstream f_read(path);
 
@@ -231,7 +223,7 @@ void Storage::loadMatch(std::shared_ptr<Match> match, const std::string &path) c
     }
 
     std::string line;
-    int player_count = 3;
+    int player_count;
 
     f_read >> player_count;
     std::string player_name, player_color, season, land;
@@ -245,43 +237,109 @@ void Storage::loadMatch(std::shared_ptr<Match> match, const std::string &path) c
         new_player->setPlayerPassed(is_passed);
         new_player->setPlayerScore(player_score);
 
+        f_read.ignore();
         std::getline(f_read, line);
 
-        std::vector<std::shared_ptr<Card>> hand_cards = this->splitAndCapture(line);
+        std::vector<std::shared_ptr<Card>> hand_cards = this->splitAndCaptureCards(line);
 
         std::getline(f_read, line);
 
-        std::vector<std::shared_ptr<Card>> played_cards = this->splitAndCapture(line);
+        std::vector<std::shared_ptr<Card>> played_cards = this->splitAndCaptureCards(line);
 
         new_player->addCard(hand_cards, true);
         new_player->addCard(played_cards, false);
 
-        /// TODO: loadPlayerLands
+        std::getline(f_read, line);
+
+        std::vector<std::shared_ptr<Land>> played_lands = this->splitAndCaptureLands(line, match);
+
+        for (std::shared_ptr<Land> land : played_lands)
+        {
+            new_player->addLand(land);
+        }
 
         match->players.emplace_back(new_player);
     }
 
+    f_read >> player_name;
+ 
+    for (int iterator = 0; iterator < match->players.size(); iterator++)
+    {
+        if (player_name == match->players[iterator]->getPlayerName())
+        {
+            match->playerTurn = iterator;
+            break;
+        }
+    }
     f_read >> player_name >> land;
 
     if (player_name != "None" && land != "None")
     {
-        /// IMPORTANT: Check the logic
-        match->warSign->setOwner(std::make_shared<Player>(player_name, 1, "tmp"));
-        match->warSign->setLand(std::make_shared<Land>(land));
+        for (std::shared_ptr<Player> player : match->players)
+        {
+            if (player_name == player->getPlayerName())
+            {
+                match->warSign->setOwner(player);
+                break;
+            }
+        }
+
+        for (std::shared_ptr<Land> landPtr : match->lands)
+        {
+            if (land == landPtr->getLandName())
+            {
+                match->warSign->setLand(landPtr);
+                break;
+            }
+        }
     }
 
-    /// TODO: Peace sign
+    f_read >> player_name >> land;
+    if (player_name != "None")
+    {
+        for (std::shared_ptr<Player> player : match->players)
+        {
+            if (player_name == player->getPlayerName())
+            {
+                match->peace_sign->setOwner(player);
+                break;
+            }
+        }
+    }
+    if (land != "None")
+    {
+        for (std::shared_ptr<Land> landPtr : match->lands)
+        {
+            if (land == landPtr->getLandName())
+            {
+                match->peace_sign->setLand(landPtr);
+                break;
+            }
+        }
+    }
 
     f_read >> season;
 
-    /// IMPORTANT: Check the logic
-    // match->season = std::make_shared<Special>(season);
+    if (season == "Spring")
+    {
+        match->season = std::make_shared<Spring>(season);
+    }
+    else
+    {
+        match->season = std::make_shared<Winter>(season);
+    }
 
     f_read >> pass_counter;
     match->passCounter = pass_counter;
 
     f_read >> player_name;
 
-    /// IMPORTANT: Check the logic
-    match->lastPlayerPassed = std::make_shared<Player>(player_name, 1, "tmp");
+    for (std::shared_ptr<Player> player : match->players)
+    {
+        if (player_name == player->getPlayerName())
+        {
+            match->lastPlayerPassed = player;
+            break;
+        }
+    }
 }

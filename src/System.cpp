@@ -1,6 +1,6 @@
 #include "System.hpp"
 
-System::System()
+System::System() : database(std::make_shared<Storage>())
 {
     // Seed the random number generator with the current time
     srand(static_cast<unsigned int>(time(nullptr)));
@@ -121,7 +121,7 @@ std::vector<std::shared_ptr<Player>> System::initialize()
 void System::createNewMatch()
 {
     auto new_match = std::make_shared<Match>(this->initialize());
-    this->match_list.insert({match_list.size() + 1, new_match});
+    this->match_list[match_list.size() + 1] = new_match;
 }
 
 void System::runMatch(int match_id)
@@ -133,15 +133,17 @@ void System::mainMenu()
 {
     this->terminal_handler.print("Press n for starting a new match or e to exit or choose a saved game(1 to 5)");
     int counter = 1;
-    for (const auto &fileName : this->database.getFilesNames())
+    for (const std::string &fileName : this->database->getFilesNames())
     {
         this->terminal_handler.print(std::to_string(counter) + "." + fileName);
         counter++;
+        std::shared_ptr<Match> new_match = std::make_shared<Match>(this->database);
+        this->database->loadMatch(new_match, fileName);
+        this->match_list[this->match_list.size() + 1] = new_match;
     }
 
     char c;
     c = getch();
-    int id = 1;
 
     while (1)
     {
@@ -150,30 +152,12 @@ void System::mainMenu()
         case 'n':
             this->terminal_handler.clearScreen();
             this->createNewMatch();
-            id = this->match_list.size();
-            runMatch(id);
-
-            std::cin >> c;
-            std::cin.ignore();
+            runMatch(this->match_list.size());
             break;
-
-        case 'l':
-            this->terminal_handler.print("Please select a match: ");
-            for (const auto &match : this->match_list)
-                this->terminal_handler.print(match.first);
-
-            int id;
-            std::cin >> id;
-            std::cin.ignore();
-
-            runMatch(id);
-            break;
-
         case 'e':
             return;
-
         default:
-            this->terminal_handler.print("Enter a valid option, n or l or e");
+            runMatch(c - '0');
         }
     }
 }
