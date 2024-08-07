@@ -2,7 +2,8 @@
 
 Match::Match(std::shared_ptr<Storage> database) : deck(std::make_shared<CardDeck>()), warSign(std::make_shared<WarSign>()), peace_sign(std::make_shared<PeaceSign>()), database(database)
 {
-this->playerTurn=-1;
+    status = 0;
+    this->playerTurn=-1;
     this->lands = {
         std::make_shared<Land>("ELINIA"),
         std::make_shared<Land>("ROLLO"),
@@ -40,6 +41,7 @@ this->playerTurn=-1;
 
 Match::Match(std::vector<std::shared_ptr<Player>> p_players) : Match(std::make_shared<Storage>())
 {
+    status = 0;
     this->players = p_players;
     unsigned int min_age = players[0]->getPlayerAge();
     int first_player = 0;
@@ -689,4 +691,12 @@ void Match::gameWinner(std::shared_ptr<Player> p_winner)
             }
         }
     }
+}
+
+void Match::Process() {}
+
+void Match::Update() {}
+
+void Match::Render() {
+    DrawText("It works!", 20, 20, 20, BLACK);
 }

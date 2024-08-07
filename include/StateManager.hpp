@@ -7,10 +7,13 @@
 #include "Intro.hpp"
 #include "MainMenu.hpp"
 #include "PlayerSetup.hpp"
+#include "Match.hpp"
 
 class StateManager {
   private:
-    std::unique_ptr<State> current_state;
+    std::shared_ptr<State> current_state;
+    std::shared_ptr<PlayerSetup> player_info;
+    std::vector<std::shared_ptr<Player>> players;
 
   public:
     StateManager();

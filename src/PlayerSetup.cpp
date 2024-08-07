@@ -225,7 +225,7 @@ void PlayerSetup::Render() {
     }
 
     if (confirm_count == number_of_players && number_of_players != 0)
-        status = 2;
+        status = 5;
 }
 
 // void PlayerSetup::resetAllData() {
@@ -243,4 +243,8 @@ void PlayerSetup::resetFields() {
     name_buffer[0] = '\0';
     age_buffer[0] = '\0';
     this->is_color_menu_open = false;
+}
+
+std::vector<std::shared_ptr<Player>> PlayerSetup::getData() {
+    return this->players;
 }

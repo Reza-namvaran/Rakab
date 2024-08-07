@@ -16,9 +16,10 @@ class PlayerSetup : public State {
     virtual void Process() override;
     virtual void Update() override;
     virtual void Render() override;
+    std::vector<std::shared_ptr<Player>> getData();
 
   private:
-    void resetAllData();
+    // void resetAllData();
     void resetFields();
 
     int number_of_players;

@@ -15,10 +15,11 @@
 #include "GameGuide.hpp"
 #include "PeaceSign.hpp"
 #include "Storage.hpp"
+#include "State.hpp"
 
 class Storage;
 
-class Match
+class Match : public State
 {
 private:
     IO_Interface terminal_handler;
@@ -82,6 +83,12 @@ public:
     void stateWinner();
 
     void gameWinner(std::shared_ptr<Player> winner);
+
+    virtual void Process() override;
+
+    virtual void Update() override;
+
+    virtual void Render() override;
 };
 
 #endif // MATCH_H
