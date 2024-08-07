@@ -3,7 +3,7 @@
 
 #include <raylib.h>
 
-typedef struct Button {
+struct Button {
     Rectangle rect;
     const char* text;
     bool hover;
@@ -14,14 +14,16 @@ class State {
     public:
         virtual ~State() = default;
 
-        virtual void EnterState() = 0;
-
         virtual void Process() = 0;
         virtual void Update() = 0;
         virtual void Render() = 0;
 
-        virtual void ExitState() = 0;
+        int getStatus();
 
+    protected:
+        int screenHeight = 900;
+        int screenWidth = 1400;
+        int status;
 };
 
 #endif // STATE_H
