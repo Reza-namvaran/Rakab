@@ -1,32 +1,33 @@
 #include "MainMenu.hpp"
-
-MainMenu::MainMenu() : NUM_BACKGROUNDS(3), CHANGE_INTERVAL(5.0f), wants_to_exit(false) {
-
+// #include <iostream>
+MainMenu::MainMenu() : NUM_BACKGROUNDS(3), CHANGE_INTERVAL(5.0f) {
+    status = 0;
     main_menu_music = LoadMusicStream("../assets/audio/soundtrack.wav");
     button_sound = LoadSound("../assets/audio/button.wav");
     canterbury_font = LoadFont("../assets/fonts/Canterbury.ttf");
+    menu_bar = LoadTexture("../assets/pics/menu_bar.png");
 
     backgrounds[0] = LoadTexture("../assets/pics/knight.png");
     backgrounds[1] = LoadTexture("../assets/pics/castle.png");
     backgrounds[2] = LoadTexture("../assets/pics/n.png");
 
-    buttons[0] = (Button){(Rectangle){50, 150, 120, 50}, "Start", false};
-    buttons[1] = (Button){(Rectangle){50, 220, 120, 50}, "Options", false};
-    buttons[2] = (Button){(Rectangle){50, 290, 120, 50}, "Exit", false};
+    buttons[0] = (Button){(Rectangle){185, 300, 120, 50}, "Start", false};
+    buttons[1] = (Button){(Rectangle){145, 370, 120, 50}, "Load Game", false};
+    buttons[2] = (Button){(Rectangle){195, 440, 120, 50}, "Exit", false};
+
+    PlayMusicStream(main_menu_music);
 }
 
 MainMenu::~MainMenu() {
+    StopMusicStream(main_menu_music);
     // Clean up resources
     for (int i = 0; i < NUM_BACKGROUNDS; i++) {
         UnloadTexture(backgrounds[i]);
     }
+    UnloadTexture(menu_bar);
     UnloadMusicStream(main_menu_music);
     UnloadSound(button_sound);
     UnloadFont(canterbury_font);
-}
-
-void MainMenu::EnterState()  {
-    PlayMusicStream(main_menu_music);
 }
 
 void MainMenu::Process() {
@@ -38,7 +39,12 @@ void MainMenu::Process() {
                 selected_button = i;
                 PlaySound(button_sound);
                 if (i == 2) {
-                    wants_to_exit = true;
+                    // Exit
+                    this->status = -1;
+                }
+                else if(i == 0) {
+                    // Start New Game
+                    this->status = 3;
                 }
             }
         } else {
@@ -72,15 +78,11 @@ void MainMenu::Render()  {
     DrawTexturePro(backgrounds[current_background], sourceRec, destRec, (Vector2){0, 0}, 0.0f, WHITE);
     DrawTexturePro(backgrounds[next_background], sourceRec, destRec, (Vector2){0, 0}, 0.0f, Fade(WHITE, fadeAlpha));
 
+    DrawTexture(menu_bar, 100, 0, WHITE); 
+
     for (int i = 0; i < 3; i++) {
         Color textColor = buttons[i].hover ? RED : LIGHTGRAY;
         DrawTextEx(canterbury_font, buttons[i].text, (Vector2){buttons[i].rect.x + 10, buttons[i].rect.y + 10},
                     canterbury_font.baseSize, 1, textColor);
     }
-
-    DrawText("Press P to toggle popup", 10, 10, 20, DARKGRAY);
-}
-
-void MainMenu::ExitState() {
-    StopMusicStream(main_menu_music);
 }
