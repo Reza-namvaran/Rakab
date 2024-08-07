@@ -23,16 +23,39 @@ set(PROJECT_SOURCES
     Turncoat.cpp
     Bishop.cpp
     Storage.cpp
+    State.cpp
+    Intro.cpp
+    MainMenu.cpp
+    PlayerSetup.cpp
+    StateManager.cpp
 )
 
-add_executable(Rakab
+add_executable(${PROJECT_NAME}
     ${PROJECT_SOURCES}
 )
 
-target_include_directories(Rakab PRIVATE
+# Specify the directories where the headers and libraries are located
+
+include_directories(./include)
+
+link_directories(./lib)
+
+target_link_libraries(${PROJECT_NAME} raylib)
+
+target_include_directories(${PROJECT_NAME} PRIVATE
     ${PROJECT_SOURCE_DIR}/include
 )
 
-set_target_properties(Rakab PROPERTIES
+set_target_properties(${PROJECT_NAME} PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
 )
+
+if (WIN32)
+    target_link_libraries(${PROJECT_NAME} winmm)
+endif()
+
+if (APPLE)
+    target_link_libraries(${PROJECT_NAME} "-framework IOKit")
+    target_link_libraries(${PROJECT_NAME} "-framework Cocoa")
+    target_link_libraries(${PROJECT_NAME} "-framework OpenGL")
+endif()
