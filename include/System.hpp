@@ -11,6 +11,7 @@
 #include "IO_Interface.hpp"
 #include "Player.hpp"
 #include "Match.hpp"
+#include "StateManager.hpp"
 
 class System
 {
@@ -18,15 +19,16 @@ private:
     IO_Interface terminal_handler;
     std::unordered_map<int, std::shared_ptr<Match>> match_list;
     std::shared_ptr<Storage> database;
+    StateManager state_manager;
 
 public:
     System();
     ~System();
 
-    void mainMenu();
-    void createNewMatch();
-    std::vector<std::shared_ptr<Player>> initialize();
-    void runMatch(int match_id);
+    // void mainMenu();
+    // void createNewMatch();
+    // void runMatch(int match_id);
+    void run();
 };
 
 #endif // SYSTEM_H
