@@ -1,24 +1,24 @@
 #include "Match.hpp"
 
-Match::Match(std::shared_ptr<Storage> database) : deck(std::make_shared<CardDeck>()), warSign(std::make_shared<WarSign>()), peace_sign(std::make_shared<PeaceSign>()), database(database)
+Match::Match(std::shared_ptr<Storage> database) : deck(std::make_shared<CardDeck>()), warSign(std::make_shared<WarSign>()), peace_sign(std::make_shared<PeaceSign>()), database(database), match_state(0)
 {
     status = 0;
     this->playerTurn=-1;
     this->lands = {
-        std::make_shared<Land>("ELINIA"),
-        std::make_shared<Land>("ROLLO"),
-        std::make_shared<Land>("TALMONE"),
-        std::make_shared<Land>("PLADACI"),
-        std::make_shared<Land>("MORINA"),
-        std::make_shared<Land>("ARMENTO"),
-        std::make_shared<Land>("LIA"),
-        std::make_shared<Land>("OLIVADI"),
-        std::make_shared<Land>("BORGE"),
-        std::make_shared<Land>("DIMASE"),
-        std::make_shared<Land>("BELLA"),
-        std::make_shared<Land>("CALINE"),
-        std::make_shared<Land>("ENNA"),
-        std::make_shared<Land>("ATELA")};
+        std::make_shared<Land>("ELINIA", (Rectangle){330, 170, 80, 200}),
+        std::make_shared<Land>("ROLLO", (Rectangle){425, 655, 230, 85}),
+        std::make_shared<Land>("TALMONE", (Rectangle){430, 280, 210, 65}),
+        std::make_shared<Land>("PLADACI", (Rectangle){775, 175, 113, 285}),
+        std::make_shared<Land>("MORINA", (Rectangle){645, 290, 140, 110}),
+        std::make_shared<Land>("ARMENTO", (Rectangle){585, 460, 70, 75}),
+        std::make_shared<Land>("LIA", (Rectangle){590, 645, 90, 70}),
+        std::make_shared<Land>("OLIVADI", (Rectangle){700, 550, 60, 165}),
+        std::make_shared<Land>("BORGE", (Rectangle){805, 340, 95, 150}),
+        std::make_shared<Land>("DIMASE", (Rectangle){765, 505, 135, 205}),
+        std::make_shared<Land>("BELLA", (Rectangle){890, 175, 175, 130}),
+        std::make_shared<Land>("CALINE", (Rectangle){905, 310, 160, 80}),
+        std::make_shared<Land>("ENNA", (Rectangle){910, 415, 105, 125}),
+        std::make_shared<Land>("ATELA", (Rectangle){910, 560, 160, 55})};
     this->adjacentList = {
         {this->lands[0], this->lands[1], this->lands[2]},
         {this->lands[4], this->lands[1], this->lands[2]},
@@ -37,6 +37,8 @@ Match::Match(std::shared_ptr<Storage> database) : deck(std::make_shared<CardDeck
         {this->lands[4], this->lands[8], this->lands[7]},
         {this->lands[11], this->lands[8], this->lands[3]},
         {this->lands[12], this->lands[8], this->lands[9]}};
+
+        Map = LoadTexture("../assets/pics/Map.png");
 }
 
 Match::Match(std::vector<std::shared_ptr<Player>> p_players) : Match(std::make_shared<Storage>())
@@ -66,7 +68,9 @@ Match::Match(std::vector<std::shared_ptr<Player>> p_players) : Match(std::make_s
     warSign->setOwner(players[first_player]);
 }
 
-Match::~Match() {}
+Match::~Match() {
+    UnloadTexture(Map);
+}
 
 void Match::displayStatus()
 {
@@ -229,7 +233,7 @@ void Match::playerChoice(std::shared_ptr<Player> p_player)
             if (cardName == "help")
             {
                 this->guide.getGameRules();
-                this->terminal_handler.clearScreen();
+                // this->terminal_handler.clearScreen();
                 this->displayStatus();
 
                 this->terminal_handler.print(p_player->getPlayerName() + "'s hand: \n");
@@ -247,7 +251,7 @@ void Match::playerChoice(std::shared_ptr<Player> p_player)
                 if (this->guide.getDescriptions().find(token) != this->guide.getDescriptions().end())
                 {
                     this->guide.getCardInfo(token);
-                    this->terminal_handler.clearScreen();
+                    // this->terminal_handler.clearScreen();
                     this->displayStatus();
 
                     this->terminal_handler.print(p_player->getPlayerName() + "'s hand: \n");
@@ -427,10 +431,8 @@ void Match::setWarLand()
         terminal_handler.print("\nInvalid Land! Please select one of available lands.");
     }
 
-    int iterator = -1;
     for (std::shared_ptr<Land> land : lands)
     {
-        iterator++;
         if (land->getLandName() == landName)
         {
             this->warSign->setLand(land);
@@ -445,7 +447,7 @@ void Match::setPeaceLand()
     {
         return;
     }
-
+    // find remaining lands
     terminal_handler.print(this->peace_sign->getOwner()->getPlayerName() + ", You shall choose a land that war can not be on it :\n");
     std::unordered_set<std::string> remaining_lands;
 
@@ -465,21 +467,20 @@ void Match::setPeaceLand()
     terminal_handler.print("");
     std::string landName;
 
-    while (true)
-    {
-        terminal_handler.input(landName);
+    // while (true)
+    // {
+    //     terminal_handler.input(landName);
 
-        if (remaining_lands.find(landName) != remaining_lands.end())
-        {
-            break;
-        }
-        terminal_handler.print("\nInvalid Land! Please select one of available lands.");
-    }
+    //     if (remaining_lands.find(landName) != remaining_lands.end())
+    //     {
+    //         break;
+    //     }
+    //     terminal_handler.print("\nInvalid Land! Please select one of available lands.");
+    // }
 
-    int iterator = -1;
+    // set land
     for (std::shared_ptr<Land> land : lands)
     {
-        iterator++;
         if (land->getLandName() == landName)
         {
             this->peace_sign->setLand(land);
@@ -496,9 +497,9 @@ void Match::checkSaveStatus(std::shared_ptr<Player> player_turn)
 
 void Match::run()
 {
-    while (!this->is_match_over)
-    {
-        this->terminal_handler.clearScreen();
+    // while (!this->is_match_over)
+    // {
+        // this->terminal_handler.clearScreen();
         if (this->playerTurn == -1)
         {
             this->setPeaceLand();
@@ -507,8 +508,7 @@ void Match::run()
             this->rechargeDeck();
         }
         this->war();
-    }
-    system("pause");
+    // }
 }
 
 void Match::war()
@@ -549,13 +549,13 @@ void Match::war()
             continue;
         }
 
-        this->terminal_handler.clearScreen();
+        // this->terminal_handler.clearScreen();
 
         this->terminal_handler.print("Please pass the turn to " + players[iterator]->getPlayerName());
         this->terminal_handler.print("Press any key");
 
-        this->terminal_handler.onClickInput();
-        this->terminal_handler.clearScreen();
+        // this->terminal_handler.onClickInput();
+        // this->terminal_handler.clearScreen();
 
         this->displayStatus();
         this->playerChoice(players[iterator]);
@@ -698,5 +698,11 @@ void Match::Process() {}
 void Match::Update() {}
 
 void Match::Render() {
-    DrawText("It works!", 20, 20, 20, BLACK);
+
+    if(match_state >= 0  && match_state <= 3)
+    {
+        // Draw Map
+        DrawTexture(Map, 300, 150, WHITE);
+
+    }
 }

@@ -5,6 +5,8 @@
 #include <memory>
 #include <string>
 
+#include "raylib.h"
+
 class PlayerSign;
 class Player;
 
@@ -13,10 +15,11 @@ class Land
 private:
     std::string name;
     std::shared_ptr<PlayerSign> owner;
+    Rectangle border;
 
 public:
     Land();
-    Land(const std::string &p_name);
+    Land(const std::string &p_name, Rectangle p_border);
 
     std::string getLandName() const;
 

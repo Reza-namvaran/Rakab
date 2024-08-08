@@ -3,7 +3,7 @@
 
 Land::Land() : name(""), owner(nullptr) {}
 
-Land::Land(const std::string &p_name) : name(p_name), owner(nullptr) {}
+Land::Land(const std::string &p_name, Rectangle p_border) : name(p_name), owner(nullptr), border(p_border) {}
 
 std::string Land::getLandName() const
 {

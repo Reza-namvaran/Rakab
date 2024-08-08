@@ -19,6 +19,12 @@
 
 class Storage;
 
+struct land_btn {
+    Rectangle rect;
+    std::string name;
+    bool active;
+};
+
 class Match : public State
 {
 private:
@@ -29,14 +35,19 @@ private:
     std::shared_ptr<WarSign> warSign;
     std::shared_ptr<PeaceSign> peace_sign;
     std::shared_ptr<Special> season = nullptr;
-    std::vector<std::shared_ptr<Land>> lands;
-    std::vector<std::vector<std::shared_ptr<Land>>> adjacentList;
+    std::vector<std::shared_ptr<Land>> lands;   // All lands in game
+    std::vector<std::vector<std::shared_ptr<Land>>> adjacentList; // Adjacent Matrix
     unsigned int passCounter = 0;
     std::shared_ptr<Player> lastPlayerPassed = nullptr;
     std::shared_ptr<Player> lastPlayerBishoped = nullptr;
     GameGuide guide;
     std::shared_ptr<Storage> database;
     int playerTurn;
+    
+    int match_state;
+    Texture2D Map;
+    Vector2 mousePosition;
+
 
 public:
     Match( std::shared_ptr<Storage> database);
