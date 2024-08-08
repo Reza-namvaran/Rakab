@@ -701,8 +701,26 @@ void Match::Render() {
 
     if(match_state >= 0  && match_state <= 3)
     {
-        // Draw Map
         DrawTexture(Map, 300, 150, WHITE);
 
+        for(std::shared_ptr<Land> land : lands)
+        {
+            if (warSign->getLand() == land)
+            {
+                DrawTexture(warSign->getIcon(), land->getBorder().x, land->getBorder().y, WHITE);
+            }
+            else if (peace_sign->getLand() == land)
+            {
+                DrawTexture(peace_sign->getIcon(), land->getBorder().x, land->getBorder().y, WHITE);
+            }
+            else if (land->getLandOwner() != nullptr)
+            {
+                DrawTexture(land->getLandOwner()->getSign()->getIcon(), land->getBorder().x, land->getBorder().y, WHITE);
+            }
+            else
+            {
+                DrawRectangleRec(land->getBorder(), (Color){255, 255, 255, 0});
+            }
+        }
     }
 }
