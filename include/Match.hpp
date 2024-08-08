@@ -48,6 +48,8 @@ private:
     Texture2D Map;
     Vector2 mousePosition;
     Texture2D war_background;
+    Texture2D winter_background;
+    Texture2D spring_background;
 
 
 public:

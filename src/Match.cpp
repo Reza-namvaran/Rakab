@@ -41,6 +41,8 @@ Match::Match(std::shared_ptr<Storage> database) : deck(std::make_shared<CardDeck
         Map = LoadTexture("../assets/pics/Map.png");
 
         war_background = LoadTexture("../assets/pics/background.png");
+        winter_background = LoadTexture("../assets/pics/winter_bkg.png");
+        spring_background = LoadTexture("../assets/pics/spring_bkg.png");
 }
 
 Match::Match(std::vector<std::shared_ptr<Player>> p_players) : Match(std::make_shared<Storage>())
@@ -320,6 +322,15 @@ void Match::playerChoice(std::shared_ptr<Player> p_player)
             }
         }
         p_player->playCard(cardName, false);
+        if(this->season->getCardName() == "Winter")
+        {
+            war_background = winter_background;
+        }
+        else if (this->season->getCardName() == "Spring")
+        {
+            war_background = spring_background;
+        }
+        /// TODO: Add reset to normal
         return;
     }
     else if (cardName == "Turncoat")
@@ -648,6 +659,8 @@ void Match::Process() {
     case 1:
         // War sign
         setWarLand();
+    case 4:
+        // War
     default:
         break;
     }
