@@ -1,6 +1,6 @@
 #include "Match.hpp"
 
-Match::Match(std::shared_ptr<Storage> database) : deck(std::make_shared<CardDeck>()), warSign(std::make_shared<WarSign>()), peace_sign(std::make_shared<PeaceSign>()), database(database), match_state(0)
+Match::Match(std::shared_ptr<Storage> database) : deck(std::make_shared<CardDeck>()), warSign(std::make_shared<WarSign>()), peace_sign(std::make_shared<PeaceSign>()), database(database), match_state(1)
 {
     status = 0;
     this->playerTurn=-1;
@@ -400,42 +400,13 @@ void Match::setPeaceSignOwner()
 
 void Match::setWarLand()
 {
-    terminal_handler.print(this->warSign->getOwner()->getPlayerName() + ", You shall choose a land for war :\n");
-    std::unordered_set<std::string> remaining_lands;
-    std::string peace_land = (this->peace_sign->getLand() != nullptr) ? this->peace_sign->getLand()->getLandName() : "";
-
-    for (std::shared_ptr<Land> land : this->lands)
-    {
-        if (land->getLandOwner() == nullptr && land->getLandName() != peace_land)
-        {
-            remaining_lands.emplace(land->getLandName());
-        }
-    }
-
-    for (const auto &land : remaining_lands)
-    {
-        terminal_handler.print(land, false);
-    }
-
-    terminal_handler.print("");
-    std::string landName;
-
-    while (true)
-    {
-        terminal_handler.input(landName);
-
-        if (remaining_lands.find(landName) != remaining_lands.end())
-        {
-            break;
-        }
-        terminal_handler.print("\nInvalid Land! Please select one of available lands.");
-    }
-
+    // Setting war land
     for (std::shared_ptr<Land> land : lands)
     {
-        if (land->getLandName() == landName)
+        if (land->getLandOwner() == nullptr && CheckCollisionPointRec(GetMousePosition(), land->getBorder()) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && peace_sign->getLand() != land)
         {
-            this->warSign->setLand(land);
+            warSign->setLand(land);
+            match_state = 3;
             break;
         }
     }
@@ -443,47 +414,19 @@ void Match::setWarLand()
 
 void Match::setPeaceLand()
 {
+    /// NOTE: In case that no one played Bishop in a war
     if (this->peace_sign->getOwner() == nullptr)
     {
         return;
     }
-    // find remaining lands
-    terminal_handler.print(this->peace_sign->getOwner()->getPlayerName() + ", You shall choose a land that war can not be on it :\n");
-    std::unordered_set<std::string> remaining_lands;
 
-    for (std::shared_ptr<Land> land : this->lands)
-    {
-        if (land->getLandOwner() == nullptr)
-        {
-            remaining_lands.emplace(land->getLandName());
-        }
-    }
-
-    for (const auto &land : remaining_lands)
-    {
-        terminal_handler.print(land, false);
-    }
-
-    terminal_handler.print("");
-    std::string landName;
-
-    // while (true)
-    // {
-    //     terminal_handler.input(landName);
-
-    //     if (remaining_lands.find(landName) != remaining_lands.end())
-    //     {
-    //         break;
-    //     }
-    //     terminal_handler.print("\nInvalid Land! Please select one of available lands.");
-    // }
-
-    // set land
+    // Setting peace land
     for (std::shared_ptr<Land> land : lands)
     {
-        if (land->getLandName() == landName)
+        if (land->getLandOwner() == nullptr && CheckCollisionPointRec(GetMousePosition(), land->getBorder()) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
         {
-            this->peace_sign->setLand(land);
+            peace_sign->setLand(land);
+            match_state = 3;
             break;
         }
     }
@@ -693,7 +636,20 @@ void Match::gameWinner(std::shared_ptr<Player> p_winner)
     }
 }
 
-void Match::Process() {}
+void Match::Process() {
+    switch (match_state)
+    {
+    case 0:
+        setPeaceLand();
+        break;
+
+    case 1:
+        // War sign
+        setWarLand();
+    default:
+        break;
+    }
+}
 
 void Match::Update() {}
 
