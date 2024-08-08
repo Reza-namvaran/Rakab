@@ -47,6 +47,7 @@ private:
     int match_state;
     Texture2D Map;
     Vector2 mousePosition;
+    Texture2D war_background;
 
 
 public:

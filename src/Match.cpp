@@ -39,6 +39,8 @@ Match::Match(std::shared_ptr<Storage> database) : deck(std::make_shared<CardDeck
         {this->lands[12], this->lands[8], this->lands[9]}};
 
         Map = LoadTexture("../assets/pics/Map.png");
+
+        war_background = LoadTexture("../assets/pics/background.png");
 }
 
 Match::Match(std::vector<std::shared_ptr<Player>> p_players) : Match(std::make_shared<Storage>())
@@ -655,7 +657,7 @@ void Match::Update() {}
 
 void Match::Render() {
 
-    if(match_state >= 0  && match_state <= 3)
+    if (match_state >= 0  && match_state <= 3)
     {
         DrawTexture(Map, 300, 150, WHITE);
 
@@ -678,5 +680,12 @@ void Match::Render() {
                 DrawRectangleRec(land->getBorder(), (Color){255, 255, 255, 0});
             }
         }
+    }
+    else if (match_state == 4)
+    {
+        // Draw Battle ground
+        Rectangle back_ground_rect = { 0.0f, 0.0f, (float)war_background.width, (float)war_background.height };
+
+        DrawTexture(war_background, back_ground_rect.x, back_ground_rect.y, WHITE);
     }
 }
