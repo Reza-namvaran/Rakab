@@ -21,3 +21,5 @@ std::shared_ptr<Player> Land::getLandOwner() const
         return nullptr;
     return owner->getOwner();
 }
+
+Rectangle Land::getBorder() { return border; }

@@ -21,11 +21,13 @@ public:
     Land();
     Land(const std::string &p_name, Rectangle p_border);
 
-    std::string getLandName() const;
-
     void setLandOwner(std::shared_ptr<PlayerSign> p_owner);
 
     std::shared_ptr<Player> getLandOwner() const;
+
+    std::string getLandName() const;
+
+    Rectangle getBorder();
 };
 
 #endif
