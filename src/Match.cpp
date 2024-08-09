@@ -678,15 +678,15 @@ void Match::Render() {
         {
             if (warSign->getLand() == land)
             {
-                DrawTexture(warSign->getIcon(), land->getBorder().x, land->getBorder().y, WHITE);
+                DrawTexture(warSign->getIcon(), land->getBorder().x + 50, land->getBorder().y + 50, WHITE);
             }
             else if (peace_sign->getLand() == land)
             {
-                DrawTexture(peace_sign->getIcon(), land->getBorder().x, land->getBorder().y, WHITE);
+                DrawTexture(peace_sign->getIcon(), land->getBorder().x + 50, land->getBorder().y + 50, WHITE);
             }
             else if (land->getLandOwner() != nullptr)
             {
-                DrawTexture(land->getLandOwner()->getSign()->getIcon(), land->getBorder().x, land->getBorder().y, WHITE);
+                DrawTexture(land->getLandOwner()->getSign()->getIcon(), land->getBorder().x + 50, land->getBorder().y + 50, WHITE);
             }
             else
             {
