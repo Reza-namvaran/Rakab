@@ -6,9 +6,9 @@ Match::Match(std::shared_ptr<Storage> database) : deck(std::make_shared<CardDeck
     this->playerTurn=-1;
     this->lands = {
         std::make_shared<Land>("ELINIA", (Rectangle){330, 170, 80, 200}),
-        std::make_shared<Land>("ROLLO", (Rectangle){425, 655, 230, 85}),
+        std::make_shared<Land>("ROLLO", (Rectangle){425, 165, 230, 85}),
         std::make_shared<Land>("TALMONE", (Rectangle){430, 280, 210, 65}),
-        std::make_shared<Land>("PLADACI", (Rectangle){775, 175, 113, 285}),
+        std::make_shared<Land>("PLADACI", (Rectangle){775, 175, 113, 110}),
         std::make_shared<Land>("MORINA", (Rectangle){645, 290, 140, 110}),
         std::make_shared<Land>("ARMENTO", (Rectangle){585, 460, 70, 75}),
         std::make_shared<Land>("LIA", (Rectangle){590, 645, 90, 70}),
@@ -419,7 +419,7 @@ void Match::setWarLand()
         if (land->getLandOwner() == nullptr && CheckCollisionPointRec(GetMousePosition(), land->getBorder()) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && peace_sign->getLand() != land)
         {
             warSign->setLand(land);
-            match_state = 3;
+            // match_state = 3;
             break;
         }
     }
@@ -678,15 +678,15 @@ void Match::Render() {
         {
             if (warSign->getLand() == land)
             {
-                DrawTexture(warSign->getIcon(), land->getBorder().x + 50, land->getBorder().y + 50, WHITE);
+                DrawTexture(warSign->getIcon(), land->getBorder().x + 30, land->getBorder().y + 30, WHITE);
             }
             else if (peace_sign->getLand() == land)
             {
-                DrawTexture(peace_sign->getIcon(), land->getBorder().x + 50, land->getBorder().y + 50, WHITE);
+                DrawTexture(peace_sign->getIcon(), land->getBorder().x + 30, land->getBorder().y + 30, WHITE);
             }
             else if (land->getLandOwner() != nullptr)
             {
-                DrawTexture(land->getLandOwner()->getSign()->getIcon(), land->getBorder().x + 50, land->getBorder().y + 50, WHITE);
+                DrawTexture(land->getLandOwner()->getSign()->getIcon(), land->getBorder().x + 30, land->getBorder().y + 30, WHITE);
             }
             else
             {
