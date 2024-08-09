@@ -3,7 +3,7 @@
 Match::Match(std::shared_ptr<Storage> database) : deck(std::make_shared<CardDeck>()), warSign(std::make_shared<WarSign>()), peace_sign(std::make_shared<PeaceSign>()), database(database), match_state(1)
 {
     status = 0;
-    this->playerTurn=-1;
+    this->loadPlayerTurn=-1;
     this->lands = {
         std::make_shared<Land>("ELINIA", (Rectangle){330, 170, 80, 200}),
         std::make_shared<Land>("ROLLO", (Rectangle){425, 165, 230, 85}),
@@ -456,7 +456,7 @@ void Match::run()
     // while (!this->is_match_over)
     // {
         // this->terminal_handler.clearScreen();
-        if (this->playerTurn == -1)
+        if (this->loadPlayerTurn == -1)
         {
             this->setPeaceLand();
             this->setWarLand();
@@ -470,10 +470,10 @@ void Match::run()
 void Match::war()
 {
     int iterator;
-    if (this->playerTurn != -1)
+    if (this->loadPlayerTurn != -1)
     {
-        iterator = this->playerTurn;
-        this->playerTurn = -1;
+        iterator = this->loadPlayerTurn;
+        this->loadPlayerTurn = -1;
     }
     else
     {
@@ -670,7 +670,7 @@ void Match::Update() {}
 
 void Match::Render() {
 
-    if (match_state >= 0  && match_state <= 3)
+    if (match_state >= 0  && match_state <= 2)
     {
         DrawTexture(Map, 300, 150, WHITE);
 
@@ -694,7 +694,7 @@ void Match::Render() {
             }
         }
     }
-    else if (match_state == 4)
+    else if (match_state == 3)
     {
         // Draw Battle ground
         Rectangle back_ground_rect = { 0.0f, 0.0f, (float)war_background.width, (float)war_background.height };

@@ -42,7 +42,8 @@ private:
     std::shared_ptr<Player> lastPlayerBishoped = nullptr;
     GameGuide guide;
     std::shared_ptr<Storage> database;
-    int playerTurn;
+    int loadPlayerTurn;
+    int PlayerTurn;
     
     int match_state;
     Texture2D Map;
