@@ -2,13 +2,8 @@
 
 Soldier::Soldier(const std::string p_name, const unsigned int score) : Card(p_name)
 {
-    char temp[10];
-    sprintf(temp, "%d", score);
-    char temp2[100];
-    strcpy(temp2, "../assets/pics/soldier");
-    strcpy(temp2, temp);
-    strcpy(temp2, ".png");
-    this->setCardPic(temp2);
+    std::string temp = "../assets/pics/soldier" + std::to_string(score) + ".png";
+    this->setCardPic(temp.c_str());
     this->setCardScore(score);
 }
 

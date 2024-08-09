@@ -43,7 +43,7 @@ private:
     GameGuide guide;
     std::shared_ptr<Storage> database;
     int loadPlayerTurn;
-    int PlayerTurn;
+    int playerTurn;
     
     int match_state;
     Texture2D Map;
@@ -79,7 +79,7 @@ public:
 
     unsigned int findStarterPlayer() const;
 
-    void playerChoice(std::shared_ptr<Player> player);
+    void playerChoice(std::shared_ptr<Player> player,std::string cardName);
 
     void setWarSignOwner(std::shared_ptr<Player> p_player = nullptr);
 
