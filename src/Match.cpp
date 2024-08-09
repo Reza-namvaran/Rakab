@@ -319,6 +319,24 @@ void Match::playerChoice(std::shared_ptr<Player> p_player)
         }
         iterator++;
     }
+    if (CheckCollisionPointRec(GetMousePosition(), (Rectangle){1000, 800, 100, 60}) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+    {
+        cardName = "pass";
+        this->match_state = 3;
+    }
+     if (players[this->playerTurn]->getPlayerPassed())
+    {
+        this->match_state=3;
+        return;
+    }
+    if (players[this->playerTurn]->getCard().empty())
+    {
+        players[this->playerTurn]->setPlayerPassed(true);
+        this->passCounter++;
+        this->lastPlayerPassed = players[this->playerTurn];
+        this->match_state=3;
+        return;
+    }
     // if (cardName == "Scarecrow")
     // {
     //     for (std::shared_ptr<Card> card : p_player->getCard())
@@ -505,6 +523,7 @@ void Match::war()
     }
     if (players[this->playerTurn]->getPlayerPassed())
     {
+        this->match_state=3;
         return;
     }
     if (players[this->playerTurn]->getCard().empty())
@@ -512,6 +531,7 @@ void Match::war()
         players[this->playerTurn]->setPlayerPassed(true);
         this->passCounter++;
         this->lastPlayerPassed = players[this->playerTurn];
+        this->match_state=3;
         return;
     }
 
@@ -523,12 +543,6 @@ void Match::war()
     // this->displayStatus();
     // this->playerChoice(players[this->playerTurn]);
 
-    if (players[this->playerTurn]->getCard().empty())
-    {
-        players[this->playerTurn]->setPlayerPassed(true);
-        this->passCounter++;
-        this->lastPlayerPassed = players[this->playerTurn];
-    }
     // this->calculateScore();
     // this->stateWinner();
 }
@@ -670,6 +684,7 @@ void Match::Process()
         this->playerTurn = this->findStarterPlayer();
         this->rechargeDeck();
         this->war();
+        break;
     default:
         break;
     }
@@ -722,7 +737,7 @@ void Match::Render()
             int x = 0;
             for (std::shared_ptr<Card> card : player->getCard(false))
             {
-                DrawTexture(card->getCardPic(), 80 + x * 80, 50 + y * 150, WHITE);
+                DrawTexture(card->getCardPic(), 80 + x * 80, 50 + y * 100, WHITE);
                 x++;
             }
             y++;
@@ -731,11 +746,14 @@ void Match::Render()
         int i = 0;
         for (std::shared_ptr<Card> card : this->players[this->playerTurn]->getCard())
         {
-            DrawTexture(card->getCardPic(), 80 + i * 80, 750, WHITE);
-            this->handsCardPos.push_back((Rectangle){(float)(100 + i * 80), 750, 70, 108});
+            DrawTexture(card->getCardPic(), 80 + i * 80, 770, WHITE);
+            this->handsCardPos.push_back((Rectangle){(float)(80 + i * 80), 770, 70, 108});
             i++;
         }
-        DrawText(this->players[this->playerTurn]->getPlayerName().c_str(),1300,750,30,WHITE);
+        DrawText(this->players[this->playerTurn]->getPlayerName().c_str(), 1150, 810, 30, WHITE);
+        DrawText(std::to_string(this->players[this->playerTurn]->getPlayerAge()).c_str(), 1200, 810, 30, WHITE);
+        DrawRectangleRec((Rectangle){1000, 800, 100, 60}, WHITE);
+        DrawText("PASS", 1010, 815, 30, BLACK);
     }
     // Get the current mouse position
     Vector2 mousePosition = GetMousePosition();
