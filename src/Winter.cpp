@@ -1,6 +1,6 @@
 #include "Winter.hpp"
 
-Winter::Winter(const std::string &p_name) : Special("Winter") {}
+Winter::Winter(const std::string &p_name) : Special("Winter","../assets/pics/winter.ong") {}
 
 void Winter::use(std::shared_ptr<Player> player, IO_Interface &terminal_handler) {}
 

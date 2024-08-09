@@ -1,6 +1,6 @@
 #include "Spring.hpp"
 
-Spring::Spring(const std::string &p_name) : Special("Spring") {}
+Spring::Spring(const std::string &p_name) : Special("Spring","../assets/pics/spring.png") {}
 
 void Spring::use(std::shared_ptr<Player> player, IO_Interface &terminal_handler) {}
 

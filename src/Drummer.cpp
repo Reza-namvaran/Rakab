@@ -1,6 +1,6 @@
 #include "Drummer.hpp"
 
-Drummer::Drummer(const std::string p_name) : Special("Drummer") {}
+Drummer::Drummer(const std::string p_name) : Special("Drummer","../assets/pics/drummer.png") {}
 
 void Drummer::use(std::shared_ptr<Player> player, IO_Interface &terminal_handler)
 {

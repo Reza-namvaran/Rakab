@@ -1,6 +1,6 @@
 #include "Scarecrow.hpp"
 
-Scarecrow::Scarecrow(const std::string p_name) : Special("Scarecrow") {}
+Scarecrow::Scarecrow(const std::string p_name) : Special("Scarecrow","../assets/pics/scarecrow.png") {}
 
 void Scarecrow::use(std::shared_ptr<Player> player, IO_Interface &terminal_handler)
 {

@@ -2,6 +2,8 @@
 #define SOLDIER_H
 
 #include "Card.hpp"
+#include <cstdio>
+#include <cstring>
 
 class Soldier : public Card
 {

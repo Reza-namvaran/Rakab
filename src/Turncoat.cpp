@@ -1,6 +1,6 @@
 #include "Turncoat.hpp"
 
-Turncoat::Turncoat(const std::string &p_name) : Special(p_name) {}
+Turncoat::Turncoat(const std::string &p_name) : Special(p_name,"../assets/pics/turncoat.png") {}
 
 void Turncoat::use(std::shared_ptr<Player> player, IO_Interface &terminal_handler) {}
 

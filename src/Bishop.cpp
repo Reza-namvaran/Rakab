@@ -1,6 +1,6 @@
 #include "Bishop.hpp"
 
-Bishop::Bishop(const std::string &p_name) : Special("Bishop") {}
+Bishop::Bishop(const std::string &p_name) : Special("Bishop","../assets/pics/bishop.png") {}
 
 void Bishop::use(std::shared_ptr<Player> player, IO_Interface &terminal_handler) {}
 
