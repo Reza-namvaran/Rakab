@@ -51,6 +51,7 @@ private:
     Texture2D war_background;
     Texture2D winter_background;
     Texture2D spring_background;
+    std::vector<Rectangle> handsCardPos;
 
 
 public:
@@ -79,7 +80,7 @@ public:
 
     unsigned int findStarterPlayer() const;
 
-    void playerChoice(std::shared_ptr<Player> player,std::string cardName);
+    void playerChoice(std::shared_ptr<Player> player);
 
     void setWarSignOwner(std::shared_ptr<Player> p_player = nullptr);
 
