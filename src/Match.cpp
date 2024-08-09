@@ -171,7 +171,6 @@ void Match::rechargeDeck()
             playersCount--;
         }
     }
-
     if (playersCount <= 1)
     {
         this->deck->generateDeck();
@@ -218,7 +217,6 @@ unsigned int Match::findStarterPlayer() const
 
 void Match::playerChoice(std::shared_ptr<Player> p_player)
 {
-
     // std::vector<std::string> player_cards;
 
     // this->terminal_handler.print(p_player->getPlayerName() + "'s hand: \n");
@@ -670,23 +668,23 @@ void Match::gameWinner(std::shared_ptr<Player> p_winner)
 
 void Match::Process()
 {
-    switch (match_state)
+    if (match_state == 0)
     {
-    case 0:
         setPeaceLand();
-        break;
-
-    case 1:
-        // War sign
+    }
+    if (match_state == 1)
+    {
         setWarLand();
-    case 3:
-        // War
+    }
+    if (match_state == 3)
+    {
         this->playerTurn = this->findStarterPlayer();
         this->rechargeDeck();
         this->war();
-        break;
-    default:
-        break;
+    }
+    if (match_state == 4)
+    {
+        /// TODO: ?
     }
 }
 
@@ -703,6 +701,7 @@ void Match::Render()
     if (match_state >= 0 && match_state <= 2)
     {
         DrawTexture(Map, 300, 150, WHITE);
+        DrawText(warSign->getOwner()->getPlayerName().c_str(), 1150, 810, 30, BLACK);
 
         for (std::shared_ptr<Land> land : lands)
         {
