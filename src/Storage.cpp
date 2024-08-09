@@ -267,7 +267,7 @@ void Storage::loadMatch(std::shared_ptr<Match> match, const std::string &path)
     {
         if (player_name == match->players[iterator]->getPlayerName())
         {
-            match->playerTurn = iterator;
+            match->loadPlayerTurn = iterator;
             break;
         }
     }
