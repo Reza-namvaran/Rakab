@@ -419,7 +419,7 @@ void Match::setWarLand()
         if (land->getLandOwner() == nullptr && CheckCollisionPointRec(GetMousePosition(), land->getBorder()) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && peace_sign->getLand() != land)
         {
             warSign->setLand(land);
-            // match_state = 3;
+            match_state = 3;
             break;
         }
     }
