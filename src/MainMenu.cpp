@@ -9,7 +9,7 @@ MainMenu::MainMenu() : NUM_BACKGROUNDS(3), CHANGE_INTERVAL(5.0f) {
 
     backgrounds[0] = LoadTexture("../assets/pics/knight.png");
     backgrounds[1] = LoadTexture("../assets/pics/castle.png");
-    backgrounds[2] = LoadTexture("../assets/pics/n.png");
+    backgrounds[2] = LoadTexture("../assets/pics/fire.png");
 
     buttons[0] = (Button){(Rectangle){185, 300, 120, 50}, "Start", false};
     buttons[1] = (Button){(Rectangle){145, 370, 120, 50}, "Load Game", false};
