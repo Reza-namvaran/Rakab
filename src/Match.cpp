@@ -322,7 +322,7 @@ void Match::playerChoice(std::shared_ptr<Player> p_player)
         cardName = "pass";
         this->match_state = 3;
     }
-     if (players[this->playerTurn]->getPlayerPassed())
+    if (players[this->playerTurn]->getPlayerPassed())
     {
         this->match_state=3;
         return;
@@ -685,14 +685,31 @@ void Match::Process()
     if (match_state == 4)
     {
         /// TODO: ?
+        /// ERORR: PRON:
+        if (CheckCollisionPointRec(GetMousePosition(), (Rectangle){1000, 0, 100, 60}) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+        {
+            std::clog << match_state << " Enter 5" << std::endl;
+            this->match_state = 5;
+            guide.setStatus(5);
+            std:: clog << match_state << std::endl;
+        }
+    }
+    if (match_state == 5)
+    {
+        // Game rules guideline
+        match_state = guide.getStatus();
     }
 }
 
 void Match::Update()
 {
-    if (match_state >= 3)
+    if (match_state == 3 || match_state == 4)
     {
         this->playerChoice(this->players[this->playerTurn]);
+    }
+    if (match_state == 5)
+    {
+        this->guide.getGuidline();
     }
 }
 
@@ -723,7 +740,7 @@ void Match::Render()
             }
         }
     }
-    else if (match_state >= 3)
+    else if (match_state == 3 || match_state == 4)
     {
         this->handsCardPos.clear();
         // Draw Battle ground
@@ -753,6 +770,13 @@ void Match::Render()
         DrawText(std::to_string(this->players[this->playerTurn]->getPlayerAge()).c_str(), 1200, 810, 30, WHITE);
         DrawRectangleRec((Rectangle){1000, 800, 100, 60}, WHITE);
         DrawText("PASS", 1010, 815, 30, BLACK);
+
+        DrawRectangleRec((Rectangle){1000, 0, 100, 60}, WHITE);
+        DrawText("Help", 1010, 0, 30, BLACK);
+    }
+    else if (match_state == 5)
+    {
+        this->guide.render();
     }
     // Get the current mouse position
     Vector2 mousePosition = GetMousePosition();
