@@ -20,7 +20,9 @@ LoadMenu::LoadMenu() : database(std::make_shared<Storage>()), selectedMatch(0) {
     background = LoadTexture("../assets/pics/soul_knight.png");
 }
 
-LoadMenu::~LoadMenu() {}
+LoadMenu::~LoadMenu() {
+    UnloadTexture(background);
+}
 
 void LoadMenu::Process() {
 Vector2 mousePoint = GetMousePosition();
