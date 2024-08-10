@@ -470,6 +470,7 @@ void Match::setPeaceLand()
     /// NOTE: In case that no one played Bishop in a war
     if (this->peace_sign->getOwner() == nullptr)
     {
+        match_state = 1;
         return;
     }
 
@@ -517,6 +518,7 @@ void Match::war()
     int playersSize = players.size();
     if (this->passCounter == playersSize)
     {
+        this->match_state = 6;
         return;
     }
     if (players[this->playerTurn]->getPlayerPassed())
@@ -541,7 +543,7 @@ void Match::war()
     // this->displayStatus();
     // this->playerChoice(players[this->playerTurn]);
 
-    // this->calculateScore();
+    this->calculateScore();
     // this->stateWinner();
 }
 
@@ -699,6 +701,20 @@ void Match::Process()
         // Game rules guideline
         match_state = guide.getStatus();
     }
+    if (match_state == 6)
+    {
+        // war winner
+        this->stateWinner();
+        this->refreshData();
+        this->match_state = 7;
+    }
+    if (match_state == 7)
+    {
+        if (CheckCollisionPointRec(GetMousePosition(), (Rectangle){1000, 800, 100, 60}) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+        {
+            match_state = 0;
+        }
+    }
 }
 
 void Match::Update()
@@ -767,7 +783,7 @@ void Match::Render()
             i++;
         }
         DrawText(this->players[this->playerTurn]->getPlayerName().c_str(), 1150, 810, 30, WHITE);
-        DrawText(std::to_string(this->players[this->playerTurn]->getPlayerAge()).c_str(), 1200, 810, 30, WHITE);
+        DrawText(std::to_string(this->players[this->playerTurn]->getPlayerScore()).c_str(), 1200, 810, 30, WHITE);
         DrawRectangleRec((Rectangle){1000, 800, 100, 60}, WHITE);
         DrawText("PASS", 1010, 815, 30, BLACK);
 
@@ -777,6 +793,17 @@ void Match::Render()
     else if (match_state == 5)
     {
         this->guide.render();
+    }
+    else if (match_state == 7)
+    {
+        std::string win_msg = "Tie!";
+        if (warSign->getOwner() != nullptr)
+            win_msg = warSign->getOwner()->getPlayerName() + ", You Win!";
+        
+        DrawText(win_msg.c_str(), 350, 350, 30, BLACK);
+
+        DrawRectangleRec((Rectangle){1000, 800, 100, 60}, WHITE);
+        DrawText("Next", 1010, 815, 30, BLACK);
     }
     // Get the current mouse position
     Vector2 mousePosition = GetMousePosition();
