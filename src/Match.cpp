@@ -184,7 +184,6 @@ void Match::refreshData()
     this->passCounter = 0;
     this->lastPlayerPassed = nullptr;
     this->season = nullptr;
-    this->peace_sign->setOwner(nullptr);
     for (std::shared_ptr<Player> player : players)
     {
         player->resetPlayerData();
@@ -480,7 +479,7 @@ void Match::setPeaceLand()
         if (land->getLandOwner() == nullptr && CheckCollisionPointRec(GetMousePosition(), land->getBorder()) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
         {
             peace_sign->setLand(land);
-            match_state = 3;
+            match_state = 2;
             break;
         }
     }
@@ -633,9 +632,11 @@ void Match::stateWinner()
         this->warSign->getLand()->setLandOwner(winner->getSign());
         this->setWarSignOwner(winner);
         this->gameWinner(winner);
+        lastPlayerWon = winner;
     }
     else
     {
+        lastPlayerWon = nullptr;
         this->setWarSignOwner();
         this->lands.emplace_back(this->warSign->getLand());
     }
@@ -674,6 +675,11 @@ void Match::Process()
     {
         setPeaceLand();
     }
+    if (match_state == 2)
+    {
+        this->peace_sign->setOwner(nullptr);
+        match_state = 1;
+    }
     if (match_state == 1)
     {
         setWarLand();
@@ -710,6 +716,7 @@ void Match::Process()
     }
     if (match_state == 7)
     {
+        // select next
         if (CheckCollisionPointRec(GetMousePosition(), (Rectangle){1000, 800, 100, 60}) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
         {
             match_state = 0;
@@ -735,6 +742,9 @@ void Match::Render()
     {
         DrawTexture(Map, 300, 150, WHITE);
         DrawText(warSign->getOwner()->getPlayerName().c_str(), 1150, 810, 30, BLACK);
+        if (peace_sign->getOwner() != nullptr)
+            DrawText(peace_sign->getOwner()->getPlayerName().c_str(), 1150, 830, 30, BLACK);
+
 
         for (std::shared_ptr<Land> land : lands)
         {
@@ -797,8 +807,8 @@ void Match::Render()
     else if (match_state == 7)
     {
         std::string win_msg = "Tie!";
-        if (warSign->getOwner() != nullptr)
-            win_msg = warSign->getOwner()->getPlayerName() + ", You Win!";
+        if (lastPlayerWon != nullptr)
+            win_msg = lastPlayerWon->getPlayerName() + ", You Win!";
         
         DrawText(win_msg.c_str(), 350, 350, 30, BLACK);
 

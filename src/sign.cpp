@@ -3,7 +3,7 @@
 Sign::Sign(const std::string &p_color) : color(p_color), owner(nullptr) {
     if (p_color == "black")
         icon = LoadTexture("../assets/pics/Wa_Sym.png");
-    else if (p_color == "white")
+    else if (p_color == "White")
         icon = LoadTexture("../assets/pics/Pe_Sym.png");
     else if (p_color == "Blue")
         icon = LoadTexture("../assets/pics/Blue_Sym.png");

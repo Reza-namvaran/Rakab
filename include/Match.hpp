@@ -40,6 +40,7 @@ private:
     unsigned int passCounter = 0;
     std::shared_ptr<Player> lastPlayerPassed = nullptr;
     std::shared_ptr<Player> lastPlayerBishoped = nullptr;
+    std::shared_ptr<Player> lastPlayerWon = nullptr;
     GameGuide guide;
     std::shared_ptr<Storage> database;
     int loadPlayerTurn;
