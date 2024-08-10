@@ -182,6 +182,8 @@ void Match::rechargeDeck()
 void Match::refreshData()
 {
     this->passCounter = 0;
+    this->playerTurn = -1;
+    this->lastPlayerBishoped = nullptr;
     this->lastPlayerPassed = nullptr;
     this->season = nullptr;
     for (std::shared_ptr<Player> player : players)
@@ -323,7 +325,7 @@ void Match::playerChoice(std::shared_ptr<Player> p_player)
     }
     if (players[this->playerTurn]->getPlayerPassed())
     {
-        this->match_state=3;
+        this->match_state = 3;
         return;
     }
     if (players[this->playerTurn]->getCard().empty())
@@ -331,7 +333,7 @@ void Match::playerChoice(std::shared_ptr<Player> p_player)
         players[this->playerTurn]->setPlayerPassed(true);
         this->passCounter++;
         this->lastPlayerPassed = players[this->playerTurn];
-        this->match_state=3;
+        this->match_state = 3;
         return;
     }
     if (cardName == "Scarecrow")
@@ -522,7 +524,7 @@ void Match::war()
     }
     if (players[this->playerTurn]->getPlayerPassed())
     {
-        this->match_state=3;
+        this->match_state = 3;
         return;
     }
     if (players[this->playerTurn]->getCard().empty())
@@ -530,7 +532,7 @@ void Match::war()
         players[this->playerTurn]->setPlayerPassed(true);
         this->passCounter++;
         this->lastPlayerPassed = players[this->playerTurn];
-        this->match_state=3;
+        this->match_state = 3;
         return;
     }
 
@@ -630,8 +632,7 @@ void Match::stateWinner()
     {
         winner->addLand(this->warSign->getLand());
         this->warSign->getLand()->setLandOwner(winner->getSign());
-        this->warSign->getLand()->setLandOwner(winner->getSign());
-        
+
         // std::clog << warSign->getLand()->getLandOwner()->getPlayerName() << "546468468464684656486" << std::endl;
         this->setWarSignOwner(winner);
         this->gameWinner(winner);
@@ -713,7 +714,7 @@ void Match::Process()
             std::clog << match_state << " Enter 5" << std::endl;
             this->match_state = 5;
             guide.setStatus(5);
-            std:: clog << match_state << std::endl;
+            std::clog << match_state << std::endl;
         }
     }
     if (match_state == 5)
@@ -766,7 +767,6 @@ void Match::Render()
         DrawText(warSign->getOwner()->getPlayerName().c_str(), 1150, 810, 30, BLACK);
         if (peace_sign->getOwner() != nullptr)
             DrawText(peace_sign->getOwner()->getPlayerName().c_str(), 1150, 830, 30, BLACK);
-
 
         for (std::shared_ptr<Land> land : lands)
         {
@@ -852,7 +852,7 @@ void Match::Render()
         std::string win_msg = "Tie!";
         if (lastPlayerWon != nullptr)
             win_msg = lastPlayerWon->getPlayerName() + ", You Win!";
-        
+
         DrawText(win_msg.c_str(), 350, 350, 30, BLACK);
 
         DrawRectangleRec((Rectangle){1000, 800, 100, 60}, WHITE);
@@ -863,7 +863,7 @@ void Match::Render()
         std::string win_msg = "Congratulations ";
         if (winnerOfTheGame != nullptr)
             win_msg = win_msg + winnerOfTheGame->getPlayerName() + ", You are the Winner!";
-        
+
         DrawText(win_msg.c_str(), 350, 350, 30, BLACK);
 
         DrawRectangleRec((Rectangle){1000, 800, 100, 60}, WHITE);
