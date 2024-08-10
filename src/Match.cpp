@@ -831,10 +831,4 @@ void Match::Render()
         DrawRectangleRec((Rectangle){1000, 800, 100, 60}, WHITE);
         DrawText("Next", 1010, 815, 30, BLACK);
     }
-    // Get the current mouse position
-    Vector2 mousePosition = GetMousePosition();
-    // Draw the mouse position on the screen
-    DrawText(TextFormat("Mouse Position: [%i, %i]", (int)mousePosition.x, (int)mousePosition.y), 10, 10, 20, DARKGRAY);
-    // Draw a circle around the mouse position
-    DrawCircle((int)mousePosition.x, (int)mousePosition.y, 5, RED);
 }
