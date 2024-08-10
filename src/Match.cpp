@@ -186,6 +186,7 @@ void Match::refreshData()
     this->playerTurn = -1;
     this->lastPlayerBishoped = nullptr;
     this->lastPlayerPassed = nullptr;
+    this->sleipnirPlayed = false;
     this->season = nullptr;
     war_background = LoadTexture("../assets/pics/background.png");
     for (std::shared_ptr<Player> player : players)
@@ -333,7 +334,7 @@ void Match::playerChoice(std::shared_ptr<Player> p_player)
             if (card->getCardName() == cardName)
             {
                 std::shared_ptr<Sleipnir> sleipnir = std::dynamic_pointer_cast<Sleipnir>(card);
-                sleipnir->use(players, players[playerTurn], passCounter);
+                sleipnir->use(players, this->sleipnirPlayed, passCounter);
                 warSign->setOwner(players[playerTurn]);
                 break;
             }
@@ -590,6 +591,30 @@ void Match::stateWinner()
             maxCounter++;
         }
     }
+    if (this->sleipnirPlayed)
+    {
+        for (std::shared_ptr<Player> player : players)
+        {
+            for (std::shared_ptr<Card> card : player->getCard(false))
+            {
+                if (card->getCardName() == "Sleipnir")
+                {
+                    winner = player;
+                    break;
+                }
+            }
+            if (winner == player)
+            {
+                break;
+            }
+        }
+        winner->addLand(this->warSign->getLand());
+        this->warSign->getLand()->setLandOwner(winner->getSign());
+        this->warSign->setOwner(winner);
+        this->gameWinner(winner);
+        lastPlayerWon = winner;
+    }
+
     if (maxCounter < 2)
     {
         winner->addLand(this->warSign->getLand());

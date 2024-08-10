@@ -46,6 +46,7 @@ private:
     std::shared_ptr<Storage> database;
     int loadPlayerTurn;
     int playerTurn;
+    bool sleipnirPlayed = false;
     
     int match_state;
     Texture2D Map;
