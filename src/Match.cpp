@@ -645,7 +645,7 @@ void Match::Process()
             this->match_state = 9;
             std::clog << match_state << std::endl;
         }
-        if (CheckCollisionPointRec(GetMousePosition(), (Rectangle){1150, 50, 100, 60}) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+        if (CheckCollisionPointRec(GetMousePosition(), (Rectangle){1295, 0, 100, 60}) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
         {
             this->checkSaveStatus(players[playerTurn]);
         }
@@ -795,8 +795,8 @@ void Match::Render()
         DrawText("Help", 1010, 0, 30, BLACK);
         DrawRectangleRec((Rectangle){1150, 0, 100, 60}, GREEN);
         DrawText("Map", 1160, 0, 30, WHITE);
-        DrawRectangleRec((Rectangle){1150, 50, 100, 60}, GREEN);
-        DrawText("Save", 1160, 50, 30, WHITE);
+        DrawRectangleRec((Rectangle){1295, 0, 100, 60}, GREEN);
+        DrawText("Save", 1295, 0, 30, WHITE);
     }
     else if (match_state == 5)
     {
