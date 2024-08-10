@@ -630,6 +630,9 @@ void Match::stateWinner()
     {
         winner->addLand(this->warSign->getLand());
         this->warSign->getLand()->setLandOwner(winner->getSign());
+        this->warSign->getLand()->setLandOwner(winner->getSign());
+        
+        // std::clog << warSign->getLand()->getLandOwner()->getPlayerName() << "546468468464684656486" << std::endl;
         this->setWarSignOwner(winner);
         this->gameWinner(winner);
         lastPlayerWon = winner;
@@ -646,6 +649,7 @@ void Match::stateWinner()
 
 void Match::gameWinner(std::shared_ptr<Player> p_winner)
 {
+    std::clog << p_winner->getPlayerLandsCount() << "555555555555555555555" << std::endl;
     if (p_winner->getPlayerLandsCount() == 5)
     {
         this->is_match_over = true;
@@ -658,6 +662,11 @@ void Match::gameWinner(std::shared_ptr<Player> p_winner)
     {
         for (std::vector<std::shared_ptr<Land>> list : this->adjacentList)
         {
+            for (std::shared_ptr<Land> land : list)
+            {
+                if (land->getLandOwner() != nullptr)
+                    std::clog << land->getLandName() << std::endl;
+            }
             if (list[0]->getLandOwner() == nullptr || list[1]->getLandOwner() == nullptr || list[2]->getLandOwner() == nullptr)
             {
                 continue;
@@ -769,14 +778,35 @@ void Match::Render()
             {
                 DrawTexture(peace_sign->getIcon(), land->getBorder().x + 30, land->getBorder().y + 30, WHITE);
             }
-            else if (land->getLandOwner() != nullptr)
-            {
-                DrawTexture(land->getLandOwner()->getSign()->getIcon(), land->getBorder().x + 30, land->getBorder().y + 30, WHITE);
-            }
+            // else if (land->getLandOwner() != nullptr)
+            // {
+            //     DrawTexture(land->getLandOwner()->getSign()->getIcon(), land->getBorder().x + 30, land->getBorder().y + 30, WHITE);
+            // }
             else
             {
                 DrawRectangleRec(land->getBorder(), (Color){255, 255, 255, 0});
             }
+        }
+
+        for (std::shared_ptr<Player> player : players)
+        {
+            std::vector<std::shared_ptr<Land>> p_lands = player->getSign()->getLands();
+            if (p_lands.size() == 0)
+                continue;
+            for (std::shared_ptr<Land> p_land : p_lands)
+            {
+                DrawTexture(player->getSign()->getIcon(), p_land->getBorder().x + 30, p_land->getBorder().y + 30, WHITE);
+            }
+        }
+
+        if (lastPlayerWon != nullptr)
+        {
+            std::string p_lands = "";
+            for (std::shared_ptr<Land> land : lastPlayerWon->getSign()->getLands())
+            {
+                p_lands += land->getLandName() + ", ";
+            }
+            DrawText(p_lands.c_str(), 10, 0, 20, BLACK);
         }
     }
     else if (match_state == 3 || match_state == 4)
