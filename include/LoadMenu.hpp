@@ -20,6 +20,7 @@ class LoadMenu : public State {
         std::deque<std::string> file_names;
         std::vector<Load_btn> buttons;
         int selectedMatch;
+        Load_btn back_button;
     
     public:
         

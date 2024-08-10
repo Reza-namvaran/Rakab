@@ -8,12 +8,16 @@ LoadMenu::LoadMenu() : database(std::make_shared<Storage>()), selectedMatch(0) {
     {
         std::shared_ptr<Match> new_match = std::make_shared<Match>();
         this->database->loadMatch(new_match, fileName);
-        this->match_list[0] = new_match;
+        this->match_list[counter] = new_match;
 
-        int i = 1;
-        buttons.push_back((Load_btn){{50, (float)100 * i, 200, 50}, fileName.c_str(), LIGHTGRAY, RED, false});
+        float i = 1;
+        buttons.push_back((Load_btn){{50, 100 * i, 250, 50}, fileName.c_str(), LIGHTGRAY, RED, false});
+        i++;
+        std::clog << buttons[i-1].rect.y << std::endl;
         counter++;
     }
+
+    back_button = {{20, 10, 100, 50}, "Back", LIGHTGRAY, RED, false};
 }
 
 LoadMenu::~LoadMenu() {}
@@ -32,11 +36,26 @@ Vector2 mousePoint = GetMousePosition();
             buttons[i].isHovered = false;
         }
     }
+
+    if (CheckCollisionPointRec(mousePoint, back_button.rect)) {
+            back_button.isHovered = true;
+            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+            {
+                this->status = 2;
+            }
+    }
+    else
+        back_button.isHovered = false;
 }
 
 void LoadMenu::Update() {}
 
 void LoadMenu::Render() {
+        DrawRectangleRec(back_button.rect, back_button.isHovered ? back_button.hoverColor : back_button.baseColor);
+        int textWidth = MeasureText(back_button.text, 20)  ;
+        int textHeight = 20;
+        DrawText(back_button.text, back_button.rect.x + (back_button.rect.width - textWidth) / 2, back_button.rect.y + (back_button.rect.height - textHeight) / 2, 20, BLACK);
+
     for (size_t idx = 0; idx < buttons.size(); ++idx) {
         DrawRectangleRec(buttons[idx].rect, buttons[idx].isHovered ? buttons[idx].hoverColor : buttons[idx].baseColor);
         int textWidth = MeasureText(buttons[idx].text, 20)  ;
