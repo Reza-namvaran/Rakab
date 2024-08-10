@@ -649,6 +649,10 @@ void Match::Process()
         {
             this->checkSaveStatus(players[playerTurn]);
         }
+        if (CheckCollisionPointRec(GetMousePosition(), (Rectangle){0, 0, 85, 40}) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+        {
+            status = 2;
+        }
     }
     if (match_state == 5)
     {
@@ -797,6 +801,9 @@ void Match::Render()
         DrawText("Map", 1160, 0, 30, WHITE);
         DrawRectangleRec((Rectangle){1295, 0, 100, 60}, GREEN);
         DrawText("Save", 1295, 0, 30, WHITE);
+
+        DrawRectangleRec((Rectangle){0, 0, 85, 40}, WHITE);
+        DrawText("Back", 0, 0, 30, BLACK);
     }
     else if (match_state == 5)
     {
