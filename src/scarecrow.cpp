@@ -6,43 +6,58 @@ void Scarecrow::use(std::shared_ptr<Player> player, IO_Interface &terminal_handl
 {
     std::vector<std::shared_ptr<Card>> playedCards = player->getCard(false);
     bool exists = false;
+    std::vector<Rectangle> cards_positions;
     if (!playedCards.empty())
     {
-        terminal_handler.print("Choose one of these cards to back into your hand: \n");
-        for (const auto &card : playedCards)
+        for (size_t idx = 0; idx < playedCards.size(); ++idx)
         {
-            if (card->getCardType() == "Soldier")
+            if (playedCards[idx]->getCardType() == "Soldier")
             {
                 exists = true;
-                terminal_handler.print(card->getCardName(), false);
+                cards_positions.emplace_back((Rectangle){(float)(80 + idx * 80), 350, 70, 108});
             }
         }
-        terminal_handler.print("");
         if (!exists)
         {
             return;
         }
-        int flag = 2;
+
+        std::vector<std::shared_ptr<Card>> handCards = player->getCard(true);
+        bool flag = true;
         do
         {
-            if (flag != 2)
-                terminal_handler.print("Invalid choice! Please try again...");
-            flag = 1;
-            std::string cardName;
-            terminal_handler.input(cardName);
-            for (const auto &card : playedCards)
+            int it = 0;
+            for (Rectangle card_pos : cards_positions)
             {
-                if (card->getCardType() == "Soldier" && card->getCardName() == cardName)
+                if (playedCards[it]->getCardType() == "Soldier")
                 {
-                    std::vector<std::shared_ptr<Card>> handCards = player->getCard(true);
-                    handCards.emplace_back(card);
-                    player->addCard(handCards);
-                    playedCards.erase(std::remove(playedCards.begin(), playedCards.end(), card), playedCards.end());
-                    player->addCard(playedCards, false);
-                    flag = 0;
-                    break;
+                    if (CheckCollisionPointRec(GetMousePosition(), card_pos) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+                    {
+                        handCards.emplace_back(playedCards[it]);
+                        player->addCard(handCards);
+                        playedCards.erase(std::remove(playedCards.begin(), playedCards.end(), playedCards[it]), playedCards.end());
+                        player->addCard(playedCards, false);
+                        flag = false;
+                        break;
+                    }
+                    it++;
                 }
+                else
+                {
+                    it++;
+                }
+
             }
+
+            BeginDrawing();
+            ClearBackground(RAYWHITE);
+
+            for (size_t idx = 0; idx < playedCards.size(); ++idx)
+            {
+                DrawTexture(playedCards[idx]->getCardPic(), 80 + idx * 80, 350, WHITE);
+            }
+
+            EndDrawing();
         } while (flag);
     }
 }

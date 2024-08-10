@@ -334,17 +334,17 @@ void Match::playerChoice(std::shared_ptr<Player> p_player)
         this->match_state=3;
         return;
     }
-    // if (cardName == "Scarecrow")
-    // {
-    //     for (std::shared_ptr<Card> card : p_player->getCard())
-    //     {
-    //         if (card->getCardName() == cardName)
-    //         {
-    //             card->use(p_player, terminal_handler);
-    //             break;
-    //         }
-    //     }
-    // }
+    if (cardName == "Scarecrow")
+    {
+        for (std::shared_ptr<Card> card : p_player->getCard())
+        {
+            if (card->getCardName() == cardName)
+            {
+                card->use(p_player, terminal_handler);
+                break;
+            }
+        }
+    }
     // else
     if (cardName == "Bishop")
     {
