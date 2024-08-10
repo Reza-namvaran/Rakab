@@ -11,12 +11,13 @@ LoadMenu::LoadMenu() : database(std::make_shared<Storage>()), selectedMatch(0) {
         this->database->loadMatch(new_match, fileName);
         this->match_list[counter] = new_match;
 
-        Rectangle new_rect = {50, float(100 * i), 250, 50};
+        Rectangle new_rect = {450, float(100 * i), 500, 50};
         buttons.push_back((Load_btn){new_rect, fileName.c_str(), LIGHTGRAY, RED, false});
         i++;
         counter++;
     }
     back_button = {{20, 10, 100, 50}, "Back", LIGHTGRAY, RED, false};
+    background = LoadTexture("../assets/pics/soul_knight.png");
 }
 
 LoadMenu::~LoadMenu() {}
@@ -50,6 +51,11 @@ Vector2 mousePoint = GetMousePosition();
 void LoadMenu::Update() {}
 
 void LoadMenu::Render() {
+        Rectangle sourceRec = { 0.0f, 0.0f, (float)background.width, (float)background.height };
+        Rectangle destRec = { 0.0f, 0.0f, (float)1400, (float)900 };
+
+        DrawTexturePro(background, sourceRec, destRec, (Vector2){0, 0}, 0.0f, WHITE);
+
         DrawRectangleRec(back_button.rect, back_button.isHovered ? back_button.hoverColor : back_button.baseColor);
         int textWidth = MeasureText(back_button.text, 20)  ;
         int textHeight = 20;

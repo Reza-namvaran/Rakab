@@ -21,6 +21,7 @@ class LoadMenu : public State {
         std::vector<Load_btn> buttons;
         int selectedMatch;
         Load_btn back_button;
+        Texture2D background;
     
     public:
         
