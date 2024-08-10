@@ -32,9 +32,23 @@ is_color_menu_open(false), mouse_on_text(false), mouse_on_age(false), frames_cou
 
 
     Confirm = { (Rectangle){1200, 180, 150, 50}, "Confirm", false};
+
+    this->characters = {
+        {"Blue", LoadTexture("../assets/pics/blue.png")},
+        {"Red", LoadTexture("../assets/pics/red.png")},
+        {"Green", LoadTexture("../assets/pics/green.png")},
+        {"Yellow", LoadTexture("../assets/pics/yellow.png")},
+        {"Gray", LoadTexture("../assets/pics/gray.png")},
+        {"Purple", LoadTexture("../assets/pics/purple.png")},
+    };
 }
 
-PlayerSetup::~PlayerSetup() {}
+PlayerSetup::~PlayerSetup() {
+    for(std::string color : (std::vector<std::string>){"Blue", "Red", "Green", "Yellow", "Gray", "Purple"})
+    {
+        UnloadTexture(characters[color]);
+    }
+}
 
 void PlayerSetup::Process() {
     if (CheckCollisionPointRec(GetMousePosition(), text_box)) 
@@ -224,17 +238,14 @@ void PlayerSetup::Render() {
         }
     }
 
+    if(selected_color != "Select a color")
+    {
+        DrawTexture(characters[selected_color], 350, 375, WHITE);
+    }
+
     if (confirm_count == number_of_players && number_of_players != 0)
         status = 5;
 }
-
-// void PlayerSetup::resetAllData() {
-//     this->resetFields();
-//     this->players.clear();
-//     frames_counter = 0;
-//     is_confirmed = false;
-//     confirm_count = 0;
-// }
 
 void PlayerSetup::resetFields() {
     this->letter_count = 0;

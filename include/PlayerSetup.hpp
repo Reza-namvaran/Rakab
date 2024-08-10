@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include <unordered_map>
 
 #include "State.hpp"
 #include "Player.hpp"
@@ -60,6 +61,8 @@ class PlayerSetup : public State {
     Color color {65, 105, 225, 255};
 
     Texture2D background;
+
+    std::unordered_map<std::string, Texture2D> characters;
 
     int frames_counter;
 };
