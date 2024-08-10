@@ -29,6 +29,9 @@ set(PROJECT_SOURCES
     PlayerSetup.cpp
     StateManager.cpp
     LoadMenu.cpp
+    Mirage.cpp
+    WhiteSeal.cpp
+    Sleipnir.cpp
 )
 
 add_executable(${PROJECT_NAME}
