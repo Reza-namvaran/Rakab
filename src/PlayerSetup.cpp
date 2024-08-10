@@ -31,7 +31,9 @@ is_color_menu_open(false), mouse_on_text(false), mouse_on_age(false), frames_cou
     this->player_nums = {"3", "4", "5", "6"};
 
 
-    Confirm = { (Rectangle){1200, 180, 150, 50}, "Confirm", false};
+    Confirm = {(Rectangle){1200, 180, 150, 50}, "Confirm", false};
+    back_button = {(Rectangle){10, 840, 150, 50}, "Back", false};
+
 
     this->characters = {
         {"Blue", LoadTexture("../assets/pics/blue.png")},
@@ -79,6 +81,17 @@ void PlayerSetup::Process() {
     }
     else
         Confirm.hover = false;
+
+    if (CheckCollisionPointRec(GetMousePosition(), back_button.rect))
+    {
+        back_button.hover = true;
+        if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+        {
+            status = 2;
+        }
+    }
+    else
+        back_button.hover = false;
 }
 
 void PlayerSetup::Update() {
@@ -175,6 +188,10 @@ void PlayerSetup::Render() {
     DrawRectangleRec(text_box, LIGHTGRAY);
     DrawRectangleRec(age_box, LIGHTGRAY);
 
+    DrawRectangleRec(back_button.rect, back_button.hover ? RED : LIGHTGRAY);
+    DrawText(back_button.text, back_button.rect.x + 10, back_button.rect.y + 10, 30, BLACK);
+    
+
     if (!this->Confirm.hover)
         DrawRectangleRec(Confirm.rect, (Color){120, 220, 145, 255});
     else
@@ -245,6 +262,7 @@ void PlayerSetup::Render() {
 
     if (confirm_count == number_of_players && number_of_players != 0)
         status = 5;
+    
 }
 
 void PlayerSetup::resetFields() {

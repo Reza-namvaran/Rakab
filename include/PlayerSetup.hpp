@@ -64,6 +64,8 @@ class PlayerSetup : public State {
 
     std::unordered_map<std::string, Texture2D> characters;
 
+    Button back_button;
+
     int frames_counter;
 };
 
