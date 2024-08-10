@@ -54,7 +54,8 @@ void Scarecrow::use(std::shared_ptr<Player> player, IO_Interface &terminal_handl
 
             for (size_t idx = 0; idx < playedCards.size(); ++idx)
             {
-                DrawTexture(playedCards[idx]->getCardPic(), 80 + idx * 80, 350, WHITE);
+                if (playedCards[idx]->getCardType() == "Soldier")
+                    DrawTexture(playedCards[idx]->getCardPic(), 80 + idx * 80, 350, WHITE);
             }
 
             EndDrawing();
