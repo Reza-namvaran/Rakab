@@ -335,7 +335,7 @@ void Match::playerChoice(std::shared_ptr<Player> p_player)
                 sleipnir->use(players, players[playerTurn], warSign, passCounter);
                 break;
             }
-        } 
+        }
     }
     else if (cardName == "pass")
     {
@@ -362,6 +362,11 @@ void Match::setWarSignOwner(std::shared_ptr<Player> p_player)
             if (card->getCardName() == "Spy")
             {
                 maxCounter++;
+            }
+            if (card->getCardName() == "Turncoat")
+            {
+                this->warSign->setOwner(lastPlayerPassed);
+                return;
             }
         }
         if (maxCounter > max)
@@ -731,7 +736,7 @@ void Match::Update()
 {
     if (match_state == 3 || match_state == 4)
     {
-            this->playerChoice(this->players[this->playerTurn]);
+        this->playerChoice(this->players[this->playerTurn]);
     }
     if (match_state == 5)
     {
