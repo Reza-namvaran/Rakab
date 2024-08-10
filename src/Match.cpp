@@ -640,6 +640,11 @@ void Match::Process()
             guide.setStatus(5);
             std::clog << match_state << std::endl;
         }
+        if (CheckCollisionPointRec(GetMousePosition(), (Rectangle){1150, 0, 100, 60}) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+        {
+            this->match_state = 9;
+            std::clog << match_state << std::endl;
+        }
     }
     if (match_state == 5)
     {
@@ -669,6 +674,13 @@ void Match::Process()
             status = 2;
         }
     }
+    if (match_state == 9)
+    {
+        if (CheckCollisionPointRec(GetMousePosition(), (Rectangle){1000, 0, 100, 60}) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+        {
+            this->match_state = 4;
+        }
+    }
 }
 
 void Match::Update()
@@ -685,7 +697,7 @@ void Match::Update()
 
 void Match::Render()
 {
-    if (match_state >= 0 && match_state <= 2)
+    if (match_state >= 0 && match_state <= 2 || match_state == 9)
     {
         DrawTexture(Map, 300, 150, WHITE);
         DrawText(warSign->getOwner()->getPlayerName().c_str(), 1150, 810, 30, BLACK);
@@ -732,6 +744,11 @@ void Match::Render()
             }
             DrawText(p_lands.c_str(), 10, 0, 20, BLACK);
         }
+        if (match_state == 9)
+        {
+            DrawRectangleRec((Rectangle){1000, 0, 100, 60}, GREEN);
+            DrawText("Back", 1010, 0, 30, WHITE);
+        }
     }
     else if (match_state == 3 || match_state == 4)
     {
@@ -769,6 +786,8 @@ void Match::Render()
 
         DrawRectangleRec((Rectangle){1000, 0, 100, 60}, WHITE);
         DrawText("Help", 1010, 0, 30, BLACK);
+        DrawRectangleRec((Rectangle){1150, 0, 100, 60}, GREEN);
+        DrawText("Map", 1160, 0, 30, WHITE);
     }
     else if (match_state == 5)
     {
