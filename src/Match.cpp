@@ -626,7 +626,7 @@ void Match::Process()
     }
     if (match_state == 3)
     {
-        if (this->playerTurn == -1)
+        if (this->playerTurn == -1 && this->loadPlayerTurn == -1)
             this->rechargeDeck();
         this->playerTurn = this->findStarterPlayer();
         this->war();
@@ -695,9 +695,6 @@ void Match::Update()
 {
     if (match_state == 3 || match_state == 4)
     {
-        std::clog << "Entering player Choice" << std::endl;
-        std::clog << playerTurn;
-
             this->playerChoice(this->players[this->playerTurn]);
     }
     if (match_state == 5)

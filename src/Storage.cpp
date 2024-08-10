@@ -346,7 +346,7 @@ void Storage::loadMatch(std::shared_ptr<Match> match, const std::string &path)
     {
         match->season = std::make_shared<Spring>(season);
     }
-    else
+    else if (season == "Winter")
     {
         match->season = std::make_shared<Winter>(season);
     }
