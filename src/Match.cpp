@@ -640,7 +640,8 @@ void Match::stateWinner()
         this->setWarSignOwner();
         this->lands.emplace_back(this->warSign->getLand());
     }
-    this->setPeaceSignOwner();
+    if (match_state != 8)
+        this->setPeaceSignOwner();
 }
 
 void Match::gameWinner(std::shared_ptr<Player> p_winner)
@@ -649,6 +650,8 @@ void Match::gameWinner(std::shared_ptr<Player> p_winner)
     {
         this->is_match_over = true;
         terminal_handler.print(p_winner->getPlayerName() + ", You Win!");
+        this->winnerOfTheGame = p_winner;
+        this->match_state = 8;
         return;
     }
     if (p_winner->getPlayerLandsCount() >= 3)
@@ -663,6 +666,8 @@ void Match::gameWinner(std::shared_ptr<Player> p_winner)
             {
                 this->is_match_over = true;
                 terminal_handler.print(p_winner->getPlayerName() + ", You Win!");
+                this->winnerOfTheGame = p_winner;
+                this->match_state = 8;
                 return;
             }
         }
@@ -712,7 +717,8 @@ void Match::Process()
         // war winner
         this->stateWinner();
         this->refreshData();
-        this->match_state = 7;
+        if (match_state != 8)
+            this->match_state = 7;
     }
     if (match_state == 7)
     {
@@ -720,6 +726,13 @@ void Match::Process()
         if (CheckCollisionPointRec(GetMousePosition(), (Rectangle){1000, 800, 100, 60}) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
         {
             match_state = 0;
+        }
+    }
+    if (match_state == 8)
+    {
+        if (CheckCollisionPointRec(GetMousePosition(), (Rectangle){1000, 800, 100, 60}) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+        {
+            status = 2;
         }
     }
 }
@@ -809,6 +822,17 @@ void Match::Render()
         std::string win_msg = "Tie!";
         if (lastPlayerWon != nullptr)
             win_msg = lastPlayerWon->getPlayerName() + ", You Win!";
+        
+        DrawText(win_msg.c_str(), 350, 350, 30, BLACK);
+
+        DrawRectangleRec((Rectangle){1000, 800, 100, 60}, WHITE);
+        DrawText("Next", 1010, 815, 30, BLACK);
+    }
+    else if (match_state == 8)
+    {
+        std::string win_msg = "Congratulations ";
+        if (winnerOfTheGame != nullptr)
+            win_msg = win_msg + winnerOfTheGame->getPlayerName() + ", You are the Winner!";
         
         DrawText(win_msg.c_str(), 350, 350, 30, BLACK);
 

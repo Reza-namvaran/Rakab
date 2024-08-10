@@ -41,6 +41,7 @@ private:
     std::shared_ptr<Player> lastPlayerPassed = nullptr;
     std::shared_ptr<Player> lastPlayerBishoped = nullptr;
     std::shared_ptr<Player> lastPlayerWon = nullptr;
+    std::shared_ptr<Player> winnerOfTheGame = nullptr;
     GameGuide guide;
     std::shared_ptr<Storage> database;
     int loadPlayerTurn;
