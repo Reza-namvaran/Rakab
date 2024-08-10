@@ -4,19 +4,18 @@ LoadMenu::LoadMenu() : database(std::make_shared<Storage>()), selectedMatch(0) {
     status = 0;
     int counter = 0;
     this->file_names = this->database->getFilesNames();
+    int i = 1;
     for (const std::string &fileName : this->file_names)
     {
         std::shared_ptr<Match> new_match = std::make_shared<Match>();
         this->database->loadMatch(new_match, fileName);
         this->match_list[counter] = new_match;
 
-        float i = 1;
-        buttons.push_back((Load_btn){{50, 100 * i, 250, 50}, fileName.c_str(), LIGHTGRAY, RED, false});
+        Rectangle new_rect = {50, float(100 * i), 250, 50};
+        buttons.push_back((Load_btn){new_rect, fileName.c_str(), LIGHTGRAY, RED, false});
         i++;
-        std::clog << buttons[i-1].rect.y << std::endl;
         counter++;
     }
-
     back_button = {{20, 10, 100, 50}, "Back", LIGHTGRAY, RED, false};
 }
 
