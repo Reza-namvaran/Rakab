@@ -52,7 +52,7 @@ void PlayerSetup::Process() {
         Confirm.hover = true;
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
         {
-            if (name_buffer[0] != '\0' && age_buffer[0] != '\0' && selected_color != "Select a color" && selected_color.length() > 0 && number_of_players != 0)
+            if (name_buffer[0] != '\0' && age_buffer[0] != '\0' && age_buffer[0] != '0' && selected_color != "Select a color" && selected_color.length() > 0 && number_of_players != 0)
             {
 
                 auto new_player = std::make_shared<Player>(name_buffer, std::stoul(age_buffer), selected_color);
@@ -87,7 +87,7 @@ void PlayerSetup::Update() {
                 letter_count++;
             }
             // Age field
-            else if ((key >= 47) && (key <= 57) && (number_count < 3) && mouse_on_age)
+            else if ((key >= 48) && (key <= 57) && (number_count < 3) && mouse_on_age)
             {
                 age_buffer[number_count] = (char)key;
                 age_buffer[number_count + 1] = '\0'; // Add null terminator at the end of the string.
