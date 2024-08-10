@@ -200,7 +200,7 @@ unsigned int Match::findStarterPlayer() const
     {
         for (i; i < players.size(); i++)
         {
-            if (players[i]->getPlayerName() == warSign->getOwner()->getPlayerName())
+            if ((this->lastPlayerWon != nullptr && players[i]->getPlayerName() == this->lastPlayerWon->getPlayerName()) || (players[i]->getPlayerName() == warSign->getOwner()->getPlayerName() && this->lastPlayerWon == nullptr))
             {
                 break;
             }
@@ -219,93 +219,6 @@ unsigned int Match::findStarterPlayer() const
 
 void Match::playerChoice(std::shared_ptr<Player> p_player)
 {
-    // std::vector<std::string> player_cards;
-
-    // this->terminal_handler.print(p_player->getPlayerName() + "'s hand: \n");
-    // for (std::shared_ptr<Card> card : p_player->getCard())
-    // {
-    //     player_cards.emplace_back(card->getCardName());
-    // }
-
-    // for (const auto &card : player_cards)
-    // {
-    //     terminal_handler.print(card, false);
-    // }
-
-    // this->terminal_handler.print("\n" + p_player->getPlayerName() + " Please select a card to play: (pass => skip your turns in this war , help => learn game , help -{card name} => read card description)");
-    // std::string cardName;
-
-    // while (true)
-    // {
-    //     this->terminal_handler.input(cardName);
-
-    //     if (std::find(player_cards.begin(), player_cards.end(), cardName) != player_cards.end() || cardName == "pass")
-    //     {
-    //         break;
-    //     }
-    //     else if (cardName.find("help") != std::string::npos)
-    //     {
-    //         if (cardName == "help")
-    //         {
-    //             this->guide.getGameRules();
-    //             // this->terminal_handler.clearScreen();
-    //             this->displayStatus();
-
-    //             this->terminal_handler.print(p_player->getPlayerName() + "'s hand: \n");
-
-    //             for (const auto &card : player_cards)
-    //             {
-    //                 terminal_handler.print(card, false);
-    //             }
-
-    //             this->terminal_handler.print("\n" + p_player->getPlayerName() + " Please select a card to play: (pass => skip your turns in this war , help => learn game , help -{card name} => read card description)");
-    //         }
-    //         else
-    //         {
-    //             std::string token = cardName.substr(cardName.find(" ") + 1);
-    //             if (this->guide.getDescriptions().find(token) != this->guide.getDescriptions().end())
-    //             {
-    //                 this->guide.getCardInfo(token);
-    //                 // this->terminal_handler.clearScreen();
-    //                 this->displayStatus();
-
-    //                 this->terminal_handler.print(p_player->getPlayerName() + "'s hand: \n");
-
-    //                 for (const auto &card : player_cards)
-    //                 {
-    //                     terminal_handler.print(card, false);
-    //                 }
-
-    //                 this->terminal_handler.print("\nSelect a card to play: ");
-    //             }
-    //             else
-    //             {
-    //                 this->terminal_handler.print("\nInvalid command!");
-    //             }
-    //         }
-    //     }
-    //     else if (cardName == "save")
-    //     {
-    //         this->checkSaveStatus(p_player);
-    //     }
-    //     else if (cardName == "exit")
-    //     {
-    //         this->checkSaveStatus(p_player);
-    //         std::exit(1);
-    //     }
-    //     else
-    //     {
-    //         std::string valid_str = this->guide.suggestion(cardName);
-    //         if (valid_str != cardName && valid_str.length() != 0)
-    //         {
-    //             this->terminal_handler.print("Did you mean " + valid_str + "?");
-    //         }
-    //         else
-    //         {
-    //             this->terminal_handler.print("\nInvalid card! Please select an available card to play.");
-    //         }
-    //     }
-    // }
     this->match_state = 4;
     std::string cardName;
     int iterator = 0;
@@ -319,7 +232,7 @@ void Match::playerChoice(std::shared_ptr<Player> p_player)
         }
         iterator++;
     }
-    if (CheckCollisionPointRec(GetMousePosition(), (Rectangle){1000, 800, 100, 60}) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+    if (CheckCollisionPointRec(GetMousePosition(), (Rectangle){1220, 800, 100, 60}) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
         cardName = "pass";
         this->match_state = 3;
@@ -829,6 +742,10 @@ void Match::Render()
         int y = 0;
         for (std::shared_ptr<Player> player : players)
         {
+            DrawText(player->getPlayerName().c_str(), 10, 65 + y * 110, 20, WHITE);
+            DrawText(std::to_string(player->getPlayerScore()).c_str(), 10, 95 + y * 110, 20, BLACK);
+            if (player->getPlayerPassed())
+                DrawText("PASSED", 5, 125 + y * 110, 15, GREEN);
             int x = 0;
             for (std::shared_ptr<Card> card : player->getCard(false))
             {
@@ -845,10 +762,10 @@ void Match::Render()
             this->handsCardPos.push_back((Rectangle){(float)(20 + i * 80), 770, 70, 108});
             i++;
         }
-        DrawText(this->players[this->playerTurn]->getPlayerName().c_str(), 1300, 810, 30, WHITE);
+        DrawText(this->players[this->playerTurn]->getPlayerName().c_str(), 1300, 865, 30, BLACK);
         DrawText(std::to_string(this->players[this->playerTurn]->getPlayerScore()).c_str(), 1350, 810, 30, WHITE);
-        DrawRectangleRec((Rectangle){1150, 800, 100, 60}, WHITE);
-        DrawText("PASS", 1160, 815, 30, BLACK);
+        DrawRectangleRec((Rectangle){1220, 800, 100, 60}, WHITE);
+        DrawText("PASS", 1230, 815, 30, BLACK);
 
         DrawRectangleRec((Rectangle){1000, 0, 100, 60}, WHITE);
         DrawText("Help", 1010, 0, 30, BLACK);
