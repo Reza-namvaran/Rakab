@@ -10,7 +10,7 @@ class Sleipnir : public Special {
 
     virtual void use(std::shared_ptr<Player> p_player, IO_Interface& terminal_handler) override;
 
-    void use(std::vector<std::shared_ptr<Player>> players, std::shared_ptr<Player> owner, std::shared_ptr<WarSign> warSign, unsigned int &passCounter);
+    void use(std::vector<std::shared_ptr<Player>> players, std::shared_ptr<Player> owner, unsigned int &passCounter);
 };
 
 #endif // SLEIPNIR_H
