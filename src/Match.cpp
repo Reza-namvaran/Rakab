@@ -365,6 +365,16 @@ void Match::setWarSignOwner(std::shared_ptr<Player> p_player)
                 maxCounter++;
             }
         }
+        for (std::shared_ptr<Player> player : players)
+        {
+            for (std::shared_ptr<Card> card : player->getCard(false))
+            {
+                if (card->getCardName() == "Turncoat")
+                {
+                    return;
+                }
+            }
+        }
         if (maxCounter > max)
         {
             max = maxCounter;

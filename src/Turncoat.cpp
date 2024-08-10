@@ -20,6 +20,7 @@ void Turncoat::use(std::vector<std::shared_ptr<Player>> players, std::shared_ptr
         if (card->getCardName() == "Turncoat")
         {
           lastPlayerPassed = player;
+          warSign->setOwner(lastPlayerPassed);
           flag = true;
           break;
         }
