@@ -186,6 +186,7 @@ void Match::refreshData()
     this->lastPlayerBishoped = nullptr;
     this->lastPlayerPassed = nullptr;
     this->season = nullptr;
+    war_background = LoadTexture("../assets/pics/background.png");
     for (std::shared_ptr<Player> player : players)
     {
         player->resetPlayerData();
@@ -710,8 +711,9 @@ void Match::Process()
     }
     if (match_state == 3)
     {
+        if (this->playerTurn == -1)
+            this->rechargeDeck();
         this->playerTurn = this->findStarterPlayer();
-        this->rechargeDeck();
         this->war();
     }
     if (match_state == 4)
@@ -823,7 +825,6 @@ void Match::Render()
         this->handsCardPos.clear();
         // Draw Battle ground
         Rectangle back_ground_rect = {0.0f, 0.0f, (float)war_background.width, (float)war_background.height};
-
         DrawTexture(war_background, back_ground_rect.x, back_ground_rect.y, WHITE);
         int y = 0;
         for (std::shared_ptr<Player> player : players)
@@ -831,7 +832,7 @@ void Match::Render()
             int x = 0;
             for (std::shared_ptr<Card> card : player->getCard(false))
             {
-                DrawTexture(card->getCardPic(), 80 + x * 80, 50 + y * 100, WHITE);
+                DrawTexture(card->getCardPic(), 80 + x * 80, 50 + y * 110, WHITE);
                 x++;
             }
             y++;
@@ -840,14 +841,14 @@ void Match::Render()
         int i = 0;
         for (std::shared_ptr<Card> card : this->players[this->playerTurn]->getCard())
         {
-            DrawTexture(card->getCardPic(), 80 + i * 80, 770, WHITE);
-            this->handsCardPos.push_back((Rectangle){(float)(80 + i * 80), 770, 70, 108});
+            DrawTexture(card->getCardPic(), 20 + i * 80, 770, WHITE);
+            this->handsCardPos.push_back((Rectangle){(float)(20 + i * 80), 770, 70, 108});
             i++;
         }
-        DrawText(this->players[this->playerTurn]->getPlayerName().c_str(), 1150, 810, 30, WHITE);
-        DrawText(std::to_string(this->players[this->playerTurn]->getPlayerScore()).c_str(), 1200, 810, 30, WHITE);
-        DrawRectangleRec((Rectangle){1000, 800, 100, 60}, WHITE);
-        DrawText("PASS", 1010, 815, 30, BLACK);
+        DrawText(this->players[this->playerTurn]->getPlayerName().c_str(), 1300, 810, 30, WHITE);
+        DrawText(std::to_string(this->players[this->playerTurn]->getPlayerScore()).c_str(), 1350, 810, 30, WHITE);
+        DrawRectangleRec((Rectangle){1150, 800, 100, 60}, WHITE);
+        DrawText("PASS", 1160, 815, 30, BLACK);
 
         DrawRectangleRec((Rectangle){1000, 0, 100, 60}, WHITE);
         DrawText("Help", 1010, 0, 30, BLACK);
