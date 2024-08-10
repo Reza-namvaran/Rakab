@@ -319,9 +319,10 @@ void Match::playerChoice(std::shared_ptr<Player> p_player)
         {
             if (card->getCardName() == cardName)
             {
+                p_player->playCard(cardName);
                 std::shared_ptr<WhiteSeal> whiteseal = std::dynamic_pointer_cast<WhiteSeal>(card);
                 whiteseal->use(players);
-                break;
+                return;
             }
         }
     }
@@ -336,7 +337,7 @@ void Match::playerChoice(std::shared_ptr<Player> p_player)
                 warSign->setOwner(players[playerTurn]);
                 break;
             }
-        } 
+        }
     }
     else if (cardName == "pass")
     {
@@ -741,7 +742,7 @@ void Match::Update()
 {
     if (match_state == 3 || match_state == 4)
     {
-            this->playerChoice(this->players[this->playerTurn]);
+        this->playerChoice(this->players[this->playerTurn]);
     }
     if (match_state == 5)
     {
