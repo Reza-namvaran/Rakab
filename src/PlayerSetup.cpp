@@ -43,6 +43,8 @@ is_color_menu_open(false), mouse_on_text(false), mouse_on_age(false), frames_cou
         {"Gray", LoadTexture("../assets/pics/gray.png")},
         {"Purple", LoadTexture("../assets/pics/purple.png")},
     };
+
+    background = LoadTexture("../assets/pics/castle.png");
 }
 
 PlayerSetup::~PlayerSetup() {
@@ -50,6 +52,8 @@ PlayerSetup::~PlayerSetup() {
     {
         UnloadTexture(characters[color]);
     }
+
+    UnloadTexture(background);
 }
 
 void PlayerSetup::Process() {
@@ -184,6 +188,12 @@ void PlayerSetup::Update() {
 }
 
 void PlayerSetup::Render() {
+    Rectangle sourceRec = { 0.0f, 0.0f, (float)background.width, (float)background.height };
+    Rectangle destRec = { 0.0f, 0.0f, (float)1400, (float)900 };
+
+    DrawTexturePro(background, sourceRec, destRec, (Vector2){0, 0}, 0.0f, WHITE);
+
+
     // Draw input fields
     DrawRectangleRec(text_box, LIGHTGRAY);
     DrawRectangleRec(age_box, LIGHTGRAY);
