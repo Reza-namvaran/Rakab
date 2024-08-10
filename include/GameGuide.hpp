@@ -1,41 +1,40 @@
 #ifndef GAMEGUIDE_H
 #define GAMEGUIDE_H
 
-#include <unordered_map>
-#include <unordered_set>
-#include <fstream>
-#include <string>
+#include <vector>
 
-#include "IO_Interface.hpp"
+#include "raylib.h"
+
+struct btn {
+    Rectangle rect;
+    const char* text;
+    bool hover;
+};
 
 class GameGuide {
   private:
-    IO_Interface terminal_handler;
-    std::string game_rules;
-    std::unordered_map<std::string, std::string> cards_description;
+    Font canterbury_font;
+    std::vector<Texture2D> images;
+    int currentImageIndex;
+    Texture2D currentImage;
+    btn next_button;
+    btn previous_button;
+    btn back_button;
+    int state;
 
-    std::unordered_set<std::string> valid_commands;
 
   public:
     GameGuide();
 
+    void getGuidline();
+
+    int getStatus() const;
+
+    void setStatus(int status);
+
+    void render();
+
     ~GameGuide();
-
-    void readGameRules();
-
-    void readCardInfo();
-
-    void readValidCommands();
-
-    std::unordered_map<std::string, std::string> getDescriptions() const;
-
-    void getCardInfo(const std::string& card_name);
-
-    void getGameRules();
-
-    int leveshteinDistance(const std::string& str1, const std::string str2, const int& str1_len,const int& str2_len) const;
-
-    std::string suggestion(std::string& str) const;
 };
 
 #endif // GAMEGUIDE_H

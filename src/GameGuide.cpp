@@ -1,120 +1,88 @@
 #include "GameGuide.hpp"
 /// TODO: Add to CMakelists
 
-GameGuide::GameGuide() {
-  this->readGameRules();
-  this->readCardInfo();
-  this->readValidCommands();
+GameGuide::GameGuide() : state(5) {
+    canterbury_font = LoadFont("../assets/fonts/Canterbury.ttf");
+    
+    // Load images
+    images = {
+        LoadTexture("../assets/pics/condottiere_rules-1.png"),
+        LoadTexture("../assets/pics/condottiere_rules-2.png"),
+        LoadTexture("../assets/pics/condottiere_rules-3.png"),
+        LoadTexture("../assets/pics/condottiere_rules-4.png"),
+        LoadTexture("../assets/pics/condottiere_rules-5.png"),
+        LoadTexture("../assets/pics/condottiere_rules-6.png"),
+        LoadTexture("../assets/pics/condottiere_rules-7.png"),
+        LoadTexture("../assets/pics/condottiere_rules-8.png"),
+
+    };
+
+    // Initially displaying the first image
+    currentImageIndex = 0;
+    currentImage = images[currentImageIndex];
+
+    // Button dimensions and position
+    next_button = {{ 1000, 400, 120, 50 }, "Next", false};
+    previous_button = {{ 250, 400, 120, 50}, "Previous", false};
+    back_button = {{ 20, 20, 100, 50 }, "Back", false};
 }
 
-GameGuide::~GameGuide() {}
+void GameGuide::getGuidline() {
+    Vector2 mousePoint = GetMousePosition();
+    this->state = 5;
 
-void GameGuide::getCardInfo(const std::string& card_name){
-  this->terminal_handler.clearScreen();
-  this->terminal_handler.print(this->cards_description[card_name]);
-  this->terminal_handler.print("press any key to continue");
-  this->terminal_handler.onClickInput();
-}
-
-std::unordered_map<std::string, std::string> GameGuide::getDescriptions() const { return this->cards_description; }
-
-void GameGuide::getGameRules() {  
-  this->terminal_handler.clearScreen();
-  this->terminal_handler.print(this->game_rules);
-  this->terminal_handler.print("press any key to continue");
-  this->terminal_handler.onClickInput();  
-}
-
-void GameGuide::readGameRules() {
-  std::ifstream input("../data/gamerules.txt");
-
-  if(!input.is_open())
-  {
-    this->terminal_handler.print("Error opening the file!");
-    return;
-  }
-  std::string line;
-  
-  while(std::getline(input, line))
-  {
-    this->game_rules += line + "\n";
-  }
-
-  input.close();
-}
-
-void GameGuide::readCardInfo() {
-  std::ifstream input("../data/card_info.txt");
-
-  if(!input.is_open())
-  {
-    this->terminal_handler.print("Error opening the file!");
-    return;
-  }
-
-  std::string line;
-
-  while(std::getline(input, line))
-  {
-    auto it = line.find(' ');    
-    if(it != std::string::npos)
-    {
-      std::string key = line.substr(0, it);
-      std::string value = line.substr(it + 1);
-      this->cards_description[key] = value;
-    }
-  }
-
-  input.close();
-}
-
-void GameGuide::readValidCommands() {
-  std::ifstream input("../data/valid_commands.txt");
-
-  std::string line;
-  while(std::getline(input, line))
-  {
-    this->valid_commands.emplace(line);
-  }
-
-  input.close();
-}
-
-int GameGuide::leveshteinDistance(const std::string& str1, const std::string str2, const int& str1_len,const int& str2_len) const{
-  if(str1_len == 0)
-  {
-    return str2_len;
-  }
-
-  if(str2_len == 0)
-  {
-    return str1_len;
-  }
-
-  if(str1[str1_len - 1] == str2[str2_len - 1])
-	  return leveshteinDistance(str1, str2, str1_len - 1, str2_len - 1); 
-
-	return 1 + std::min(leveshteinDistance(str1, str2, str1_len, str2_len - 1), std::min(leveshteinDistance(str1, str2, str1_len - 1,str2_len),leveshteinDistance(str1, str2, str1_len - 1,str2_len - 1)));
-}
-
-std::string GameGuide::suggestion(std::string& str) const{
-    int min_dis = str.length();
-    std::string key_idx;
-
-    if(this->valid_commands.find(str) != this->valid_commands.end())
-        return str;
-
-    for(const auto& key : this->valid_commands)
-    {
-        int distance = this->leveshteinDistance(str, key, str.length(), key.length());
-        if(distance >= str.length())
-          continue;
-        if(distance < min_dis)
+    if (CheckCollisionPointRec(mousePoint, next_button.rect)) {
+        // Toggle to the next image (cycle through images)
+        next_button.hover = true;
+        if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
         {
-            min_dis = distance;
-            key_idx = key;
+            currentImageIndex = (currentImageIndex + 1) % 8;
+            currentImage = images[currentImageIndex];
+        }
+    }
+    
+    else if (CheckCollisionPointRec(mousePoint, previous_button.rect)) {
+        previous_button.hover = true;
+        if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+        {
+            currentImageIndex = (currentImageIndex - 1 + 8) % 8;
+            currentImage = images[currentImageIndex];
         }
     }
 
-    return key_idx;
+    else if (CheckCollisionPointRec(mousePoint, back_button.rect)) {
+        back_button.hover = true;
+        if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+        {
+            this->state = 4;
+        }
+    }
+    else
+    {
+        previous_button.hover = false;
+        next_button.hover = false;
+        back_button.hover = false;
+    }
+}
+
+int GameGuide::getStatus() const { return this->state; }
+
+void GameGuide::setStatus(int state) { this->state = state;}
+
+void GameGuide::render() {
+    DrawTexture(currentImage, 1400 / 2 - currentImage.width / 2, 900 / 2 - currentImage.height / 2, WHITE);
+        
+    // Draw the buttons
+    DrawTextEx(canterbury_font, next_button.text, (Vector2){next_button.rect.x + 10, next_button.rect.y + 10},
+                canterbury_font.baseSize, 1, next_button.hover ? RED : LIGHTGRAY);
+    DrawTextEx(canterbury_font, previous_button.text, (Vector2){previous_button.rect.x + 10, previous_button.rect.y + 10},
+                canterbury_font.baseSize, 1, previous_button.hover ? RED : LIGHTGRAY);
+    DrawTextEx(canterbury_font, back_button.text, (Vector2){back_button.rect.x + 10, back_button.rect.y + 10},
+                canterbury_font.baseSize, 1, back_button.hover ? RED : LIGHTGRAY);
+}
+
+GameGuide::~GameGuide() {
+    for (int i = 0; i < 8; i++) {
+        UnloadTexture(images[i]);
+    }
 }
