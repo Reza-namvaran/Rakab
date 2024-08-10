@@ -20,9 +20,6 @@
 #include "Spy.hpp"
 #include "Turncoat.hpp"
 #include "Bishop.hpp"
-#include "Mirage.hpp"
-#include "Sleipnir.hpp"
-#include "WhiteSeal.hpp"
 
 class CardDeck
 {
