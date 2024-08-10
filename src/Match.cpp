@@ -369,9 +369,18 @@ void Match::setPeaceSignOwner()
 void Match::setWarLand()
 {
     // Setting war land
+    std::vector<std::shared_ptr<Land>> owneredLands;
+    for (std::shared_ptr<Player> player : this->players)
+    {
+        for (std::shared_ptr<Land> land : player->getSign()->getLands())
+        {
+            owneredLands.push_back(land);
+        }
+    }
+
     for (std::shared_ptr<Land> land : lands)
     {
-        if (land->getLandOwner() == nullptr && CheckCollisionPointRec(GetMousePosition(), land->getBorder()) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && peace_sign->getLand() != land)
+        if (std::find(owneredLands.begin(), owneredLands.end(), land) == owneredLands.end() && CheckCollisionPointRec(GetMousePosition(), land->getBorder()) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && peace_sign->getLand() != land)
         {
             warSign->setLand(land);
             match_state = 3;
