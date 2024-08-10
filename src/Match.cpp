@@ -335,7 +335,7 @@ void Match::playerChoice(std::shared_ptr<Player> p_player)
                 sleipnir->use(players, players[playerTurn], warSign, passCounter);
                 break;
             }
-        } 
+        }
     }
     else if (cardName == "pass")
     {
@@ -362,6 +362,11 @@ void Match::setWarSignOwner(std::shared_ptr<Player> p_player)
             if (card->getCardName() == "Spy")
             {
                 maxCounter++;
+            }
+            if (card->getCardName() == "Turncoat")
+            {
+                this->warSign->setOwner(lastPlayerPassed);
+                return;
             }
         }
         if (maxCounter > max)
@@ -406,9 +411,19 @@ void Match::setPeaceSignOwner()
 void Match::setWarLand()
 {
     // Setting war land
+    std::vector<std::shared_ptr<Land>> owneredLands;
+    for (std::shared_ptr<Player> player : this->players)
+    {
+        for (std::shared_ptr<Land> land : player->getSign()->getLands())
+        {
+            owneredLands.push_back(land);
+        }
+    }
+
     for (std::shared_ptr<Land> land : lands)
     {
         if (land->getLandOwner() == nullptr && CheckCollisionPointRec(GetMousePosition(), land->getBorder()) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && peace_sign->getLand() != land)
+        if (std::find(owneredLands.begin(), owneredLands.end(), land) == owneredLands.end() && CheckCollisionPointRec(GetMousePosition(), land->getBorder()) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && peace_sign->getLand() != land)
         {
             warSign->setLand(land);
             match_state = 3;
@@ -731,7 +746,7 @@ void Match::Update()
 {
     if (match_state == 3 || match_state == 4)
     {
-            this->playerChoice(this->players[this->playerTurn]);
+        this->playerChoice(this->players[this->playerTurn]);
     }
     if (match_state == 5)
     {
