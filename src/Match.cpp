@@ -668,11 +668,20 @@ void Match::gameWinner(std::shared_ptr<Player> p_winner)
                 if (land->getLandOwner() != nullptr)
                     std::clog << land->getLandName() << std::endl;
             }
-            if (list[0]->getLandOwner() == nullptr || list[1]->getLandOwner() == nullptr || list[2]->getLandOwner() == nullptr)
-            {
-                continue;
-            }
-            else if (list[0]->getLandOwner()->getPlayerName() == p_winner->getPlayerName() && list[1]->getLandOwner()->getPlayerName() == p_winner->getPlayerName() && list[2]->getLandOwner()->getPlayerName() == p_winner->getPlayerName())
+            // if (list[0]->getLandOwner() == nullptr || list[1]->getLandOwner() == nullptr || list[2]->getLandOwner() == nullptr)
+            // {
+            //     continue;
+            // }
+            // else if (list[0]->getLandOwner()->getPlayerName() == p_winner->getPlayerName() && list[1]->getLandOwner()->getPlayerName() == p_winner->getPlayerName() && list[2]->getLandOwner()->getPlayerName() == p_winner->getPlayerName())
+            // {
+            //     this->is_match_over = true;
+            //     terminal_handler.print(p_winner->getPlayerName() + ", You Win!");
+            //     this->winnerOfTheGame = p_winner;
+            //     this->match_state = 8;
+            //     return;
+            // }
+            std::vector<std::shared_ptr<Land>> lands = p_winner->getSign()->getLands();
+            if (std::find(lands.begin(), lands.end(), list[0]) != lands.end() && std::find(lands.begin(), lands.end(), list[1]) != lands.end() && std::find(lands.begin(), lands.end(), list[2]) != lands.end())
             {
                 this->is_match_over = true;
                 terminal_handler.print(p_winner->getPlayerName() + ", You Win!");
