@@ -23,9 +23,6 @@ public:
     System();
     ~System();
 
-    // void mainMenu();
-    // void createNewMatch();
-    // void runMatch(int match_id);
     void run();
 };
 
