@@ -28,6 +28,7 @@ set(PROJECT_SOURCES
     MainMenu.cpp
     PlayerSetup.cpp
     StateManager.cpp
+    LoadMenu.cpp
 )
 
 add_executable(${PROJECT_NAME}
