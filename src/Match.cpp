@@ -301,6 +301,42 @@ void Match::playerChoice(std::shared_ptr<Player> p_player)
             }
         }
     }
+    else if (cardName == "Mirage")
+    {
+        for (std::shared_ptr<Card> card : p_player->getCard())
+        {
+            if (card->getCardName() == cardName)
+            {
+                std::shared_ptr<Mirage> mirage = std::dynamic_pointer_cast<Mirage>(card);
+                mirage->use(players[playerTurn], terminal_handler);
+                break;
+            }
+        }
+    }
+    else if (cardName == "WhiteSeal")
+    {
+        for (std::shared_ptr<Card> card : p_player->getCard())
+        {
+            if (card->getCardName() == cardName)
+            {
+                std::shared_ptr<WhiteSeal> whiteseal = std::dynamic_pointer_cast<WhiteSeal>(card);
+                whiteseal->use(players);
+                break;
+            }
+        }
+    }
+    else if (cardName == "Sleipnir")
+    {
+        for (std::shared_ptr<Card> card : p_player->getCard())
+        {
+            if (card->getCardName() == cardName)
+            {
+                std::shared_ptr<Sleipnir> sleipnir = std::dynamic_pointer_cast<Sleipnir>(card);
+                sleipnir->use(players, players[playerTurn], warSign, passCounter);
+                break;
+            }
+        } 
+    }
     else if (cardName == "pass")
     {
         p_player->setPlayerPassed(true);
