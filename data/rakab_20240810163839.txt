@@ -1,0 +1,29 @@
+3
+a 1 Blue 16 0
+Spring One One Winter Two Winter Five Bishop 
+Ten Six 
+
+e 2 Red 5 0
+Ten Six Spy Five Six Five Two Four 
+Two Three 
+
+r 4 Green 16 0
+Bishop Three Three Scarecrow Spy Bishop Drummer Spy 
+Six Ten 
+
+a
+a ROLLO
+None
+None
+None
+0
+None
+3
+20 770 70108
+100 770 70108
+180 770 70108
+260 770 70108
+340 770 70108
+420 770 70108
+500 770 70108
+580 770 70108

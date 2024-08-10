@@ -37,14 +37,30 @@ void StateManager::EventListener() {
             std::clog << "[LOG]: Switch to Player Setup Page." << "\n";
             current_state = std::make_shared<PlayerSetup>();
             break;
+        
+        case 4:
+            // LoadGame Menu
+            std::clog << "[LOG]: Switch to Load Menu Page." << "\n";
+            current_state = std::make_shared<LoadMenu>();
+            break;
 
         case 5:
+            // Going to a new match
             std::clog << "[LOG]: Switch to Match" << "\n";
             player_info = std::dynamic_pointer_cast<PlayerSetup>(current_state);
             players = player_info->getData();
             current_state = std::make_shared<Match>(players);
             break;
 
+        case 6:
+            // Load a saved match
+            std::clog << "[LOG]: Switch to Loaded Match" << "\n";
+            load_menu = std::dynamic_pointer_cast<LoadMenu>(current_state);
+            loaded_match = load_menu->getMatch();
+            
+            current_state = loaded_match;
+
+            break;
         case -1:
             CloseWindow();
             break;

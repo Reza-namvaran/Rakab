@@ -42,6 +42,9 @@ void MainMenu::Process() {
                     // Exit
                     this->status = -1;
                 }
+                else if (i == 1) {
+                    this->status = 4;
+                }
                 else if(i == 0) {
                     // Start New Game
                     this->status = 3;

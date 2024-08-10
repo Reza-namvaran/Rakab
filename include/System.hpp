@@ -17,8 +17,6 @@ class System
 {
 private:
     IO_Interface terminal_handler;
-    std::unordered_map<int, std::shared_ptr<Match>> match_list;
-    std::shared_ptr<Storage> database;
     StateManager state_manager;
 
 public:

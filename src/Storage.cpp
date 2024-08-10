@@ -115,21 +115,33 @@ void Storage::saveMatchInfo(std::shared_ptr<Match> match, const std::string &pat
         f_write << "None" << "\n";
     /// ---------------------------------------
 
-    /// ------------------------ Lands ---------------------------------
-    for (auto land : match->lands)
-    {
-        if (land->getLandOwner() != nullptr)
-            f_write << land->getLandName() << " " << land->getLandOwner()->getPlayerName() << "\n";
-    }
     /// ----------------------------------------------------------------
 
     // ------------------------ Pass Status -------------------------
     f_write << match->passCounter << "\n";
 
+    // ---------------------------------------------------------------
+
+    // -------------- Last Played who played Bishop ------------------
     if (match->lastPlayerPassed != nullptr)
-        f_write << match->lastPlayerPassed->getPlayerName();
+        f_write << match->lastPlayerPassed->getPlayerName() << "\n";
     else
-        f_write << "None";
+        f_write << "None" << "\n";
+    // --------------------------------------------------------------
+
+    // -------------------- match_state -----------------------------
+    f_write << 3 << "\n";
+    // --------------------------------------------------------------
+
+    // -------------------- Hand Card Position ----------------------
+
+    for (size_t idx = 0; idx < match->handsCardPos.size(); ++idx)
+    {   if (idx != match->handsCardPos.size() - 1)
+            f_write << match->handsCardPos[idx].x << " " << match->handsCardPos[idx].y << " " << match->handsCardPos[idx].width << match->handsCardPos[idx].height << "\n";
+        else
+            f_write << match->handsCardPos[idx].x << " " << match->handsCardPos[idx].y << " " << match->handsCardPos[idx].width << match->handsCardPos[idx].height;
+    }
+
     // --------------------------------------------------------------
 
     f_write.close();
@@ -210,6 +222,16 @@ std::vector<std::shared_ptr<Land>> Storage::splitAndCaptureLands(const std::stri
         }
     }
     return lands;
+}
+
+Rectangle Storage::splitAndCaptureRecs(const std::string &str)
+{
+    std::istringstream iss(str);
+    Rectangle rect;
+
+    iss >> rect.x >> rect.y >> rect.width >> rect.height;
+
+    return rect;
 }
 
 void Storage::loadMatch(std::shared_ptr<Match> match, const std::string &path)
@@ -342,4 +364,21 @@ void Storage::loadMatch(std::shared_ptr<Match> match, const std::string &path)
             break;
         }
     }
+
+    int matchState;
+    f_read >> matchState;
+    match->match_state = matchState;
+
+    std::vector<Rectangle> positions;
+    f_read.ignore();
+    while(std::getline(f_read, line))
+    {
+        Rectangle pos = splitAndCaptureRecs(line);
+        positions.push_back(pos);
+    }
+
+    match->handsCardPos = positions;
+
+    f_read.close();
+    
 }

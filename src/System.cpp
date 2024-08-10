@@ -1,6 +1,6 @@
 #include "System.hpp"
 
-System::System() : database(std::make_shared<Storage>())
+System::System() // : database(std::make_shared<Storage>())
 {
     // Seed the random number generator with the current time
     srand(static_cast<unsigned int>(time(nullptr)));

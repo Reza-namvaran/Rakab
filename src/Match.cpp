@@ -1,6 +1,6 @@
 #include "Match.hpp"
 
-Match::Match(std::shared_ptr<Storage> database) : deck(std::make_shared<CardDeck>()), warSign(std::make_shared<WarSign>()), peace_sign(std::make_shared<PeaceSign>()), database(database), match_state(1), loadPlayerTurn(-1), playerTurn(-1)
+Match::Match() : deck(std::make_shared<CardDeck>()), warSign(std::make_shared<WarSign>()), peace_sign(std::make_shared<PeaceSign>()), database(std::make_shared<Storage>()), loadPlayerTurn(-1), playerTurn(-1)
 {
     status = 0;
     this->lands = {
@@ -44,8 +44,9 @@ Match::Match(std::shared_ptr<Storage> database) : deck(std::make_shared<CardDeck
     spring_background = LoadTexture("../assets/pics/spring_bkg.png");
 }
 
-Match::Match(std::vector<std::shared_ptr<Player>> p_players) : Match(std::make_shared<Storage>())
+Match::Match(std::vector<std::shared_ptr<Player>> p_players) : Match()
 {
+    match_state = 1;
     status = 0;
     this->players = p_players;
     unsigned int min_age = players[0]->getPlayerAge();
@@ -369,18 +370,9 @@ void Match::setPeaceSignOwner()
 void Match::setWarLand()
 {
     // Setting war land
-    std::vector<std::shared_ptr<Land>> owneredLands;
-    for (std::shared_ptr<Player> player : this->players)
-    {
-        for (std::shared_ptr<Land> land : player->getSign()->getLands())
-        {
-            owneredLands.push_back(land);
-        }
-    }
-
     for (std::shared_ptr<Land> land : lands)
     {
-        if (std::find(owneredLands.begin(), owneredLands.end(), land) == owneredLands.end() && CheckCollisionPointRec(GetMousePosition(), land->getBorder()) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && peace_sign->getLand() != land)
+        if (land->getLandOwner() == nullptr && CheckCollisionPointRec(GetMousePosition(), land->getBorder()) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && peace_sign->getLand() != land)
         {
             warSign->setLand(land);
             match_state = 3;
@@ -573,7 +565,6 @@ void Match::stateWinner()
 
 void Match::gameWinner(std::shared_ptr<Player> p_winner)
 {
-    std::clog << p_winner->getPlayerLandsCount() << "555555555555555555555" << std::endl;
     if (p_winner->getPlayerLandsCount() == 5)
     {
         this->is_match_over = true;
@@ -618,6 +609,8 @@ void Match::gameWinner(std::shared_ptr<Player> p_winner)
 
 void Match::Process()
 {
+    std::clog << "-------------------- in Match Process ------------------" << std::endl;
+    std::clog << match_state << std::endl;
     if (match_state == 0)
     {
         setPeaceLand();
@@ -640,8 +633,6 @@ void Match::Process()
     }
     if (match_state == 4)
     {
-        /// TODO: ?
-        /// ERORR: PRON:
         if (CheckCollisionPointRec(GetMousePosition(), (Rectangle){1000, 0, 100, 60}) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
         {
             std::clog << match_state << " Enter 5" << std::endl;
@@ -653,6 +644,10 @@ void Match::Process()
         {
             this->match_state = 9;
             std::clog << match_state << std::endl;
+        }
+        if (CheckCollisionPointRec(GetMousePosition(), (Rectangle){1150, 50, 100, 60}) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+        {
+            this->checkSaveStatus(players[playerTurn]);
         }
     }
     if (match_state == 5)
@@ -696,7 +691,10 @@ void Match::Update()
 {
     if (match_state == 3 || match_state == 4)
     {
-        this->playerChoice(this->players[this->playerTurn]);
+        std::clog << "Entering player Choice" << std::endl;
+        std::clog << playerTurn;
+
+            this->playerChoice(this->players[this->playerTurn]);
     }
     if (match_state == 5)
     {
@@ -797,6 +795,8 @@ void Match::Render()
         DrawText("Help", 1010, 0, 30, BLACK);
         DrawRectangleRec((Rectangle){1150, 0, 100, 60}, GREEN);
         DrawText("Map", 1160, 0, 30, WHITE);
+        DrawRectangleRec((Rectangle){1150, 50, 100, 60}, GREEN);
+        DrawText("Save", 1160, 50, 30, WHITE);
     }
     else if (match_state == 5)
     {

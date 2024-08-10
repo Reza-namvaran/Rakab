@@ -57,7 +57,7 @@ private:
 
 
 public:
-    Match( std::shared_ptr<Storage> database);
+    Match();
     Match(std::vector<std::shared_ptr<Player>> p_players);
 
     ~Match();

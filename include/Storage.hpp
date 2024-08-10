@@ -37,6 +37,7 @@ private:
   std::string generateFileName() const;
   std::vector<std::shared_ptr<Card>> splitAndCaptureCards(const std::string &str) ;
   std::vector<std::shared_ptr<Land>> splitAndCaptureLands(const std::string &str, std::shared_ptr<Match> match) ;
+  Rectangle splitAndCaptureRecs(const std::string &str);
   /// -----------------------------------------------------------------------------
 };
 
