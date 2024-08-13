@@ -24,11 +24,11 @@ Some scenes of the game:
 
 Main menu:
 
-[Main_Menu_Screenshot](./assets/pics/main_menu.png?raw=true)
+![Main_Menu_Screenshot](./assets/pics/main_menu.png?raw=true)
 
 Game:
 
-[Game](./assets/pics/game_board.png?raw=true)
+![Game](./assets/pics/game_board.png?raw=true)
 
 ## 📦 How to Build
 
