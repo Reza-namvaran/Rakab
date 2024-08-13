@@ -1,4 +1,4 @@
-<img align="left" style="width:260px" src="./assets/pics/Game_logo" width="288px">
+<img align="left" style="width:260px" src="./assets/pics/Game_logo.png" width="288px">
 **This is Rakab**
 
 A card game based on Condottire boardgame.
@@ -6,6 +6,10 @@ A card game based on Condottire boardgame.
 *NOTE: We developed this game for our university project for Advanced Programming 2024-Spring course*
 
 This game is developed with C++, and we've implemented the graphical user interface with the help of [raylib library](https://github.com/raysan5/raylib)
+
+---
+
+<br>
 
 ## ✨ Features
 
