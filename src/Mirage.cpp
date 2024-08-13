@@ -1,6 +1,6 @@
 #include "Mirage.hpp"
 
-Mirage::Mirage(const std::string& p_name) : Special(p_name, "./assets/pics/mirage.png") {}
+Mirage::Mirage(const std::string& p_name) : Special(p_name, "../assets/pics/mirage.png") {}
 
 void Mirage::use(std::shared_ptr<Player> p_player, IO_Interface& terminal_handler) {
   std::vector<std::shared_ptr<Card>> played_cards = p_player->getCard(false);

@@ -16,10 +16,11 @@ void Winter::use(std::vector<std::shared_ptr<Player>> &players, IO_Interface &te
             {
                 if (card->getCardType() == "Soldier")
                 {
-                    score++;
+                    std::shared_ptr<Soldier> soldier = std::dynamic_pointer_cast<Soldier>(card);
+                    score += soldier->getCardScore();
                 }
             }
-            player->setPlayerScore(score);
+            player->setPlayerScore(score/2);
         }
     }
 }

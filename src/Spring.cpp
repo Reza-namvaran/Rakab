@@ -19,6 +19,11 @@ void Spring::use(std::vector<std::shared_ptr<Player>> &players, IO_Interface &te
                     std::shared_ptr<Soldier> soldier = std::dynamic_pointer_cast<Soldier>(card);
                     max = max > soldier->getCardScore() ? max : soldier->getCardScore();
                 }
+                else if (card->getCardName() == "Heroine")
+                {
+                    max = 10;
+                    break;
+                }
             }
         }
     }
@@ -36,6 +41,11 @@ void Spring::use(std::vector<std::shared_ptr<Player>> &players, IO_Interface &te
                     player->setPlayerScore(player->getPlayerScore() + 3);
                 }
             }
+            else if (card->getCardName() == "Heroine")
+            {
+                player->setPlayerScore(player->getPlayerScore() + 3);
+            }
+
         }
     }
 }

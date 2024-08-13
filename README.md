@@ -10,13 +10,15 @@ Rakab is the Iranian version of Condottiere, this is a video game of this game u
 
 🔹 Cross Platform
 
-🔹 Fun to Play with friends 
+🔹 Save multiple games
 
-🔹Save multiple games (Coming soon)
+🔹 GUI
+
 ## 📬 Dependencies
 
 - C++17 compatible compiler
 - CMake build system
+- [Raylib](https://github.com/raysan5/raylib)
 
 ## 📦 How to Build
 
@@ -33,6 +35,11 @@ cd Rakab
 ```
 
 3. Generate the build files using CMake:
+```bash
+cmake -S . -B build
+```
+
+NOTE: for windows users:
 ```bash
 cmake -S . -B build -G "MinGW Makefiles"
 ```

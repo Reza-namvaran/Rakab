@@ -186,6 +186,7 @@ void Match::refreshData()
     this->playerTurn = -1;
     this->lastPlayerBishoped = nullptr;
     this->lastPlayerPassed = nullptr;
+    this->sleipnirPlayed = false;
     this->season = nullptr;
     war_background = LoadTexture("../assets/pics/background.png");
     for (std::shared_ptr<Player> player : players)
@@ -301,6 +302,44 @@ void Match::playerChoice(std::shared_ptr<Player> p_player)
             }
         }
     }
+    else if (cardName == "Mirage")
+    {
+        for (std::shared_ptr<Card> card : p_player->getCard())
+        {
+            if (card->getCardName() == cardName)
+            {
+                std::shared_ptr<Mirage> mirage = std::dynamic_pointer_cast<Mirage>(card);
+                mirage->use(players[playerTurn], terminal_handler);
+                break;
+            }
+        }
+    }
+    else if (cardName == "WhiteSeal")
+    {
+        for (std::shared_ptr<Card> card : p_player->getCard())
+        {
+            if (card->getCardName() == cardName)
+            {
+                p_player->playCard(cardName);
+                std::shared_ptr<WhiteSeal> whiteseal = std::dynamic_pointer_cast<WhiteSeal>(card);
+                whiteseal->use(players);
+                return;
+            }
+        }
+    }
+    else if (cardName == "Sleipnir")
+    {
+        for (std::shared_ptr<Card> card : p_player->getCard())
+        {
+            if (card->getCardName() == cardName)
+            {
+                std::shared_ptr<Sleipnir> sleipnir = std::dynamic_pointer_cast<Sleipnir>(card);
+                sleipnir->use(players, this->sleipnirPlayed, passCounter);
+                warSign->setOwner(players[playerTurn]);
+                break;
+            }
+        }
+    }
     else if (cardName == "pass")
     {
         p_player->setPlayerPassed(true);
@@ -326,6 +365,16 @@ void Match::setWarSignOwner(std::shared_ptr<Player> p_player)
             if (card->getCardName() == "Spy")
             {
                 maxCounter++;
+            }
+        }
+        for (std::shared_ptr<Player> player : players)
+        {
+            for (std::shared_ptr<Card> card : player->getCard(false))
+            {
+                if (card->getCardName() == "Turncoat")
+                {
+                    return;
+                }
             }
         }
         if (maxCounter > max)
@@ -500,7 +549,6 @@ void Match::calculateScore()
             if (card->getCardName() == "Drummer")
             {
                 card->use(player, terminal_handler);
-                break;
             }
         }
     }
@@ -553,6 +601,30 @@ void Match::stateWinner()
             maxCounter++;
         }
     }
+    if (this->sleipnirPlayed)
+    {
+        for (std::shared_ptr<Player> player : players)
+        {
+            for (std::shared_ptr<Card> card : player->getCard(false))
+            {
+                if (card->getCardName() == "Sleipnir")
+                {
+                    winner = player;
+                    break;
+                }
+            }
+            if (winner == player)
+            {
+                break;
+            }
+        }
+        winner->addLand(this->warSign->getLand());
+        this->warSign->getLand()->setLandOwner(winner->getSign());
+        this->warSign->setOwner(winner);
+        this->gameWinner(winner);
+        lastPlayerWon = winner;
+    }
+
     if (maxCounter < 2)
     {
         winner->addLand(this->warSign->getLand());
@@ -705,7 +777,7 @@ void Match::Update()
 {
     if (match_state == 3 || match_state == 4)
     {
-            this->playerChoice(this->players[this->playerTurn]);
+        this->playerChoice(this->players[this->playerTurn]);
     }
     if (match_state == 5)
     {
