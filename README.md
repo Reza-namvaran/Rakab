@@ -1,8 +1,11 @@
-# ⚔️ Rakab ⚔️
+<img align="left" style="width:260px" src="./assets/pics/Game_logo" width="288px">
+**This is Rakab**
 
-## Overview
+A card game based on Condottire boardgame.
 
-Rakab is the Iranian version of Condottiere, this is a video game of this game using C++
+*NOTE: We developed this game for our university project for Advanced Programming 2024-Spring course*
+
+This game is developed with C++, and we've implemented the graphical user interface with the help of [raylib library](https://github.com/raysan5/raylib)
 
 ## ✨ Features
 
@@ -12,15 +15,13 @@ Rakab is the Iranian version of Condottiere, this is a video game of this game u
 
 🔹 Save multiple games
 
-🔹 GUI
-
 ## 📬 Dependencies
 
 - C++17 compatible compiler
-- CMake build system
+- CMake build system (minimum 3.26.1)
 - [Raylib](https://github.com/raysan5/raylib)
 
-Some scenes of the game:
+## scenes of the game:
 
 Main menu:
 
@@ -49,17 +50,7 @@ cd Rakab
 cmake -S . -B build
 ```
 
-  NOTE: for windows u
-
-Some scenes of the game:?raw=true
-
-
-Game:
-
-[Game](./assets/pics/game_board.png?raw=true)
-Main menu:
-
-[Main_Menu_Screenshots(./assets/pics/main_menu.pngers:
+NOTE: for windows users:
 ```bash
 cmake -S . -B build -G "MinGW Makefiles"
 ```
