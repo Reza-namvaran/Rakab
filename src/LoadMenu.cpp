@@ -8,7 +8,6 @@ LoadMenu::LoadMenu() : database(std::make_shared<Storage>()), selectedMatch(0) {
     for (const std::string &fileName : this->file_names)
     {
         std::shared_ptr<Match> new_match = std::make_shared<Match>();
-        this->database->loadMatch(new_match, fileName);
         this->match_list[counter] = new_match;
 
         Rectangle new_rect = {450, float(100 * i), 500, 50};
@@ -72,5 +71,7 @@ void LoadMenu::Render() {
 }
 
 std::shared_ptr<Match> LoadMenu::getMatch() {
+    std::string match_name = file_names[selectedMatch];
+    this->database->loadMatch(match_list[selectedMatch], match_name);
     return match_list[selectedMatch];
 }
