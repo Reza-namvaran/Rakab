@@ -1,4 +1,5 @@
 <img align="left" style="width:260px" src="./assets/pics/Game_logo.png" width="288px">
+
 **This is Rakab**
 
 A card game based on Condottire boardgame.
