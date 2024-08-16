@@ -77,82 +77,12 @@ Match::~Match()
     UnloadTexture(Map);
 }
 
-void Match::displayStatus()
-{
-
-    /* First field of status -> players' score + played cards */
-    std::string separator(50, '-');
-
-    this->terminal_handler.print(separator);
-
-    for (std::shared_ptr<Player> player : this->players)
-    {
-        if (!player->getPlayerPassed())
-        {
-            this->terminal_handler.print(player->getPlayerName() + " [Score: " + std::to_string(player->getPlayerScore()) + "]");
-        }
-
-        else
-        {
-            this->terminal_handler.print(player->getPlayerName() + " [Score: " + std::to_string(player->getPlayerScore()) + "]" + " Passed this turn");
-        }
-
-        std::string cards = "";
-        for (std::shared_ptr<Card> card : player->getCard(false))
-        {
-            cards += card->getCardName() + " ";
-        }
-
-        this->terminal_handler.print(cards);
-
-        this->terminal_handler.print("");
-    }
-
-    this->terminal_handler.print(separator);
-
-    /* End of first field */
-
-    /* Second field of status -> Lands of each Player */
-
-    for (std::shared_ptr<Player> player : this->players)
-    {
-        this->terminal_handler.print(player->getPlayerName() + ":");
-
-        std::string player_lands = "";
-
-        if (!player->getSign()->getLands().empty())
-        {
-            for (std::shared_ptr<Land> land : player->getSign()->getLands())
-            {
-                player_lands += land->getLandName() + " ";
-            };
-            this->terminal_handler.print(player_lands);
-        }
-    }
-
-    this->terminal_handler.print(separator);
-    /* End of second field */
-
-    /* Third field -> current land and season */
-
-    this->terminal_handler.print("The Battle is in " + this->warSign->getLand()->getLandName());
-
-    if (this->season)
-        this->terminal_handler.print("Season: " + this->season->getCardName());
-    else
-        this->terminal_handler.print("Season: ---");
-
-    /* End of third field*/
-}
-
 void Match::setSeason(std::shared_ptr<Special> season)
 {
     this->season = season;
 }
 
 std::shared_ptr<Special> Match::getSeason() const { return this->season; }
-
-void Match::resetMatchstatus() { this->is_match_over = false; }
 
 void Match::dealCardsToPlayers()
 {
@@ -467,22 +397,6 @@ void Match::checkSaveStatus(std::shared_ptr<Player> player_turn)
     this->database->saveNewGame(save_instance, player_turn);
 }
 
-void Match::run()
-{
-    // while (!this->is_match_over)
-    // {
-    // this->terminal_handler.clearScreen();
-    if (this->loadPlayerTurn == -1)
-    {
-        // this->setPeaceLand();
-        // this->setWarLand();
-        this->refreshData();
-        this->rechargeDeck();
-    }
-    // this->war();
-    // }
-}
-
 void Match::war()
 {
     if (this->loadPlayerTurn != -1)
@@ -510,16 +424,7 @@ void Match::war()
         return;
     }
 
-    // this->terminal_handler.clearScreen();
-
-    // this->terminal_handler.onClickInput();
-    // this->terminal_handler.clearScreen();
-
-    // this->displayStatus();
-    // this->playerChoice(players[this->playerTurn]);
-
     this->calculateScore();
-    // this->stateWinner();
 }
 
 void Match::calculateScore()
@@ -630,7 +535,6 @@ void Match::stateWinner()
         winner->addLand(this->warSign->getLand());
         this->warSign->getLand()->setLandOwner(winner->getSign());
 
-        // std::clog << warSign->getLand()->getLandOwner()->getPlayerName() << "546468468464684656486" << std::endl;
         this->setWarSignOwner(winner);
         this->gameWinner(winner);
         lastPlayerWon = winner;
@@ -664,18 +568,6 @@ void Match::gameWinner(std::shared_ptr<Player> p_winner)
                 if (land->getLandOwner() != nullptr)
                     std::clog << land->getLandName() << std::endl;
             }
-            // if (list[0]->getLandOwner() == nullptr || list[1]->getLandOwner() == nullptr || list[2]->getLandOwner() == nullptr)
-            // {
-            //     continue;
-            // }
-            // else if (list[0]->getLandOwner()->getPlayerName() == p_winner->getPlayerName() && list[1]->getLandOwner()->getPlayerName() == p_winner->getPlayerName() && list[2]->getLandOwner()->getPlayerName() == p_winner->getPlayerName())
-            // {
-            //     this->is_match_over = true;
-            //     terminal_handler.print(p_winner->getPlayerName() + ", You Win!");
-            //     this->winnerOfTheGame = p_winner;
-            //     this->match_state = 8;
-            //     return;
-            // }
             std::vector<std::shared_ptr<Land>> lands = p_winner->getSign()->getLands();
             if (std::find(lands.begin(), lands.end(), list[0]) != lands.end() && std::find(lands.begin(), lands.end(), list[1]) != lands.end() && std::find(lands.begin(), lands.end(), list[2]) != lands.end())
             {
@@ -691,8 +583,6 @@ void Match::gameWinner(std::shared_ptr<Player> p_winner)
 
 void Match::Process()
 {
-    std::clog << "-------------------- in Match Process ------------------" << std::endl;
-    std::clog << match_state << std::endl;
     if (match_state == 0)
     {
         setPeaceLand();

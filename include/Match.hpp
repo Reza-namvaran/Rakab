@@ -65,15 +65,11 @@ public:
 
     friend class Storage;
 
-    void displayStatus();
-
     void setSeason(std::shared_ptr<Special> season);
 
     std::shared_ptr<Special> getSeason() const;
 
     void checkSaveStatus(std::shared_ptr<Player> playerTurn);
-
-    void resetMatchstatus();
 
     void dealCardsToPlayers();
 
@@ -92,8 +88,6 @@ public:
     void setWarLand();
 
     void setPeaceLand();
-
-    void run();
 
     void war();
 
