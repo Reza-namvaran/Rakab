@@ -8,12 +8,12 @@ void IO_Interface::onClickInput() const {
   #ifdef _WIN32
     char ch = getch();
   #else
-    initscr(); // Initialize ncurses mode
+/*     initscr(); // Initialize ncurses mode
     noecho();  // Do not echo the character
     cbreak();  // Disable line buffering
 
     int ch = getch();   // Wait for user input
-    endwin(); // End ncurses mode
+    endwin(); // End ncurses mode */
 
   #endif
 }

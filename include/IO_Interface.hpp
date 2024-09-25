@@ -7,7 +7,7 @@
   #include <conio.h>
 
 #else
-  #include <ncurses>
+  // #include <ncurses>
 
 #endif
 
