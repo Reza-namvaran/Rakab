@@ -1,6 +1,6 @@
 set(PROJECT_SOURCES
     player.cpp
-    card.cpp
+    Card.cpp
     land.cpp
     sign.cpp
     IO_Interface.cpp
